@@ -11,9 +11,6 @@ public class ConnectionManager : MonoBehaviour
 {
     public static ConnectionManager Singleton { get; internal set; }
 
-    [SerializeField]
-    private GameObject PlayerPrefab;
-
     public enum ConnectionStatus
     {
         Connected,
@@ -74,7 +71,6 @@ public class ConnectionManager : MonoBehaviour
     private void OnServerStartedCallback()
     {
         Debug.Log("Server started");
-        GameObject.Find("TrackManager").GetComponent<GenerateRoad>().InitializeTrack();
     }
 
     private void OnClientConnectedCallback(ulong clientId)
@@ -84,12 +80,10 @@ public class ConnectionManager : MonoBehaviour
 
         if (NetworkManager.Singleton.IsServer)
         {
-            spawnPlayer(clientId);
         }
         else
         {
             Debug.Log("Generating Client Track");
-            GameObject.Find("TrackManager").GetComponent<GenerateRoad>().GenerateClientTrack();
         }
     }
 
@@ -98,22 +92,4 @@ public class ConnectionManager : MonoBehaviour
         OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
     }
 
-    [ServerRpc] //server owns this object but client can request a spawn
-    public void SpawnPlayerServerRpc(ulong clientId)
-    {
-        spawnPlayer(clientId);
-    }
-
-    private void spawnPlayer(ulong clientId)
-    {
-        Debug.Log("Spawning Player");
-        GameObject newPlayer;
-        newPlayer = (GameObject)Instantiate(PlayerPrefab);
-        NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
-        newPlayer.SetActive(true);
-        netObj.SpawnAsPlayerObject(clientId, true);
-        Player player = newPlayer.GetComponent<Player>();
-        player.SetPlayerID(clientId);
-        //player.SetSpawnPosition();
-    }
 }

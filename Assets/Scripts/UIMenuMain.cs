@@ -1,11 +1,17 @@
-using System.Collections;
+using BossArena;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using UnityEditor;
-using Unity.Netcode;
+
+
 
 public class UIMenuMain : MonoBehaviour
 {
+    public bool isPrivate = true;
 
     public void QuitGame()
     {
@@ -13,31 +19,22 @@ public class UIMenuMain : MonoBehaviour
         Application.Quit();
     }
 
-    public async void HostLobby()
+    public void HostLobby()
     {
         Debug.Log("Hosting Lobby");
-        // this allows the UnityMultiplayer and UnityMultiplayerRelay scene to work with and without
-        // relay features - if the Unity transport is found and is relay protocol then we redirect all the 
-        // traffic through the relay, else it just uses a LAN type (UNET) communication.
-        if (RelayManager.Instance.IsRelayEnabled)
-            await RelayManager.Instance.SetupRelay();
-
-        if (NetworkManager.Singleton.StartHost())
-        {
-            Debug.Log("Host started...");
-            //activateRacingUI();
-            //enableRaceScene();
-        }
-        else
-        {
-            Debug.Log("Unable to start host...");
-        }
-
+        string lobbyName = "new lobby";
+        int maxPlayers = 4;
+        GameManager.Instance.CreateLobby(lobbyName, isPrivate, maxPlayers);
     }
 
-    public async void JoinLobby()
+    public void JoinLobby()
     {
         Debug.Log("Joinging Lobby");
-        NetworkManager.Singleton.StartClient();
+        GameManager.Instance.JoinLobby(null, "Code");
+    }
+
+    public void SetPrivacy()
+    {
+        isPrivate = !isPrivate;
     }
 }

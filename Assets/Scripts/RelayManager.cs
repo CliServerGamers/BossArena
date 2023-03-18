@@ -8,96 +8,99 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 
-public class RelayManager : Singleton<RelayManager>
+namespace BossArena
 {
-    [SerializeField]
-    private string environment = "production";
-
-    [SerializeField]
-    private int maxNumberOfConnections = 10;
-
-    public bool IsRelayEnabled => Transport != null && Transport.Protocol == UnityTransport.ProtocolType.RelayUnityTransport;
-
-    public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
-
-    private string roomCode;
-
-    public async Task<RelayHostData> SetupRelay()
+    public class RelayManager : Singleton<RelayManager>
     {
-        Debug.Log("Relay Server Starting With Max Connections: {maxNumberOfConnections}");
+        [SerializeField]
+        private string environment = "production";
 
-        InitializationOptions options = new InitializationOptions()
-            .SetEnvironmentName(environment);
+        [SerializeField]
+        private int maxNumberOfConnections = 10;
 
-        await UnityServices.InitializeAsync(options);
+        public bool IsRelayEnabled => Transport != null && Transport.Protocol == UnityTransport.ProtocolType.RelayUnityTransport;
 
-        if (!AuthenticationService.Instance.IsSignedIn)
+        public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+
+        private string roomCode;
+
+        public async Task<RelayHostData> SetupRelay()
         {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            Debug.Log("Relay Server Starting With Max Connections: {maxNumberOfConnections}");
+
+            InitializationOptions options = new InitializationOptions()
+                .SetEnvironmentName(environment);
+
+            await UnityServices.InitializeAsync(options);
+
+            if (!AuthenticationService.Instance.IsSignedIn)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
+
+            Allocation allocation = await Relay.Instance.CreateAllocationAsync(maxNumberOfConnections);
+
+            RelayHostData relayHostData = new RelayHostData
+            {
+                Key = allocation.Key,
+                Port = (ushort)allocation.RelayServer.Port,
+                AllocationID = allocation.AllocationId,
+                AllocationIDBytes = allocation.AllocationIdBytes,
+                IPv4Address = allocation.RelayServer.IpV4,
+                ConnectionData = allocation.ConnectionData
+            };
+
+            relayHostData.JoinCode = await Relay.Instance.GetJoinCodeAsync(relayHostData.AllocationID);
+            roomCode = relayHostData.JoinCode;
+
+            Transport.SetRelayServerData(relayHostData.IPv4Address, relayHostData.Port, relayHostData.AllocationIDBytes,
+                    relayHostData.Key, relayHostData.ConnectionData);
+
+            Debug.Log($"Relay Server Generated Join Code: {relayHostData.JoinCode}");
+
+            return relayHostData;
         }
 
-        Allocation allocation = await Relay.Instance.CreateAllocationAsync(maxNumberOfConnections);
-
-        RelayHostData relayHostData = new RelayHostData
+        public async Task<RelayJoinData> JoinRelay(string joinCode)
         {
-            Key = allocation.Key,
-            Port = (ushort)allocation.RelayServer.Port,
-            AllocationID = allocation.AllocationId,
-            AllocationIDBytes = allocation.AllocationIdBytes,
-            IPv4Address = allocation.RelayServer.IpV4,
-            ConnectionData = allocation.ConnectionData
-        };
+            roomCode = joinCode.ToUpper();
+            Debug.Log($"Client Joining Game With Join Code: {roomCode}");
 
-        relayHostData.JoinCode = await Relay.Instance.GetJoinCodeAsync(relayHostData.AllocationID);
-        roomCode = relayHostData.JoinCode;
+            InitializationOptions options = new InitializationOptions()
+                .SetEnvironmentName(environment);
 
-        Transport.SetRelayServerData(relayHostData.IPv4Address, relayHostData.Port, relayHostData.AllocationIDBytes,
-                relayHostData.Key, relayHostData.ConnectionData);
+            await UnityServices.InitializeAsync(options);
 
-        Debug.Log($"Relay Server Generated Join Code: {relayHostData.JoinCode}");
+            if (!AuthenticationService.Instance.IsSignedIn)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
 
-        return relayHostData;
-    }
+            JoinAllocation allocation = await Relay.Instance.JoinAllocationAsync(roomCode);
 
-    public async Task<RelayJoinData> JoinRelay(string joinCode)
-    {
-        roomCode = joinCode.ToUpper();
-        Debug.Log($"Client Joining Game With Join Code: {roomCode}");
+            RelayJoinData relayJoinData = new RelayJoinData
+            {
+                Key = allocation.Key,
+                Port = (ushort)allocation.RelayServer.Port,
+                AllocationID = allocation.AllocationId,
+                AllocationIDBytes = allocation.AllocationIdBytes,
+                ConnectionData = allocation.ConnectionData,
+                HostConnectionData = allocation.HostConnectionData,
+                IPv4Address = allocation.RelayServer.IpV4,
+                JoinCode = roomCode
+            };
 
-        InitializationOptions options = new InitializationOptions()
-            .SetEnvironmentName(environment);
+            Transport.SetRelayServerData(relayJoinData.IPv4Address, relayJoinData.Port, relayJoinData.AllocationIDBytes,
+                relayJoinData.Key, relayJoinData.ConnectionData, relayJoinData.HostConnectionData);
 
-        await UnityServices.InitializeAsync(options);
+            Debug.Log($"Client Joined Game With Join Code: {roomCode}");
 
-        if (!AuthenticationService.Instance.IsSignedIn)
-        {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            return relayJoinData;
         }
 
-        JoinAllocation allocation = await Relay.Instance.JoinAllocationAsync(roomCode);
-
-        RelayJoinData relayJoinData = new RelayJoinData
+        public string GetRoomCode()
         {
-            Key = allocation.Key,
-            Port = (ushort)allocation.RelayServer.Port,
-            AllocationID = allocation.AllocationId,
-            AllocationIDBytes = allocation.AllocationIdBytes,
-            ConnectionData = allocation.ConnectionData,
-            HostConnectionData = allocation.HostConnectionData,
-            IPv4Address = allocation.RelayServer.IpV4,
-            JoinCode = roomCode
-        };
-
-        Transport.SetRelayServerData(relayJoinData.IPv4Address, relayJoinData.Port, relayJoinData.AllocationIDBytes,
-            relayJoinData.Key, relayJoinData.ConnectionData, relayJoinData.HostConnectionData);
-
-        Debug.Log($"Client Joined Game With Join Code: {roomCode}");
-
-        return relayJoinData;
-    }
-
-    public string GetRoomCode()
-    {
-        return roomCode; 
+            return roomCode;
+        }
     }
 }
