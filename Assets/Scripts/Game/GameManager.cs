@@ -300,18 +300,18 @@ namespace BossArena
 
         #endregion
 
-        //void SetGameState(GameState state)
-        //{
-        //    var isLeavingLobby = (state == GameState.Menu || state == GameState.JoinMenu) &&
-        //        LocalGameState == GameState.Lobby;
-        //    LocalGameState = state;
+        void SetGameState(GameState state)
+        {
+            var isLeavingLobby = (state == GameState.Menu || state == GameState.JoinMenu) &&
+                LocalGameState == GameState.Lobby;
+            LocalGameState = state;
 
-        //    Debug.Log($"Switching Game State to : {LocalGameState}");
+            Debug.Log($"Switching Game State to : {LocalGameState}");
 
-        //    if (isLeavingLobby)
-        //        LeaveLobby();
-        //    onGameStateChanged.Invoke(LocalGameState);
-        //}
+            if (isLeavingLobby)
+                LeaveLobby();
+            //onGameStateChanged.Invoke(LocalGameState);
+        }
 
         void SetCurrentLobbies(IEnumerable<LocalLobby> lobbies)
         {
@@ -358,6 +358,7 @@ namespace BossArena
             LobbyManager.LeaveLobbyAsync();
 #pragma warning restore 4014
             ResetLocalLobby();
+            SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
         }
 
 

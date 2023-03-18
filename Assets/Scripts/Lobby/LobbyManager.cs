@@ -14,7 +14,7 @@ namespace BossArena
     /// </summary>
     ///
     /// Manages one Lobby at a time, Only entry points to a lobby with ID is via JoinAsync, CreateAsync, and QuickJoinAsync
-    public class LobbyManager : Singleton<LobbyManager>
+    public class LobbyManager : MonoBehaviour
     {
         const string key_RelayCode = nameof(LocalLobby.RelayCode);
         const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
