@@ -273,6 +273,7 @@ namespace BossArena
 
         async void Awake()
         {
+            DontDestroyOnLoad(this);
             Application.wantsToQuit += OnWantToQuit;
             m_LocalUser = new LocalPlayer("", 0, false, "LocalPlayer");
             m_LocalLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
@@ -373,7 +374,7 @@ namespace BossArena
             Debug.Log($"Setting Lobby user state {GameState.Lobby}");
             //SetGameState(GameState.Lobby);
             SetLocalUserStatus(PlayerStatus.Lobby);
-            SceneManager.LoadScene("LobbyScene", LoadSceneMode.Additive);
+            SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
         }
 
         void ResetLocalLobby()
