@@ -41,7 +41,7 @@ namespace BossArena
         //[SerializeField]
         //Countdown m_countdown;
 
-        public LocalPlayer LocalUser { get; private set; }
+        public LocalPlayer m_localUser { get; private set; }
         LocalLobby m_LocalLobby;
 
         LobbyColor m_lobbyColorFilter;
@@ -52,11 +52,11 @@ namespace BossArena
             m_lobbyColorFilter = (LobbyColor)color;
         }
 
-        public async Task<LocalPlayer> AwaitLocalUserInitialization()
+        public async Task<LocalPlayer> Awaitm_localUserInitialization()
         {
-            while (LocalUser == null)
+            while (m_localUser == null)
                 await Task.Delay(100);
-            return LocalUser;
+            return m_localUser;
         }
 
         public async void CreateLobby(string name, bool isPrivate, int maxPlayers = 4)
@@ -66,7 +66,7 @@ namespace BossArena
                 var lobby = await LobbyManager.CreateLobbyAsync(
                     name,
                     maxPlayers,
-                    isPrivate, LocalUser);
+                    isPrivate, m_localUser);
 
                 LobbyConverters.RemoteToLocal(lobby, m_LocalLobby);
                 await CreateLobby();
@@ -83,7 +83,7 @@ namespace BossArena
             try
             {
                 var lobby = await LobbyManager.JoinLobbyAsync(lobbyID, lobbyCode,
-                    LocalUser);
+                    m_localUser);
 
                 LobbyConverters.RemoteToLocal(lobby, m_LocalLobby);
                 await JoinLobby();
@@ -109,7 +109,7 @@ namespace BossArena
 
         public async void QuickJoin()
         {
-            var lobby = await LobbyManager.QuickJoinLobbyAsync(LocalUser, m_lobbyColorFilter);
+            var lobby = await LobbyManager.QuickJoinLobbyAsync(m_localUser, m_lobbyColorFilter);
             if (lobby != null)
             {
                 LobbyConverters.RemoteToLocal(lobby, m_LocalLobby);
@@ -121,7 +121,7 @@ namespace BossArena
             }
         }
 
-        public void SetLocalUserName(string name)
+        public void Setm_localUserName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -130,20 +130,20 @@ namespace BossArena
                 return;
             }
 
-            LocalUser.DisplayName.Value = name;
-            SendLocalUserData();
+            m_localUser.DisplayName.Value = name;
+            Sendm_localUserData();
         }
 
-        //public void SetLocalUserEmote(EmoteType emote)
+        //public void Setm_localUserEmote(EmoteType emote)
         //{
-        //    m_LocalUser.Emote.Value = emote;
-        //    SendLocalUserData();
+        //    m_m_localUser.Emote.Value = emote;
+        //    Sendm_localUserData();
         //}
 
-        public void SetLocalUserStatus(PlayerStatus status)
+        public void Setm_localUserStatus(PlayerStatus status)
         {
-            LocalUser.UserStatus.Value = status;
-            SendLocalUserData();
+            m_localUser.UserStatus.Value = status;
+            Sendm_localUserData();
         }
 
         public void SetLocalLobbyColor(int color)
@@ -161,9 +161,9 @@ namespace BossArena
             await LobbyManager.UpdateLobbyDataAsync(LobbyConverters.LocalToRemoteLobbyData(m_LocalLobby));
         }
 
-        async void SendLocalUserData()
+        async void Sendm_localUserData()
         {
-            await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(LocalUser));
+            await LobbyManager.UpdatePlayerDataAsync(LobbyConverters.LocalToRemoteUserData(m_localUser));
         }
 
         public void UIChangeMenuState(GameState state)
@@ -224,22 +224,22 @@ namespace BossArena
 
         //public void FinishedCountDown()
         //{
-        //    m_LocalUser.UserStatus.Value = PlayerStatus.InGame;
+        //    m_m_localUser.UserStatus.Value = PlayerStatus.InGame;
         //    m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
-        //    m_setupInGame.StartNetworkedGame(m_LocalLobby, m_LocalUser);
+        //    m_setupInGame.StartNetworkedGame(m_LocalLobby, m_m_localUser);
         //}
 
         public void StartGame()
         {
-            LocalUser.UserStatus.Value = PlayerStatus.InGame;
+            m_localUser.UserStatus.Value = PlayerStatus.InGame;
             m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
             NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
-            //m_setupInGame.StartNetworkedGame(m_LocalLobby, m_LocalUser);
+            //m_setupInGame.StartNetworkedGame(m_LocalLobby, m_m_localUser);
         }
 
         public void BeginGame()
         {
-            if (LocalUser.IsHost.Value)
+            if (m_localUser.IsHost.Value)
             {
                 m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
                 m_LocalLobby.Locked.Value = true;
@@ -255,7 +255,7 @@ namespace BossArena
 
         public void EndGame()
         {
-            if (LocalUser.IsHost.Value)
+            if (m_localUser.IsHost.Value)
             {
                 m_LocalLobby.LocalLobbyState.Value = LobbyState.Lobby;
                 m_LocalLobby.Locked.Value = false;
@@ -271,7 +271,7 @@ namespace BossArena
         {
             DontDestroyOnLoad(this);
             Application.wantsToQuit += OnWantToQuit;
-            LocalUser = new LocalPlayer("", 0, false, "LocalPlayer");
+            m_localUser = new LocalPlayer("", 0, false, "LocalPlayer");
             m_LocalLobby = new LocalLobby { LocalLobbyState = { Value = LobbyState.Lobby } };
             LobbyManager = new LobbyManager();
 
@@ -290,8 +290,8 @@ namespace BossArena
             var localId = AuthenticationService.Instance.PlayerId;
             var randomName = NameGenerator.GetName(localId);
 
-            LocalUser.ID.Value = localId;
-            LocalUser.DisplayName.Value = randomName;
+            m_localUser.ID.Value = localId;
+            m_localUser.DisplayName.Value = randomName;
         }
 
         #endregion
@@ -321,7 +321,7 @@ namespace BossArena
 
         async Task CreateLobby()
         {
-            LocalUser.IsHost.Value = true;
+            m_localUser.IsHost.Value = true;
             m_LocalLobby.onUserReadyChange = OnPlayersReady;
             try
             {
@@ -336,7 +336,7 @@ namespace BossArena
         async Task JoinLobby()
         {
             //Trigger UI Even when same value
-            LocalUser.IsHost.ForceSet(false);
+            m_localUser.IsHost.ForceSet(false);
             await BindLobby();
         }
 
@@ -344,12 +344,14 @@ namespace BossArena
         {
             await LobbyManager.BindLocalLobbyToRemote(m_LocalLobby.LobbyID.Value, m_LocalLobby);
             //m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+            RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
             SetLobbyView();
         }
 
         public void LeaveLobby()
         {
-            LocalUser.ResetState();
+            RelayManager.Instance.Disconnect();
+            m_localUser.ResetState();
 #pragma warning disable 4014
             LobbyManager.LeaveLobbyAsync();
 #pragma warning restore 4014
@@ -370,7 +372,7 @@ namespace BossArena
         {
             Debug.Log($"Setting Lobby user state {GameState.Lobby}");
             //SetGameState(GameState.Lobby);
-            SetLocalUserStatus(PlayerStatus.Lobby);
+            Setm_localUserStatus(PlayerStatus.Lobby);
             SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
         }
 

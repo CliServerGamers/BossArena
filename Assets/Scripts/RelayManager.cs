@@ -1,106 +1,137 @@
-﻿//using System.Threading.Tasks;
-//using Unity.Netcode;
-//using Unity.Netcode.Transports.UTP;
-//using Unity.Services.Authentication;
-//using Unity.Services.Core;
-//using Unity.Services.Core.Environments;
-//using Unity.Services.Relay;
-//using Unity.Services.Relay.Models;
-//using UnityEngine;
+﻿using BossArena.game;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using Unity.Services.Core.Environments;
+using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using UnityEngine;
 
-//namespace BossArena
-//{
-//    public class RelayManager : Singleton<RelayManager>
-//    {
-//        [SerializeField]
-//        private string environment = "production";
+namespace BossArena
+{
+    public class RelayManager : Singleton<RelayManager>
+    {
+        [SerializeField]
+        private string environment = "production";
 
-//        [SerializeField]
-//        private int maxNumberOfConnections = 10;
+        [SerializeField]
+        private int maxNumberOfConnections = 10;
 
-//        public bool IsRelayEnabled => Transport != null && Transport.Protocol == UnityTransport.ProtocolType.RelayUnityTransport;
+        public bool IsRelayEnabled => Transport != null && Transport.Protocol == UnityTransport.ProtocolType.RelayUnityTransport;
 
-//        public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+        public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
 
-//        private string roomCode;
 
-//        public async Task<RelayHostData> SetupRelay()
-//        {
-//            Debug.Log("Relay Server Starting With Max Connections: {maxNumberOfConnections}");
+        private LocalLobby m_lobby;
+        private bool m_doesNeedCleanup = false;
 
-//            InitializationOptions options = new InitializationOptions()
-//                .SetEnvironmentName(environment);
+        public void StartNetwork(LocalLobby localLobby, LocalPlayer localPlayer)
+        {
+            m_doesNeedCleanup = true;
+#pragma warning disable 4014
+            CreateNetworkManager(localLobby, localPlayer);
+#pragma warning restore 4014
 
-//            await UnityServices.InitializeAsync(options);
+        }
 
-//            if (!AuthenticationService.Instance.IsSignedIn)
-//            {
-//                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-//            }
+        async Task CreateNetworkManager(LocalLobby localLobby, LocalPlayer localPlayer)
+        {
+            m_lobby = localLobby;
+            if (localPlayer.IsHost.Value)
+            {
+                await SetRelayHostData();
+                NetworkManager.Singleton.StartHost();
+            }
+            else
+            {
+                await AwaitRelayCode(localLobby);
+                await SetRelayClientData();
+                NetworkManager.Singleton.StartClient();
+            }
+        }
 
-//            Allocation allocation = await Relay.Instance.CreateAllocationAsync(maxNumberOfConnections);
+        async Task AwaitRelayCode(LocalLobby lobby)
+        {
+            string relayCode = lobby.RelayCode.Value;
+            lobby.RelayCode.onChanged += (code) => relayCode = code;
+            while (string.IsNullOrEmpty(relayCode))
+            {
+                await Task.Delay(100);
+            }
+        }
 
-//            RelayHostData relayHostData = new RelayHostData
-//            {
-//                Key = allocation.Key,
-//                Port = (ushort)allocation.RelayServer.Port,
-//                AllocationID = allocation.AllocationId,
-//                AllocationIDBytes = allocation.AllocationIdBytes,
-//                IPv4Address = allocation.RelayServer.IpV4,
-//                ConnectionData = allocation.ConnectionData
-//            };
+        async Task SetRelayHostData()
+        {
+            var allocation = await Relay.Instance.CreateAllocationAsync(m_lobby.MaxPlayerCount.Value);
+            var joincode = await Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            GameManager.Instance.HostSetRelayCode(joincode);
 
-//            relayHostData.JoinCode = await Relay.Instance.GetJoinCodeAsync(relayHostData.AllocationID);
-//            roomCode = relayHostData.JoinCode;
+            bool isSecure = false;
+            var endpoint = GetEndpointForAllocation(allocation.ServerEndpoints,
+                allocation.RelayServer.IpV4, allocation.RelayServer.Port, out isSecure);
 
-//            Transport.SetRelayServerData(relayHostData.IPv4Address, relayHostData.Port, relayHostData.AllocationIDBytes,
-//                    relayHostData.Key, relayHostData.ConnectionData);
+            Transport.SetHostRelayData(AddressFromEndpoint(endpoint), endpoint.Port,
+                allocation.AllocationIdBytes, allocation.Key, allocation.ConnectionData, isSecure);
+        }
 
-//            Debug.Log($"Relay Server Generated Join Code: {relayHostData.JoinCode}");
+        async Task SetRelayClientData()
+        {
+            var joinAllocation = await Relay.Instance.JoinAllocationAsync(m_lobby.RelayCode.Value);
+            bool isSecure = false;
+            var endpoint = GetEndpointForAllocation(joinAllocation.ServerEndpoints,
+                joinAllocation.RelayServer.IpV4, joinAllocation.RelayServer.Port, out isSecure);
 
-//            return relayHostData;
-//        }
+            Transport.SetClientRelayData(AddressFromEndpoint(endpoint), endpoint.Port,
+                joinAllocation.AllocationIdBytes, joinAllocation.Key,
+                joinAllocation.ConnectionData, joinAllocation.HostConnectionData, isSecure);
+        }
 
-//        public async Task<RelayJoinData> JoinRelay(string joinCode)
-//        {
-//            roomCode = joinCode.ToUpper();
-//            Debug.Log($"Client Joining Game With Join Code: {roomCode}");
+        /// <summary>
+        /// Determine the server endpoint for connecting to the Relay server, for either an Allocation or a JoinAllocation.
+        /// If DTLS encryption is available, and there's a secure server endpoint available, use that as a secure connection. Otherwise, just connect to the Relay IP unsecured.
+        /// </summary>
+        NetworkEndPoint GetEndpointForAllocation(
+            List<RelayServerEndpoint> endpoints,
+            string ip,
+            int port,
+            out bool isSecure)
+        {
+#if ENABLE_MANAGED_UNITYTLS
+            foreach (RelayServerEndpoint endpoint in endpoints)
+            {
+                if (endpoint.Secure && endpoint.Network == RelayServerEndpoint.NetworkOptions.Udp)
+                {
+                    isSecure = true;
+                    return NetworkEndPoint.Parse(endpoint.Host, (ushort)endpoint.Port);
+                }
+            }
+#endif
+            isSecure = false;
+            return NetworkEndPoint.Parse(ip, (ushort)port);
+        }
 
-//            InitializationOptions options = new InitializationOptions()
-//                .SetEnvironmentName(environment);
+        string AddressFromEndpoint(NetworkEndPoint endpoint)
+        {
+            return endpoint.Address.Split(':')[0];
+        }
 
-//            await UnityServices.InitializeAsync(options);
-
-//            if (!AuthenticationService.Instance.IsSignedIn)
-//            {
-//                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-//            }
-
-//            JoinAllocation allocation = await Relay.Instance.JoinAllocationAsync(roomCode);
-
-//            RelayJoinData relayJoinData = new RelayJoinData
-//            {
-//                Key = allocation.Key,
-//                Port = (ushort)allocation.RelayServer.Port,
-//                AllocationID = allocation.AllocationId,
-//                AllocationIDBytes = allocation.AllocationIdBytes,
-//                ConnectionData = allocation.ConnectionData,
-//                HostConnectionData = allocation.HostConnectionData,
-//                IPv4Address = allocation.RelayServer.IpV4,
-//                JoinCode = roomCode
-//            };
-
-//            Transport.SetRelayServerData(relayJoinData.IPv4Address, relayJoinData.Port, relayJoinData.AllocationIDBytes,
-//                relayJoinData.Key, relayJoinData.ConnectionData, relayJoinData.HostConnectionData);
-
-//            Debug.Log($"Client Joined Game With Join Code: {roomCode}");
-
-//            return relayJoinData;
-//        }
-
-//        public string GetRoomCode()
-//        {
-//            return roomCode;
-//        }
-//    }
-//}
+        /// <summary>
+        /// Return to the localLobby after the game, whether due to the game ending or due to a failed connection.
+        /// </summary>
+        public void Disconnect()
+        {
+            if (m_doesNeedCleanup)
+            {
+                NetworkManager.Singleton.Shutdown(true);
+                m_lobby.RelayCode.Value = "";
+                GameManager.Instance.EndGame();
+                m_doesNeedCleanup = false;
+            }
+        }
+    }
+}
