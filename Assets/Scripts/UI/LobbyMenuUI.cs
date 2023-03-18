@@ -9,4 +9,9 @@ public class LobbyMenuUI : MonoBehaviour
     {
         GameManager.Instance.LeaveLobby();
     }
+
+    public void StartGame()
+    {
+        GameManager.Instance.StartGame();
+    }
 }
