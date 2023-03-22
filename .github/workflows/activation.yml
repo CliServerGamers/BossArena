@@ -6,6 +6,11 @@ jobs:
     name: Request manual activation file 🔑
     runs-on: ubuntu-latest
     steps:
+      # so I can run it on a different branch
+      - name: Show environment v1
+        run: env | grep ^GITHUB
+      - name: Show ref v1
+        run: echo "===============> Version from $GITHUB_REF"
       # Request manual activation file
       - name: Request manual activation file
         id: getManualLicenseFile
