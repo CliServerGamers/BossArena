@@ -1,11 +1,6 @@
 name: Acquire activation file
 
 on:
-  push:
-    branches:
-      - "github-actions-test"
-    paths:
-      - ".github/workflows/activation.yml"
   workflow_dispatch: {}
 
 jobs:
