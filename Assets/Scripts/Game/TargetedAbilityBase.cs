@@ -16,10 +16,7 @@ namespace BossArena.game
         [SerializeField]
         float radius;
 
-        protected override void Update()
-        {
-
-        }
+        public abstract void DrawAbilityIndicator(Vector3 targetLocation);
 
         private void getEntitiesInArea(Vector3 mosPos)
         {

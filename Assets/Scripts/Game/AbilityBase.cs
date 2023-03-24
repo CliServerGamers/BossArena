@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEngine.Experimental.AI;
 
 namespace BossArena.game
 {
@@ -24,8 +25,10 @@ namespace BossArena.game
             onCoolDown = false;
         }
 
-        public virtual void ActivateAbility(Vector3 mosPos) { }
-        public virtual void ApplyEffect() { }
+        public abstract void ActivateAbility(Vector3? mosPos =  null);
+        public abstract void ApplyEffect();
+
+
 
         protected abstract void Update();
     }
