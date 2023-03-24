@@ -10,7 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6924013196772353320}
   - component: {fileID: 8653697211529025735}
+<<<<<<< HEAD
   - component: {fileID: 4781053342220999394}
+=======
+>>>>>>> 785de7ee86b3265043adaa638a2b31764b5b0d38
   m_Layer: 0
   m_Name: AutoAttackColliderPrefab
   m_TagString: Untagged
@@ -49,16 +52,24 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
+<<<<<<< HEAD
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
+=======
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+>>>>>>> 785de7ee86b3265043adaa638a2b31764b5b0d38
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+<<<<<<< HEAD
 --- !u!212 &4781053342220999394
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -111,3 +122,5 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+=======
+>>>>>>> 785de7ee86b3265043adaa638a2b31764b5b0d38
