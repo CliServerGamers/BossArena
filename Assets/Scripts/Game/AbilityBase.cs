@@ -25,11 +25,17 @@ namespace BossArena.game
             onCoolDown = false;
         }
 
+<<<<<<< HEAD
         public abstract void ActivateAbility(Vector3? mosPos =  null);
         public abstract void ApplyEffect();
 
 
+=======
+        public abstract void ActivateAbility(Vector3 mosPos);
+        public abstract void ApplyEffect();
+>>>>>>> c1b37fc (Refactor AutoAttack)
 
+        public abstract void DrawAbilityIndicator(Vector3 targetLocation);
         protected abstract void Update();
     }
 }
