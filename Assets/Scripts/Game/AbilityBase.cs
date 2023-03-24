@@ -13,14 +13,14 @@ namespace BossArena.game
     abstract class AbilityBase : NetworkBehaviour, IApplyEffect
     {
         [SerializeField]
-        int windUpDelay;
+        protected int windUpDelay;
         [SerializeField]
-        int coolDownDelay;
+        protected int coolDownDelay;
         [SerializeField]
-        private float range;
+        protected float range;
         [SerializeField]
-        private bool onCoolDown;
-        private void Start()
+        protected bool onCoolDown;
+        protected void Start()
         {
             onCoolDown = false;
         }

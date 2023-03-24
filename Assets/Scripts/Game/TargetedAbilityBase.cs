@@ -10,15 +10,19 @@ namespace BossArena.game
 {
     abstract class TargetedAbilityBase : AbilityBase
     {
+        // Need to have reference to Camera.
         [SerializeField]
-        bool isSelfTarget;
+        protected Camera mainCamera;
 
         [SerializeField]
-        float radius;
+        protected bool isSelfTarget;
+
+        [SerializeField]
+        protected float radius;
 
         public abstract void DrawAbilityIndicator(Vector3 targetLocation);
 
-        private void getEntitiesInArea(Vector3 mosPos)
+        protected void getEntitiesInArea(Vector3 mosPos)
         {
             var colliders = Physics2D.OverlapCircleAll(mosPos, radius);
             foreach (var collider in colliders)
