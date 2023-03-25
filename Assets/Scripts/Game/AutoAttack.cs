@@ -113,7 +113,7 @@ namespace BossArena.game
 
         protected void drawFocusCursor()
         {
-            UnityEngine.Debug.Log("Auto Attacking");
+            //UnityEngine.Debug.Log("Auto Attacking");
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }
