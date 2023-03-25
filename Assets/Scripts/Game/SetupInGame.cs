@@ -14,7 +14,7 @@ namespace BossArena.game
     /// Once the local localPlayer is in a localLobby and that localLobby has entered the In-Game state, this will load in whatever is necessary to actually run the game part.
     /// This will exist in the game scene so that it can hold references to scene objects that spawned prefab instances will need.
     /// </summary>
-    public class SetupInGame : MonoBehaviour
+    public class SetupInGame : NetworkBehaviour
     {
         //[SerializeField]
         //GameObject m_IngameRunnerPrefab = default;
@@ -31,7 +31,7 @@ namespace BossArena.game
         {
             m_doesNeedCleanup = true;
             //SetMenuVisibility(false);
-
+            Debug.Log(GetComponent<NetworkObject>().GetHashCode());
 #pragma warning disable 4014
             LocalLobby lobby = GameManager.Instance.LocalLobby;
             LocalPlayer localPlayer = GameManager.Instance.m_localUser;

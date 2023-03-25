@@ -24,31 +24,31 @@ namespace BossArena.game
             base.Start();
             //PlayerPrefab = transform.parent.gameObject;
             //// Get the Prefab holding the BoxCollider2D
-            //AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
-            //AUTOATTACK_COLLIDER.enabled = false;
+            AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
+            AUTOATTACK_COLLIDER.enabled = false;
 
         }
 
         public void Initialize()
         {
-            PlayerPrefab = transform.parent.gameObject;
-            // Get the Prefab holding the BoxCollider2D
-            AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
-            AUTOATTACK_COLLIDER.enabled = false;
+            //PlayerPrefab = transform.parent.gameObject;
+            //// Get the Prefab holding the BoxCollider2D
+            //AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
+            //AUTOATTACK_COLLIDER.enabled = false;
         }
         // Update is called once per frame
         protected override void Update()
         {
-            if (IsClient && IsOwner)
-            {
-                DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-            }
+            if (!IsOwner) return;
+
+            DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             if (Input.GetMouseButtonDown(0))
             {
                 Debug.Log("peepeepoopoo");
                 ActivateAbility(Input.mousePosition);
 
             }
+
 
 
         }
@@ -77,7 +77,7 @@ namespace BossArena.game
             Vector2 focusCursor = calculateFocusCursor();
 
             transform.position = focusCursor;
-            UnityEngine.Debug.Log("COLLIDER: " + transform.position);
+            //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 
         private void OnDrawGizmos()
@@ -115,7 +115,7 @@ namespace BossArena.game
             float focusY = playerPos.y + Mathf.Sin(angle);
 
             Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
-            UnityEngine.Debug.Log(focusCursorPosition);
+            //UnityEngine.Debug.Log(focusCursorPosition);
 
             return focusCursorPosition;
 

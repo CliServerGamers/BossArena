@@ -99,6 +99,7 @@ namespace BossArena
                         }
                         Debug.Log($"Loaded the {sceneEvent.SceneName} scene on " +
                             $"{clientOrServer}-({sceneEvent.ClientId}).");
+                        processSceneByName(sceneEvent);
                         break;
                     }
                 case SceneEventType.UnloadComplete:
@@ -110,7 +111,6 @@ namespace BossArena
                 case SceneEventType.LoadEventCompleted:
                     {
                         Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
-                        processSceneByName(sceneEvent);
                         break;
                     }
                 case SceneEventType.UnloadEventCompleted:
@@ -137,6 +137,10 @@ namespace BossArena
                 {
                     spawnPlayer(sceneEvent.ClientId);
                 }
+                else
+                {
+                    spawnPlayerServerRPC(sceneEvent.ClientId);
+                }
 
                 return;
             }
@@ -144,19 +148,26 @@ namespace BossArena
 
         private void spawnPlayer(ulong clientId)
         {
-            Debug.Log("Spawning Player");
+            Debug.Log($"Spawning Player with clientId: {clientId}");
             GameObject newPlayer;
-            newPlayer = (GameObject) Instantiate(PlayerPrefab);
+            newPlayer = (GameObject)Instantiate(PlayerPrefab);
             NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
             newPlayer.SetActive(true);
-            playerObj.SpawnAsPlayerObject(clientId, true);
-            GameObject autoAttackObj = Instantiate(AutoAttackPrefab, Vector3.zero, Quaternion.identity);
-            autoAttackObj.GetComponent<NetworkObject>().Spawn();
-            autoAttackObj.transform.parent = playerObj.transform;
-            autoAttackObj.GetComponent<AutoAttack>().Initialize();
+            playerObj.SpawnWithOwnership(clientId, true);
+            //GameObject autoAttackObj = Instantiate(AutoAttackPrefab, Vector3.zero, Quaternion.identity);
+            //autoAttackObj.GetComponent<NetworkObject>().Spawn();
+            //autoAttackObj.transform.parent = playerObj.transform;
+            //autoAttackObj.GetComponent<AutoAttack>().Initialize();
             //Player player = newPlayer.GetComponent<Player>();
             //player.SetPlayerID(clientId);
             //player.SetSpawnPosition();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void spawnPlayerServerRPC(ulong clientId)
+        {
+            Debug.Log("Spawning Player RPC");
+            spawnPlayer(clientId);
         }
 
         public void UnloadScene()
