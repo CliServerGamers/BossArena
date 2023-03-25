@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BossArena.game
 {
     class AutoAttack : TargetedAbilityBase
-    { 
+    {
         // Need to have reference to Parent Player Prefab
         [SerializeField]
         private GameObject PlayerPrefab;
@@ -19,17 +19,28 @@ namespace BossArena.game
         Vector3 currentMousePosition;
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
-            // Get the Prefab holding the BoxCollider2D
+            base.Start();
+            //PlayerPrefab = transform.parent.gameObject;
+            //// Get the Prefab holding the BoxCollider2D
             AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
 
         }
 
+        public void Initialize()
+        {
+            //PlayerPrefab = transform.parent.gameObject;
+            //// Get the Prefab holding the BoxCollider2D
+            //AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
+            //AUTOATTACK_COLLIDER.enabled = false;
+        }
         // Update is called once per frame
         protected override void Update()
         {
+            if (!IsOwner) return;
+
             DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             if (Input.GetMouseButtonDown(0))
             {
@@ -37,7 +48,9 @@ namespace BossArena.game
                 ActivateAbility(Input.mousePosition);
 
             }
-    
+
+
+
         }
 
         public override void ActivateAbility(Vector3? mosPos = null)
@@ -64,7 +77,7 @@ namespace BossArena.game
             Vector2 focusCursor = calculateFocusCursor();
 
             transform.position = focusCursor;
-            UnityEngine.Debug.Log("COLLIDER: " + transform.position);
+            //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 
         private void OnDrawGizmos()
@@ -102,7 +115,7 @@ namespace BossArena.game
             float focusY = playerPos.y + Mathf.Sin(angle);
 
             Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
-            UnityEngine.Debug.Log(focusCursorPosition);
+            //UnityEngine.Debug.Log(focusCursorPosition);
 
             return focusCursorPosition;
 

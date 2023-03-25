@@ -229,11 +229,13 @@ namespace BossArena
         //    m_setupInGame.StartNetworkedGame(m_LocalLobby, m_localUser);
         //}
 
-        public void StartGame()
+        public async Task StartGame()
         {
             m_localUser.UserStatus.Value = PlayerStatus.InGame;
             m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
-            NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
+            //await RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
+            ProjectSceneManager.Instance.LoadScene("TestScene");
+            //NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
             //m_setupInGame.StartNetworkedGame(m_LocalLobby, m_localUser);
         }
 
@@ -343,8 +345,9 @@ namespace BossArena
         async Task BindLobby()
         {
             await LobbyManager.BindLocalLobbyToRemote(m_LocalLobby.LobbyID.Value, m_LocalLobby);
+            await RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
             //m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
-            RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
+
             SetLobbyView();
         }
 

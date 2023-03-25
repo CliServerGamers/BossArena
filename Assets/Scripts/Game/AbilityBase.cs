@@ -20,7 +20,7 @@ namespace BossArena.game
         protected float range;
         [SerializeField]
         protected bool onCoolDown;
-        protected void Start()
+        protected virtual void Start()
         {
             onCoolDown = false;
         }

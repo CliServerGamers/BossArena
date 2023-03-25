@@ -20,8 +20,20 @@ namespace BossArena.game
         [SerializeField]
         protected float radius;
 
+        protected override void Start()
+        {
+            base.Start();
+            getCamera();
+        }
         public abstract void DrawAbilityIndicator(Vector3 targetLocation);
 
+        protected void getCamera()
+        {
+            if (mainCamera == null)
+            {
+                mainCamera = Camera.main;
+            }
+        }
         protected void getEntitiesInArea(Vector3 mosPos)
         {
             var colliders = Physics2D.OverlapCircleAll(mosPos, radius);
