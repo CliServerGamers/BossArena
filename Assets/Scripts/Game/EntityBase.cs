@@ -33,6 +33,8 @@ namespace BossArena.game
 
         protected abstract void Update();
 
+        protected abstract void FixedUpdate();
+
         protected void SetHealth(int health)
         {
             MaxHealth = health;

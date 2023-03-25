@@ -133,6 +133,8 @@ GameObject:
   m_Component:
   - component: {fileID: 644627403}
   - component: {fileID: 644627402}
+  - component: {fileID: 644627404}
+  - component: {fileID: 644627405}
   m_Layer: 0
   m_Name: PlaceholderPlayer
   m_TagString: Untagged
@@ -181,7 +183,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: a5e53e2a8cff87c48bbc2a14f2c0e1b2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 52c7cb0e04c6e9a41a14c013b0bc6e90, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -208,6 +210,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &644627404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644627400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15b8160c49f52642a7d5fb64c698f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMoveSpeed: 5
+  rb: {fileID: 644627405}
+--- !u!50 &644627405
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644627400}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!4 &648949372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6924013196772353320, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
@@ -468,6 +505,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 644627403}
     m_Modifications:
     - target: {fileID: 54374114409144770, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54374114409144770, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1844823283}
@@ -475,6 +516,10 @@ PrefabInstance:
       propertyPath: PlayerPrefab
       value: 
       objectReference: {fileID: 644627400}
+    - target: {fileID: 4781053342220999394, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5899021118764256236, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
       propertyPath: m_Name
       value: AutoAttackColliderPrefab
@@ -526,6 +571,10 @@ PrefabInstance:
     - target: {fileID: 6924013196772353320, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7924785327155877634, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1686353964
       objectReference: {fileID: 0}
     - target: {fileID: 8653697211529025735, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
       propertyPath: m_Enabled

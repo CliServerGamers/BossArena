@@ -33,7 +33,7 @@ namespace BossArena.game
             DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("peepeepoopoo");
+                //Debug.Log("peepeepoopoo");
                 ActivateAbility(Input.mousePosition);
 
             }
@@ -64,7 +64,7 @@ namespace BossArena.game
             Vector2 focusCursor = calculateFocusCursor();
 
             transform.position = focusCursor;
-            UnityEngine.Debug.Log("COLLIDER: " + transform.position);
+            //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 
         private void OnDrawGizmos()
@@ -96,13 +96,13 @@ namespace BossArena.game
 
             float angle = Mathf.Atan2(this.currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
 
-            UnityEngine.Debug.Log("Transform Position: " + playerPos);
+            //UnityEngine.Debug.Log("Transform Position: " + playerPos);
 
             float focusX = playerPos.x + Mathf.Cos(angle);
             float focusY = playerPos.y + Mathf.Sin(angle);
 
             Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
-            UnityEngine.Debug.Log(focusCursorPosition);
+            //UnityEngine.Debug.Log(focusCursorPosition);
 
             return focusCursorPosition;
 
