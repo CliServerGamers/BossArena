@@ -41,6 +41,7 @@ namespace BossArena.game
             Action onGameEnd,
             LocalPlayer localUser)
         {
+            Debug.Log("InGameRunner: Initialize");
             m_onConnectionVerified = onConnectionVerified;
             m_expectedPlayerCount = expectedPlayerCount;
             onGameBeginning = onGameBegin;
@@ -51,6 +52,7 @@ namespace BossArena.game
 
         public override void OnNetworkSpawn()
         {
+            Debug.Log("InGameRunner: OnNetworkSpawn");
             if (IsHost)
                 FinishInitialize();
             m_localUserData = new PlayerData(m_localUserData.name, NetworkManager.Singleton.LocalClientId);

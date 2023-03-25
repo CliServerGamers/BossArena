@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2429365887
+  GlobalObjectIdHash: 2835589781
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -526,6 +526,10 @@ PrefabInstance:
     - target: {fileID: 6924013196772353320, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7924785327155877634, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2374308861
       objectReference: {fileID: 0}
     - target: {fileID: 8653697211529025735, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
       propertyPath: m_Enabled

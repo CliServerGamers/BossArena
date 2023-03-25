@@ -35,6 +35,7 @@ namespace BossArena.game
 #pragma warning disable 4014
             LocalLobby lobby = GameManager.Instance.LocalLobby;
             LocalPlayer localPlayer = GameManager.Instance.m_localUser;
+            //RelayManager.Instance.StartNetwork(lobby, localPlayer);
             m_inGameRunner.Initialize(OnConnectionVerified, lobby.PlayerCount, OnGameBegin, OnGameEnd,
               localPlayer);
 #pragma warning restore 4014
@@ -63,6 +64,7 @@ namespace BossArena.game
         {
             if (m_doesNeedCleanup)
             {
+                //RelayManager.Instance.Disconnect();
                 Destroy(m_inGameRunner
                     .transform.parent
                     .gameObject);

@@ -10,8 +10,8 @@ public class LobbyMenuUI : MonoBehaviour
         GameManager.Instance.LeaveLobby();
     }
 
-    public void StartGame()
+    public async void StartGame()
     {
-        GameManager.Instance.StartGame();
+        await GameManager.Instance.StartGame();
     }
 }

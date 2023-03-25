@@ -29,11 +29,11 @@ namespace BossArena
         private LocalLobby m_lobby;
         private bool m_doesNeedCleanup = false;
 
-        public void StartNetwork(LocalLobby localLobby, LocalPlayer localPlayer)
+        public async Task StartNetwork(LocalLobby localLobby, LocalPlayer localPlayer)
         {
             m_doesNeedCleanup = true;
 #pragma warning disable 4014
-            CreateNetworkManager(localLobby, localPlayer);
+            await CreateNetworkManager(localLobby, localPlayer);
 #pragma warning restore 4014
 
         }
