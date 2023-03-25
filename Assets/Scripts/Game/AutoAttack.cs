@@ -44,7 +44,7 @@ namespace BossArena.game
             DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("peepeepoopoo");
+                //Debug.Log("peepeepoopoo");
                 ActivateAbility(Input.mousePosition);
 
             }
@@ -109,7 +109,7 @@ namespace BossArena.game
 
             float angle = Mathf.Atan2(this.currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
 
-            UnityEngine.Debug.Log("Transform Position: " + playerPos);
+            //UnityEngine.Debug.Log("Transform Position: " + playerPos);
 
             float focusX = playerPos.x + Mathf.Cos(angle);
             float focusY = playerPos.y + Mathf.Sin(angle);
@@ -126,7 +126,7 @@ namespace BossArena.game
 
         protected void drawFocusCursor()
         {
-            UnityEngine.Debug.Log("Auto Attacking");
+            //UnityEngine.Debug.Log("Auto Attacking");
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }

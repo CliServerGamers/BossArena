@@ -2466,7 +2466,7 @@ PrefabInstance:
     - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
       propertyPath: NetworkConfig.NetworkPrefabs.Array.data[0].Prefab
       value: 
-      objectReference: {fileID: 701251243846124494, guid: 3ce25b55d8af1184b887059a02a0777d, type: 3}
+      objectReference: {fileID: 3819106736952998509, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
     - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
       propertyPath: NetworkConfig.NetworkPrefabs.Array.data[1].Prefab
       value: 
@@ -3185,7 +3185,7 @@ PrefabInstance:
     - target: {fileID: 3614245645551523039, guid: 0f80a756b1c65354dbb09926fc47a2dd, type: 3}
       propertyPath: PlayerPrefab
       value: 
-      objectReference: {fileID: 701251243846124494, guid: 3ce25b55d8af1184b887059a02a0777d, type: 3}
+      objectReference: {fileID: 3819106736952998509, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
     - target: {fileID: 3614245645551523039, guid: 0f80a756b1c65354dbb09926fc47a2dd, type: 3}
       propertyPath: AutoAttackPrefab
       value: 
