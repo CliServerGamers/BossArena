@@ -13,10 +13,15 @@ namespace BossArena.game
         {
             UnityEngine.Debug.Log("Moving");
             // Projectile has infinite range, so we constantly update its destination.
-            findDestination();
+            //findDestination();
 
-            transform.position *= baseMoveSpeed;
+            //transform.position *= baseMoveSpeed;
+            //transform.forward += baseMoveSpeed;
 
+            transform.position += transform.forward * baseMoveSpeed;
+
+            Vector3 fwd = transform.rotation * Vector3.forward;
+            Debug.DrawRay(transform.position, fwd, Color.red, 0f, true);
         }
 
         // Start is called before the first frame update
@@ -25,11 +30,11 @@ namespace BossArena.game
 
         }
 
-        public void findDestination()
-        {
-            projectileDestination = transform.position * 3;
+        //public void findDestination()
+        //{
+        //    projectileDestination = transform.position * 3;
 
-        }
+        //}
 
     }
 }

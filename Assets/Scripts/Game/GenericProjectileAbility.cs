@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -22,12 +23,18 @@ namespace BossArena.game
 
             // TODO: 
             // 1 Scaled Range to be larger than the Arena (Probably by 5)
-            Vector2 projectileDestination = new Vector2(currentMousePosition.x, currentMousePosition.y) * 10;
+            //Vector2 projectileDestination = new Vector2(currentMousePosition.x, currentMousePosition.y) * 10;
 
-            UnityEngine.Debug.Log("ProjectileDestination: " + projectileDestination);
+            //UnityEngine.Debug.Log("ProjectileDestination: " + projectileDestination);
+
+            Vector3 focusCursor = calculateFocusCursor();
+
+            Quaternion rot = new Quaternion();
+            rot.SetFromToRotation(new Vector3(focusCursor.x-PlayerPrefab.transform.position.x, focusCursor.y-PlayerPrefab.transform.position.y, 0.0f), currentMousePosition);
+
 
             // 2. Instantiate Projectile
-            Instantiate(projectilePrefab, calculateFocusCursor(), Quaternion.identity);
+            GameObject currentProjectile = Instantiate(projectilePrefab, focusCursor, rot);
 
         }
 
@@ -55,8 +62,6 @@ namespace BossArena.game
         // Update is called once per frame
         protected override void Update()
         {
-            UnityEngine.Debug.Log("CurrentMousePosition: " + currentMousePosition);
-
             // Pass in World Position of Mouse
             DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 
@@ -72,14 +77,16 @@ namespace BossArena.game
         private void OnDrawGizmos()
         {
             Gizmos.color = new Color(1, 1, 1, 0.25f);
-            drawFocusCursor(calculateFocusCursor());
+            Vector3 focusCursor = calculateFocusCursor();
+            drawFocusCursor(focusCursor);
+            Gizmos.DrawLine(focusCursor, currentMousePosition);
         }
 
         protected Vector3 calculateFocusCursor()
         {
             Vector3 playerPos = PlayerPrefab.transform.position;
 
-            float angle = Mathf.Atan2(this.currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
+            float angle = Mathf.Atan2(currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
 
             float focusX = playerPos.x + Mathf.Cos(angle);
             float focusY = playerPos.y + Mathf.Sin(angle);
