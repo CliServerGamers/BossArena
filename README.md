@@ -6,3 +6,4 @@ This game lets you fight a boss in a battle arena
 Jay Wang
 - Set up AutoAttack
     - Implemented Focus Cursor and BoxCollider for the Auto Attack
+    - Implemented GenericProjectile and GenericProjectileAbility
