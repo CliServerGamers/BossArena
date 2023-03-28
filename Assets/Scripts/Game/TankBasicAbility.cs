@@ -56,21 +56,19 @@ namespace BossArena.game
             TauntPrefab.transform.position = calculateBasicAbilityCursor();
 
             UnityEngine.Debug.Log("BasicActivated: " + basicActivated);
-            // Ability NOT on cooldown.
-            if (basicActivated == false)
+
+            // Every Frame, check for Key: Q, Key Up or Key Down.
+            if (Input.GetKeyDown(KeyCode.Q) && basicActivated == false)
             {
-                // Every Frame, check for Key: Q, Key Up or Key Down.
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-                }
-                else if (Input.GetKeyUp(KeyCode.Q))
-                {
-                    // Apply Effect first, then deactivate it
-                    ActivateAbility();
-                    TauntPrefab.SetActive(false);
-                }
+                DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             }
+            else if (Input.GetKeyUp(KeyCode.Q) && basicActivated == false)
+            {
+                // Apply Effect first, then deactivate it
+                ActivateAbility();
+                TauntPrefab.SetActive(false);
+            }
+            
 
         }
 
@@ -102,7 +100,7 @@ namespace BossArena.game
 
         public void checkCooldown()
         {
-            if (Time.time - timeStart >= coolDownDelay * 2)
+            if (Time.time - timeStart >= coolDownDelay)
             {
                 // Enough time has passed, set ultimatedActivated as off.
                 basicActivated = false;
