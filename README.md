@@ -7,3 +7,4 @@ Jay Wang
 - Set up AutoAttack
     - Implemented Focus Cursor and BoxCollider for the Auto Attack
     - Implemented GenericProjectile and GenericProjectileAbility
+    - Implemented Tank Ultimate Ability

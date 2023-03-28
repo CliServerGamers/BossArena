@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 0
+  coolDownDelay: 3
   range: 0
   onCoolDown: 0
   mainCamera: {fileID: 1409084969}
@@ -359,7 +359,7 @@ PrefabInstance:
       objectReference: {fileID: 1409084969}
     - target: {fileID: 5440329849617094724, guid: 9bc62fa3271830d4fae7b2b265f9304f, type: 3}
       propertyPath: coolDownDelay
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7800480470842664285, guid: 9bc62fa3271830d4fae7b2b265f9304f, type: 3}
       propertyPath: m_Name
