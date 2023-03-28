@@ -25,11 +25,6 @@ namespace BossArena.game
             Debug.DrawRay(transform.position, fwd, Color.red, 0f, true);
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
 
         //public void findDestination()
         //{

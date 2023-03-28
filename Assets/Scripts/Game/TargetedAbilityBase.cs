@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Game.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +20,13 @@ namespace BossArena.game
         [SerializeField]
         protected float radius;
 
+        // Need to have reference to Parent Player Prefab
+        [SerializeField]
+        protected GameObject parentPlayer;
+
         protected override void Start()
         {
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             base.Start();
             getCamera();
         }
@@ -43,5 +47,7 @@ namespace BossArena.game
                 Debug.Log($"{collider.gameObject.name} is nearby");
             }
         }
+
+        public void SetParent(GameObject parent) { this.parentPlayer = parent; }
     }
 }

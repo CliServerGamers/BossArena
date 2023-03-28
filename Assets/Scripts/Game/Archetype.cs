@@ -11,11 +11,11 @@ namespace BossArena.game
     public class Archetype : ScriptableObject
     {
         [SerializeField]
-        public AbilityBase BasicAttack;
+        public GameObject BasicAttack;
         [SerializeField]
-        public AbilityBase BasicAbility;
+        public GameObject BasicAbility;
         [SerializeField]
-        public AbilityBase UltimateAbility;
+        public GameObject UltimateAbility;
 
         [SerializeField]
         public int MaxHealth;
