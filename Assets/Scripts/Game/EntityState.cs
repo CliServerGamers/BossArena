@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BossArena.game
 {
-    enum EntityState
+    public enum EntityState
     {
         DEFUALT = 0,
         STUNNED,

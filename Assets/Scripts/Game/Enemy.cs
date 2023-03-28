@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    abstract class Enemy : EntityBase, IHostile
+    public abstract class Enemy : EntityBase, IHostile
     {
         [SerializeField]
         public Player CurrentTarget { get; set; }
@@ -29,13 +29,6 @@ namespace BossArena.game
         {
             // flag for server or client
             // only do all the things on the server 
-
-            // 1: checks health
-            // 2: update the blackboard
-            // 3: run the first attack in the queue, inside th
-
-            // watch some tutorials on behaviour trees in unity for bosses
-            // PAY ATTENTON to animation queues
             _root?.Evaluate();
         }
 

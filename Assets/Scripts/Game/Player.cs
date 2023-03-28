@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BossArena.game
 {
     /// </summary>
-    class Player : EntityBase, IFriendly, IThreat
+    public class Player : EntityBase, IFriendly, IThreat
     {
         private Rigidbody2D rb;
         private ParticleSystem ps;
@@ -22,10 +22,10 @@ namespace BossArena.game
         //(That or i'm just dumb lol)
         public GameObject playerObj;
 
-        public Player(Archetype archetype) : base()
+/*        public Player(Archetype archetype) : base()
         {
             Archetype = archetype;
-        }
+        }*/
 
         protected override void Start()
         {

@@ -131,7 +131,7 @@ namespace BossArena
         private void processSceneByName(SceneEvent sceneEvent)
         {
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
-            if (sceneEvent.SceneName == testScene)
+            if (sceneEvent.SceneName == testScene || sceneEvent.SceneName == "BossTestScene")
             {
                 if (IsServer)
                 {

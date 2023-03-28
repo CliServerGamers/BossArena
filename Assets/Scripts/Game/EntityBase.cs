@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    abstract class EntityBase : NetworkBehaviour
+    public abstract class EntityBase : NetworkBehaviour
     {
         [SerializeField]
         public int MaxHealth { get; protected set; }

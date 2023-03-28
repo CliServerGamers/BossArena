@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    abstract class Archetype
+    public abstract class Archetype
     {
         [SerializeField]
         public AbilityBase BasicAttack { get; protected set; }

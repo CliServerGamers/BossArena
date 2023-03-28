@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
-using Assets.Scripts.Game.Boss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +8,14 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    // selector node for root
-    // leaf: passive movement
-    // seq: check enemy in range -> task go to player
-    class Boss : Enemy
+
+    public class Boss : Enemy
     {
 
-        private GameObject dummyPlayer = null;
+        [SerializeField]
+        private GameObject shadow;
 
-        public static float range = 5f;
+        public static float speed = 5f;
 
         private Node _root = null;
 
@@ -33,23 +31,17 @@ namespace BossArena.game
 
         protected override void Start()
         {
-            dummyPlayer = GameObject.Find("DummyPlayer");
             base.Start();
         }
 
         protected override Node SetupTree()
         {
-            Node root = new SelectorNode(new List<Node>
+            _root = new SequenceNode(new List<Node>
             {
-                new SequenceNode(new List<Node>
-                {
-                    new CheckPlayerInRange(transform),
-                    new GoToPlayer(transform),
-                }),
-                new PassiveMoving(transform)
+                new JumpAttack(this, shadow)
             });
 
-            return root;
+            return _root;
         }
 
     }

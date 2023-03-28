@@ -16,7 +16,7 @@ namespace Assets.Scripts.Game.BehaviorTree
 
     public class Node
     {
-        //protected AbilityBase ability;
+        protected AbilityBase ability;
         protected NodeState state;
         public Node parent;
         protected List<Node> children;
