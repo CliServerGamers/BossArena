@@ -19,8 +19,8 @@ namespace BossArena.game
         public int ThreatLevel { get; set; }
 
         [SerializeField]
-        protected int baseMoveSpeed;
-        protected int currentMoveSpeed;
+        protected float baseMoveSpeed;
+        protected float currentMoveSpeed;
 
         protected virtual void Start()
         {
