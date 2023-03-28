@@ -29,6 +29,7 @@ namespace BossArena.game
 
         protected override void Start()
         {
+            playerObj = this.gameObject;
             base.Start();
             //SetHealth(Archetype.MaxHealth);
             Debug.Log(playerObj);
