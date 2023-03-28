@@ -5051,6 +5051,14 @@ PrefabInstance:
       propertyPath: PlayerPrefab
       value: 
       objectReference: {fileID: 3819106736952998509}
+    - target: {fileID: 54374114409144770, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+      propertyPath: AutoAttackPrefab
+      value: 
+      objectReference: {fileID: 4837892256291417434}
+    - target: {fileID: 54374114409144770, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+      propertyPath: AUTOATTACK_COLLIDER
+      value: 
+      objectReference: {fileID: 7702904583955005041}
     - target: {fileID: 4781053342220999394, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -5118,6 +5126,16 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -6080601832609894320, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+--- !u!1 &4837892256291417434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5899021118764256236, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+  m_PrefabInstance: {fileID: 1368581003628799670}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &7702904583955005041 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 8653697211529025735, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+  m_PrefabInstance: {fileID: 1368581003628799670}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8280189499290403742 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6924013196772353320, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}

@@ -134,6 +134,7 @@ MonoBehaviour:
   isSelfTarget: 0
   radius: 0
   PlayerPrefab: {fileID: 0}
+  AUTOATTACK_COLLIDER: {fileID: 8653697211529025735}
 --- !u!114 &-6080601832609894320
 MonoBehaviour:
   m_ObjectHideFlags: 0

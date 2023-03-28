@@ -6,13 +6,17 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    class AutoAttack : TargetedAbilityBase
+    class AutoAttack : TargetedAbilityBase, IDrawIndicator
     {
         // Need to have reference to Parent Player Prefab
         [SerializeField]
         private GameObject PlayerPrefab;
 
+        [SerializeField]
+        private GameObject AutoAttackPrefab;
+
         // Parent Player Prefab MUST have AutoAttackCollider Prefab\
+        [SerializeField]
         private BoxCollider2D AUTOATTACK_COLLIDER;
 
 
@@ -26,7 +30,6 @@ namespace BossArena.game
             //// Get the Prefab holding the BoxCollider2D
             AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
-
         }
 
         public void Initialize()
@@ -39,7 +42,7 @@ namespace BossArena.game
         // Update is called once per frame
         protected override void Update()
         {
-            if (!IsOwner) return;
+            //if (!IsOwner) return;
 
             DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             if (Input.GetMouseButtonDown(0))
@@ -48,8 +51,6 @@ namespace BossArena.game
                 ActivateAbility(Input.mousePosition);
 
             }
-
-
 
         }
 
@@ -64,19 +65,18 @@ namespace BossArena.game
         public override void ApplyEffect()
         {
             AUTOATTACK_COLLIDER.enabled = true;
-
-
+            //Delay for length of attack
             AUTOATTACK_COLLIDER.enabled = false;
         }
 
-        public override void DrawAbilityIndicator(Vector3 targetLocation)
+        public void DrawAbilityIndicator(Vector3 targetLocation)
         {
             // Get and Convert Mouse Position into World Coordinates
             currentMousePosition = new Vector3(targetLocation.x, targetLocation.y, 0f);
             // Calculate Focus Cursor
             Vector2 focusCursor = calculateFocusCursor();
 
-            transform.position = focusCursor;
+            AutoAttackPrefab.transform.position = focusCursor;
             //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 
@@ -131,5 +131,9 @@ namespace BossArena.game
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            
+        }
     }
 }

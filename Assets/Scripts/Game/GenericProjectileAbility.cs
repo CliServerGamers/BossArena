@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BossArena.game
 {
-    class GenericProjectileAbility : TargetedAbilityBase
+    class GenericProjectileAbility : TargetedAbilityBase, IDrawIndicator
     {
         // Need to have reference to Parent Player Prefab
         [SerializeField]
@@ -34,7 +35,8 @@ namespace BossArena.game
             rot.SetFromToRotation(focusCursor - PlayerPrefab.transform.position, mainCamera.ScreenToWorldPoint(Input.mousePosition) - PlayerPrefab.transform.position);
 
             // 2. Instantiate Projectile
-            GameObject currentProjectile = Instantiate(projectilePrefab, focusCursor, rot);
+            GameObject currentProjectile = GameObject.Instantiate(projectilePrefab, focusCursor, rot);
+            //Fetch from pool
 
         }
 
@@ -43,7 +45,7 @@ namespace BossArena.game
             throw new System.NotImplementedException();
         }
 
-        public override void DrawAbilityIndicator(Vector3 targetLocation)
+        public void DrawAbilityIndicator(Vector3 targetLocation)
         {
             // Get and Convert Mouse Position into World Coordinates
             currentMousePosition = targetLocation;
@@ -53,25 +55,19 @@ namespace BossArena.game
             Vector2 focusCursor = calculateFocusCursor();
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
         // Update is called once per frame
         protected override void Update()
         {
             // Pass in World Position of Mouse
-            DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+            //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 
-            // Listen for Mouse Event (LMB Down)
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.Log("peepeepoopoo");
-                ActivateAbility(Input.mousePosition);
+            //// Listen for Mouse Event (LMB Down)
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    Debug.Log("peepeepoopoo");
+            //    ActivateAbility(Input.mousePosition);
 
-            }
+            //}
         }
 
         private void OnDrawGizmos()

@@ -7,17 +7,18 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    abstract class Archetype
+    [CreateAssetMenu]
+    public class Archetype : ScriptableObject
     {
         [SerializeField]
-        public AbilityBase BasicAttack { get; protected set; }
+        public AbilityBase BasicAttack;
         [SerializeField]
-        public AbilityBase BasicAbility { get; protected set; }
+        public AbilityBase BasicAbility;
         [SerializeField]
-        public AbilityBase UltimateAbility { get; protected set; }
+        public AbilityBase UltimateAbility;
 
         [SerializeField]
-        public int MaxHealth { get; }
+        public int MaxHealth;
         public Archetype() { }
     }
 }

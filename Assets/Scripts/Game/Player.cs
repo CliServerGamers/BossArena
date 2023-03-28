@@ -16,7 +16,7 @@ namespace BossArena.game
         private float vertVelocity;
         public int dodgeCooldown;
         [SerializeField]
-        public Archetype Archetype { get; private set; }
+        public Archetype Archetype;
         //Since this isn't a monobehaviour, we can't simply use gameObject to reference the attached gameobject
         //So we kinda have to do this
         //(That or i'm just dumb lol)
@@ -35,22 +35,39 @@ namespace BossArena.game
             rb = playerObj.GetComponent<Rigidbody2D>();
             ps = playerObj.GetComponent<ParticleSystem>();
             dodgeCooldown = 0;
+            Archetype.BasicAbility.Play
         }
 
         protected override void Update()
         {
-            if (IsOwner)
-            {
+            if (!IsOwner) return;
 
-                horizVelocity = Input.GetAxisRaw("Horizontal");
-                vertVelocity = Input.GetAxisRaw("Vertical");
-                if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-                //Make the player dash a short distance on spacebar press
-                {
-                    var psemit = ps.emission;
-                    psemit.enabled = true;
-                    ps.Play();
-                }
+
+            horizVelocity = Input.GetAxisRaw("Horizontal");
+            vertVelocity = Input.GetAxisRaw("Vertical");
+
+            if(Archetype.BasicAttack is IDrawIndicator)
+            {
+                ((IDrawIndicator)Archetype.BasicAttack).DrawAbilityIndicator(Input.mousePosition);
+            }
+
+            //Ability Section
+            if (Input.GetMouseButtonDown(0))
+            {
+                Archetype.BasicAttack.ActivateAbility();
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ((IDrawIndicator)Archetype.BasicAttack).DrawAbilityIndicator(Input.mousePosition);
+            }
+
+            //Make the player dash a short distance on spacebar press
+            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
+            {
+                var psemit = ps.emission;
+                psemit.enabled = true;
+                ps.Play();
             }
         }
 
@@ -63,14 +80,13 @@ namespace BossArena.game
 
         protected override void LateUpdate()
         {
-            if (IsOwner)
+            if (!IsOwner) return;
+
+            //Make the player dash a short distance on spacebar press
+            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
             {
-                if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-                //Make the player dash a short distance on spacebar press
-                {
-                    dash();
-                    dodgeCooldown = 90;
-                }
+                dash();
+                dodgeCooldown = 90;
             }
 
         }

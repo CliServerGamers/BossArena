@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Game.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace BossArena.game
             base.Start();
             getCamera();
         }
-        public abstract void DrawAbilityIndicator(Vector3 targetLocation);
+        //public abstract void DrawAbilityIndicator(Vector3 targetLocation);
 
         protected void getCamera()
         {
