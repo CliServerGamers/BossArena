@@ -39,7 +39,7 @@ namespace BossArena.game
         // Update is called once per frame
         protected override void Update()
         {
-            if (!IsOwner) return;
+            // if (!IsOwner) return;
 
             DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             if (Input.GetMouseButtonDown(0))

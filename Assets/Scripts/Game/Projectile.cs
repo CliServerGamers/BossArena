@@ -9,6 +9,16 @@ namespace BossArena.game
     {
         Vector2 projectileDestination;
 
+        protected override void FixedUpdate()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void LateUpdate()
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override void Update()
         {
             UnityEngine.Debug.Log("Moving");
