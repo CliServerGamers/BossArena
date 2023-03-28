@@ -16,15 +16,27 @@ namespace BossArena.game
         [SerializeField]
         private GameObject TauntPrefab;
 
+        private CircleCollider2D TauntPrefabCollider;
+
+        private bool basicActivated = false;
+
+        // Use for checking elapsed time while ulted.
+        private float timeStart;
+
         Vector3 currentMousePosition;
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
+            basicActivated = true;
+            timeStart = Time.time;
             ApplyEffect();
         }
 
         public override void ApplyEffect()
         {
+            // Get Collider
+            TauntPrefabCollider = TauntPrefab.transform.GetComponent<CircleCollider2D>();
+
             // Apply Taunt Debuff for each enemy in collider
         }
 
@@ -35,45 +47,66 @@ namespace BossArena.game
 
         protected override void Update()
         {
-            currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            TauntPrefab.transform.position = currentMousePosition;
+            // Every frame, check for cooldowns, set bool accordingly.
+            checkCooldown();
 
-            // Every Frame, check for Key: Q, Key Up or Key Down.
-            if (Input.GetKeyDown(KeyCode.Q))
+            // TODO: Given MousePosition, calculate bounds for this ability
+            currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+            TauntPrefab.transform.position = calculateBasicAbilityCursor();
+
+            UnityEngine.Debug.Log("BasicActivated: " + basicActivated);
+            // Ability NOT on cooldown.
+            if (basicActivated == false)
             {
-                DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-            } 
-            else if (Input.GetKeyUp(KeyCode.Q))
-            { 
-                // Apply Effect first, then deactivate it
-                ApplyEffect();
-                TauntPrefab.SetActive(false);
+                // Every Frame, check for Key: Q, Key Up or Key Down.
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+                }
+                else if (Input.GetKeyUp(KeyCode.Q))
+                {
+                    // Apply Effect first, then deactivate it
+                    ActivateAbility();
+                    TauntPrefab.SetActive(false);
+                }
             }
+
         }
 
         // Start is called before the first frame update
         void Start()
         {
+            timeStart = Time.time;
             TauntPrefab.SetActive(false);
         }
 
-        protected Vector3 calculateFocusCursor()
+        protected Vector3 calculateBasicAbilityCursor()
         {
             Vector3 playerPos = PlayerPrefab.transform.position;
 
             float angle = Mathf.Atan2(currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
 
-            float focusX = playerPos.x + Mathf.Cos(angle);
-            float focusY = playerPos.y + Mathf.Sin(angle);
+            float focusX = playerPos.x + Mathf.Cos(angle) * 3;
+            float focusY = playerPos.y + Mathf.Sin(angle) * 3;
 
-            Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
+            Vector3 BasicAbilityCursorPosition = new Vector3(focusX, focusY, 0f);
 
-            return focusCursorPosition;
+            return BasicAbilityCursorPosition;
         }
 
         private void OnDrawGizmos()
         {
 
+        }
+
+        public void checkCooldown()
+        {
+            if (Time.time - timeStart >= coolDownDelay * 2)
+            {
+                // Enough time has passed, set ultimatedActivated as off.
+                basicActivated = false;
+            }
         }
 
     }
