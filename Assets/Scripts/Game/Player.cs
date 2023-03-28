@@ -22,10 +22,10 @@ namespace BossArena.game
         //(That or i'm just dumb lol)
         public GameObject playerObj;
 
-        public Player(Archetype archetype) : base()
-        {
-            Archetype = archetype;
-        }
+        //public Player(Archetype archetype) : base()
+        //{
+        //    Archetype = archetype;
+        //}
 
         protected override void Start()
         {
@@ -39,17 +39,21 @@ namespace BossArena.game
 
         protected override void Update()
         {
-            horizVelocity = Input.GetAxisRaw("Horizontal");
-            vertVelocity = Input.GetAxisRaw("Vertical");
-            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-            //Make the player dash a short distance on spacebar press
+            if (IsOwner)
             {
-                var psemit = ps.emission;
-                psemit.enabled = true;
-                ps.Play();
+
+                horizVelocity = Input.GetAxisRaw("Horizontal");
+                vertVelocity = Input.GetAxisRaw("Vertical");
+                if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
+                //Make the player dash a short distance on spacebar press
+                {
+                    var psemit = ps.emission;
+                    psemit.enabled = true;
+                    ps.Play();
+                }
             }
         }
-        
+
         protected override void FixedUpdate()
         {
             //Actually moving the player by changing their rigidbody velocity
@@ -59,13 +63,16 @@ namespace BossArena.game
 
         protected override void LateUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-            //Make the player dash a short distance on spacebar press
+            if (IsOwner)
             {
-                dash();
-                dodgeCooldown = 90;
+                if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
+                //Make the player dash a short distance on spacebar press
+                {
+                    dash();
+                    dodgeCooldown = 90;
+                }
             }
-            
+
         }
 
         void dash()
@@ -75,12 +82,12 @@ namespace BossArena.game
 
         void timerCheck()
         {
-            if(dodgeCooldown > 0)
+            if (dodgeCooldown > 0)
             {
                 dodgeCooldown--;
             }
         }
-        
+
     }
 
 
