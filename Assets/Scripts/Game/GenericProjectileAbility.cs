@@ -30,8 +30,8 @@ namespace BossArena.game
             Vector3 focusCursor = calculateFocusCursor();
 
             Quaternion rot = new Quaternion();
-            rot.SetFromToRotation(new Vector3(focusCursor.x-PlayerPrefab.transform.position.x, focusCursor.y-PlayerPrefab.transform.position.y, 0.0f), currentMousePosition);
-
+            
+            rot.SetFromToRotation(focusCursor - PlayerPrefab.transform.position, mainCamera.ScreenToWorldPoint(Input.mousePosition) - PlayerPrefab.transform.position);
 
             // 2. Instantiate Projectile
             GameObject currentProjectile = Instantiate(projectilePrefab, focusCursor, rot);
@@ -80,6 +80,11 @@ namespace BossArena.game
             Vector3 focusCursor = calculateFocusCursor();
             drawFocusCursor(focusCursor);
             Gizmos.DrawLine(focusCursor, currentMousePosition);
+            Gizmos.DrawSphere(mainCamera.ScreenToWorldPoint(Input.mousePosition) - PlayerPrefab.transform.position, 0.5f);
+            Gizmos.color = new Color(0,0f, 1.0f, 1f);
+            Gizmos.DrawSphere(focusCursor - PlayerPrefab.transform.position, 0.5f);
+            Gizmos.color = new Color(0, 0f, 0.0f, 1f);
+            Gizmos.DrawSphere(mainCamera.ScreenToWorldPoint(Input.mousePosition), 0.5f);
         }
 
         protected Vector3 calculateFocusCursor()
