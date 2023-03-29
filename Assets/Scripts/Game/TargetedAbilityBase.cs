@@ -22,7 +22,7 @@ namespace BossArena.game
 
         // Need to have reference to Parent Player Prefab
         [SerializeField]
-        protected GameObject parentPlayer;
+        protected GameObject? parentPlayer;
 
         protected override void Start()
         {

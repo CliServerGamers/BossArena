@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,12 +13,16 @@ namespace BossArena.game
         //[SerializeField]
         //private GameObject PlayerPrefab;
 
+        // Need reference to AutoAttack Prefab
         [SerializeField]
         private GameObject AutoAttackPrefab;
 
         // Parent Player Prefab MUST have AutoAttackCollider Prefab\
         [SerializeField]
         private BoxCollider2D AUTOATTACK_COLLIDER;
+
+        // Use for checking elapsed time while ulted.
+        private bool autoActivated = false;
 
 
         Vector3 currentMousePosition;
@@ -28,9 +33,16 @@ namespace BossArena.game
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             base.Start();
             //PlayerPrefab = transform.parent.gameObject;
+            //// Get the Prefab holding the BoxCollider2D
+            //AUTOATTACK_COLLIDER = AutoAttackPrefab.transform.parent.transform.GetChild(0).GetComponent<BoxCollider2D>();
+            //AUTOATTACK_COLLIDER.enabled = false;
+
+            //mainCamera = Camera.main;
+
+
             // Get the Prefab holding the BoxCollider2D
-            AutoAttackPrefab = parentPlayer.transform.GetChild(0).gameObject;
-            AUTOATTACK_COLLIDER = parentPlayer.transform.GetChild(0).GetComponent<BoxCollider2D>();
+            AutoAttackPrefab = gameObject;
+            AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
         }
 
@@ -44,6 +56,17 @@ namespace BossArena.game
         // Update is called once per frame
         protected override void Update()
         {
+            // if (!IsOwner) return;
+            
+            checkCooldown();
+
+            //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+            //if (Input.GetMouseButtonDown(0))
+            //{
+                //Debug.Log("peepeepoopoo");
+                //ActivateAbility(Input.mousePosition);
+
+            //}
             //if (!IsOwner) return;
 
             //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
@@ -58,6 +81,7 @@ namespace BossArena.game
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
+            autoActivated = true;
             //ApplyWindUp
             ApplyEffect();
             //ApplyCooldown
@@ -66,6 +90,7 @@ namespace BossArena.game
 
         public override void ApplyEffect()
         {
+            //Play AutoAttack Animation
             AUTOATTACK_COLLIDER.enabled = true;
             //Delay for length of attack
             AUTOATTACK_COLLIDER.enabled = false;
@@ -109,7 +134,10 @@ namespace BossArena.game
         {
             /*Vector2 mousePosition = Input.mousePosition;
             UnityEngine.Debug.Log("MousePosition - X:" + mousePosition.x + "Y:" + mousePosition.y);*/
+            //Vector3 playerPos = AutoAttackPrefab.transform.parent.position;
+
             Vector3 playerPos = parentPlayer.transform.position;
+
 
             float angle = Mathf.Atan2(this.currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
 
@@ -134,10 +162,37 @@ namespace BossArena.game
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
+        
+         public void checkCooldown()
         {
+            if (Time.time - timeStart >= coolDownDelay)
+            {
+                // Enough time has passed, set ultimatedActivated as off.
+                autoActivated = false;
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (IsServer)
+            {
+                HandleCollision(collision);
+            }
+
             
         }
+
+        protected void HandleCollision(Collision2D collision)
+        {
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                if (monoBehaviour is IFriendly)
+                {
+                    Debug.Log("Hit friendly player");
+                }
+            }
+        }
+
     }
 }
