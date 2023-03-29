@@ -12,7 +12,7 @@ namespace BossArena.game
 
         // Need to have reference to Parent Player Prefab
         [SerializeField]
-        private GameObject PlayerPrefab;
+        private GameObject ultimatePrefab;
 
         private BoxCollider2D PlayerCollider;
         private bool ultimateActivated = false;
@@ -27,7 +27,7 @@ namespace BossArena.game
         public override void ApplyEffect()
         {
             //UnityEngine.Debug.Log("Ultimate Ability");
-            PlayerCollider = transform.GetComponent<BoxCollider2D>();
+            //PlayerCollider = ultimatePrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
             if (PlayerCollider.enabled == true)
             {
                 // Ult-ing
@@ -49,14 +49,16 @@ namespace BossArena.game
         protected override void Start()
         {
             timeStart = Time.time;
+            PlayerCollider = ultimatePrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
+            mainCamera=Camera.main;
         }
 
         protected override void Update()
         {
-            //UnityEngine.Debug.Log("TIMESTART: " + timeStart);
-            //UnityEngine.Debug.Log("UltimateActivated: " + ultimateActivated + "\n" +
-            //    "Current Time: " + Time.time + "\n" +
-            //    "timeStart: " + timeStart);
+            UnityEngine.Debug.Log("TIMESTART: " + timeStart);
+            UnityEngine.Debug.Log("UltimateActivated: " + ultimateActivated + "\n" +
+                "Current Time: " + Time.time + "\n" +
+                "timeStart: " + timeStart);
 
             checkUltimateCooldown();
 
@@ -69,7 +71,7 @@ namespace BossArena.game
 
         public bool checkUltimateCooldown()
         {
-            if (Time.time - timeStart >= coolDownDelay * 2)
+            if (Time.time - timeStart >= coolDownDelay)
             {
                 // Enough time has passed, set ultimatedActivated as off.
                 ultimateActivated = false;
