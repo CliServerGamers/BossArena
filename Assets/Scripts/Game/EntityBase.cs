@@ -42,5 +42,15 @@ namespace BossArena.game
             MaxHealth = health;
             CurrentHealth = health;
         }
+
+        protected void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (IsServer)
+            {
+                HandleCollision(collision);
+            }
+
+        }
+        protected abstract void HandleCollision(Collision2D collision);
     }
 }

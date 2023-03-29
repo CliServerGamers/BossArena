@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BossArena.game
@@ -32,12 +33,13 @@ namespace BossArena.game
 
         //}
 
-        private void OnTriggerEnter2D(Collider2D collision)
+       protected override void HandleCollision(Collision2D collision)
         {
-            if (!IsOwner) return;
+            Debug.Log($"{OwnerClientId}: Hit");
             IsAlive = false;
-            this.GetComponent<Collider>().enabled = false;
-            //Return to pool
+            this.GetComponent<Collider2D>().enabled = false;
+            Destroy(this);
+            //Return to Pool
         }
     }
 }
