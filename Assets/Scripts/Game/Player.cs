@@ -15,6 +15,10 @@ namespace BossArena.game
         private ParticleSystem ps;
         private float horizVelocity;
         private float vertVelocity;
+        private bool isAttacking;
+        private bool isAbiliting;
+        private bool isUlting;
+
         public int dodgeCooldown;
 
         [SerializeField]
@@ -103,6 +107,9 @@ namespace BossArena.game
 
             horizVelocity = Input.GetAxisRaw("Horizontal");
             vertVelocity = Input.GetAxisRaw("Vertical");
+            isAttacking = Input.GetAxisRaw("Fire1") != 0;
+            isAbiliting = Input.GetAxisRaw("Fire2") != 0;
+            isUlting = Input.GetAxisRaw("Fire1") != 0;
 
             if (BasicAttack is IDrawIndicator)
             {
@@ -110,16 +117,17 @@ namespace BossArena.game
             }
 
             //Ability Section
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetButtonDown("Fire1"))
             {
                 BasicAttack.ActivateAbility();
             }
 
-            if (Input.GetKey(KeyCode.E))
+            if (BasicAbility is IDrawIndicator && Input.GetButton("Fire2"))
             {
                 ((IDrawIndicator)BasicAbility).DrawAbilityIndicator(Input.mousePosition);
             }
-            if (Input.GetKeyUp(KeyCode.E))
+
+            if (Input.GetButtonUp("Fire2"))
             {
                 BasicAbility.ActivateAbility(Input.mousePosition);
             }
@@ -131,6 +139,12 @@ namespace BossArena.game
                 psemit.enabled = true;
                 ps.Play();
             }
+        }
+
+        [ServerRpc]
+        private void SendClientInputServerRpc()
+        {
+
         }
 
         protected override void FixedUpdate()
@@ -166,6 +180,17 @@ namespace BossArena.game
             }
         }
 
+        protected override void HandleCollision(Collision2D collision)
+        {
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                if (monoBehaviour is IHostile)
+                {
+                    Debug.Log($"{OwnerClientId}: Owie bad man touch me.");
+                }
+            }
+        }
     }
 
 

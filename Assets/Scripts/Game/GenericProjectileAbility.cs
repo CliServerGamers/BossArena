@@ -29,7 +29,7 @@ namespace BossArena.game
 
             Quaternion rot = new Quaternion();
 
-            rot.SetFromToRotation(focusCursor - parentPlayer.transform.position, mainCamera.ScreenToWorldPoint(Input.mousePosition) - parentPlayer.transform.position);
+            rot.SetFromToRotation(focusCursor - parentPlayer.transform.position, mainCamera.ScreenToWorldPoint(mosPos.Value) - parentPlayer.transform.position);
 
             // 2. Instantiate Projectile
             if (IsServer)
@@ -37,7 +37,7 @@ namespace BossArena.game
 
                 spawnProjectile(focusCursor, rot);
             }
-            else
+            else if (IsOwner)
             {
                 spawnProjectileServerRpc(focusCursor, rot);
             }
@@ -52,7 +52,7 @@ namespace BossArena.game
             currentProjectile.GetComponent<NetworkObject>().Spawn();
         }
 
-        [ServerRpc(RequireOwnership = false)]
+        [ServerRpc]
         private void spawnProjectileServerRpc(Vector3 focusCursor, Quaternion rot)
         {
             spawnProjectile(focusCursor, rot);

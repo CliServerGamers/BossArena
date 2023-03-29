@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -90,6 +91,7 @@ namespace BossArena.game
 
         public override void ApplyEffect()
         {
+            //Play AutoAttack Animation
             AUTOATTACK_COLLIDER.enabled = true;
             //Delay for length of attack
             AUTOATTACK_COLLIDER.enabled = false;
@@ -161,9 +163,8 @@ namespace BossArena.game
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }
-
-
-        public void checkCooldown()
+        
+         public void checkCooldown()
         {
             if (Time.time - timeStart >= coolDownDelay)
             {
@@ -172,9 +173,26 @@ namespace BossArena.game
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (IsServer)
+            {
+                HandleCollision(collision);
+            }
+
             
+        }
+
+        protected void HandleCollision(Collision2D collision)
+        {
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                if (monoBehaviour is IFriendly)
+                {
+                    Debug.Log("Hit friendly player");
+                }
+            }
         }
 
     }
