@@ -21,18 +21,18 @@ namespace BossArena.game
         private bool basicActivated = false;
         private bool withinTauntRange = false;
 
-        // Use for checking elapsed time while ulted.
-        private float timeStart;
-
         Vector3 currentMousePosition;
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
-            basicActivated = true;
+            TauntPrefabSpriteRenderer.enabled = false;
+            if (onCoolDown)
+                return;
+            onCoolDown = true;
             timeStart = Time.time;
             ApplyEffect();
+            TauntPrefabCollider.enabled = true;
             TauntPrefabCollider.enabled = false;
-            TauntPrefabSpriteRenderer.enabled = false;
         }
 
         public override void ApplyEffect()
@@ -48,7 +48,7 @@ namespace BossArena.game
             currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
             // Check MousePosition distance from Player for TauntRange
-            if (Vector2.Distance(currentMousePosition, TauntPrefab.transform.parent.transform.position) < range)
+            if (Vector2.Distance(currentMousePosition, parentPlayer.transform.position) < range)
             {
                 withinTauntRange = true;
             }
@@ -58,7 +58,7 @@ namespace BossArena.game
             }
 
             TauntPrefab.transform.position = calculateBasicAbilityCursor();
-            TauntPrefabCollider.enabled = true;
+            
             TauntPrefabSpriteRenderer.enabled = true;
             //TauntPrefab.SetActive(true);
         }
@@ -71,7 +71,7 @@ namespace BossArena.game
             // Every frame, check for cooldowns, set bool accordingly.
             checkCooldown();
 
-            
+
 
             // Every Frame, check for Key: Q, Key Up or Key Down.
             //if (Input.GetKeyDown(KeyCode.Q) && basicActivated == false)
@@ -86,7 +86,7 @@ namespace BossArena.game
             //    //TauntPrefabSpriteRenderer.enabled = false;
             //    //TauntPrefab.SetActive(false);
             //}
-            
+
 
         }
 
@@ -99,10 +99,10 @@ namespace BossArena.game
             mainCamera = Camera.main;
 
             // Get Collider
-            TauntPrefabCollider = TauntPrefab.transform.GetComponent<CircleCollider2D>();
+            TauntPrefabCollider = GetComponent<CircleCollider2D>();
 
             // Get SpriteRenderer
-            TauntPrefabSpriteRenderer = TauntPrefab.transform.GetComponent<SpriteRenderer>();
+            TauntPrefabSpriteRenderer = GetComponent<SpriteRenderer>();
 
             // Initially Disable
             TauntPrefabCollider.enabled = false;
@@ -113,7 +113,7 @@ namespace BossArena.game
 
         protected Vector3 calculateBasicAbilityCursor()
         {
-            Vector3 playerPos = TauntPrefab.transform.parent.transform.position;
+            Vector3 playerPos = parentPlayer.transform.position;
 
             Vector3 cursorPosition = currentMousePosition;
             cursorPosition.z = 1f;
@@ -138,8 +138,8 @@ namespace BossArena.game
 
                 //UnityEngine.Debug.Log("Transform Position: " + playerPos);
 
-                float focusX = playerPos.x + Mathf.Cos(angle)*range;
-                float focusY = playerPos.y + Mathf.Sin(angle)*range;
+                float focusX = playerPos.x + Mathf.Cos(angle) * range;
+                float focusY = playerPos.y + Mathf.Sin(angle) * range;
 
                 Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
                 //UnityEngine.Debug.Log(focusCursorPosition);
@@ -156,14 +156,7 @@ namespace BossArena.game
 
         }
 
-        public void checkCooldown()
-        {
-            if (Time.time - timeStart >= coolDownDelay)
-            {
-                // Enough time has passed, set ultimatedActivated as off.
-                basicActivated = false;
-            }
-        }
+
 
     }
 }

@@ -132,6 +132,16 @@ namespace BossArena.game
                 BasicAbility.ActivateAbility(Input.mousePosition);
             }
 
+            if (UltimateAbility is IDrawIndicator && Input.GetButton("Fire3"))
+            {
+                ((IDrawIndicator) UltimateAbility).DrawAbilityIndicator(Input.mousePosition);
+            }
+
+            if (Input.GetButtonUp("Fire3"))
+            {
+                UltimateAbility.ActivateAbility(Input.mousePosition);
+            }
+
             //Make the player dash a short distance on spacebar press
             if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
             {

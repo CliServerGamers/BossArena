@@ -132,10 +132,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 0
+  coolDownDelay: 5000
   range: 4
   onCoolDown: 0
+  timeStart: 0
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
+  parentPlayer: {fileID: 0}
   TauntPrefab: {fileID: 7986055475673144722}
