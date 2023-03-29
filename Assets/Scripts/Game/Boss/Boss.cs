@@ -15,6 +15,9 @@ namespace BossArena.game
         [SerializeField]
         private GameObject shadow;
 
+        [SerializeField]
+        private GameObject eod;
+
         public static float speed = 5f;
 
         private Node _root = null;
@@ -32,13 +35,14 @@ namespace BossArena.game
         protected override void Start()
         {
             base.Start();
+            shadow.gameObject.transform.position = new Vector3(shadow.transform.position.x, shadow.transform.position.y, 3);
         }
 
         protected override Node SetupTree()
         {
             _root = new SequenceNode(new List<Node>
             {
-                new JumpAttack(this, shadow)
+                new JumpAttack(this.gameObject, eod, shadow)
             });
 
             return _root;

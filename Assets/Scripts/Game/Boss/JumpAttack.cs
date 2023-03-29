@@ -1,107 +1,112 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
+using Assets.Scripts.Game.Boss;
+using BossArena.game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Netcode;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using BossArena.game;
-using System.Runtime.ConstrainedExecution;
-using System.Threading;
-using Unity.VisualScripting;
+
+using Node = Assets.Scripts.Game.BehaviorTree.Node;
 
 namespace BossArena.game
 {
-    public class JumpAttack: Node
+    public class JumpAttack : Node
     {
+        private enum JumpState
+        {
+            DEFAULT, START, UPWARDS, DIVE, LANDED
+        }
+        private JumpState jumpState;
+
+        private const float diveSpeed = 100.0f;
         private const float totalJumpTime = 5.0f;
-        private float jumpTime;
+        private const float totalIdleTime = 2.0f;
         private const float shadowOffset = 2.0f;
         private const int maxHeight = 10;
-        private bool isShadowSpawned;
+        private float jumpTime;
+        private float idleTime;
+        private bool isEodSpawned;
+        private bool isShadowEnabled;
         private float originalJumpY;
-        private bool isJumping = false;
-        private bool isJumpCountDownRunning = false;
 
-        private GameObject player; 
+        // player that is being targeted: TODO: Change this so that it is set in a decorator node and fecthed from that node in this one
+        private GameObject player;
+
+        // used to Instantiate and Destroy shadow prefabs
         private GameObject shadowPrefab;
+
+        private GameObject eod;
+
+        // the current shadow gameobject
         private GameObject shadow;
+
+        private GameObject boss;
+
         private Transform bossTransform;
- 
-        public JumpAttack(Boss boss, GameObject shadow) {
-            this.bossTransform = boss.transform;
-            this.shadowPrefab = shadow;
-            this.isShadowSpawned = false;
+
+        public JumpAttack(GameObject boss, GameObject eod, GameObject shadow)
+        {
             this.player = GameObject.Find("PlayerPrefab(Clone)");
+            this.boss = boss;
+            this.bossTransform = this.boss.transform;
+            this.isShadowEnabled = false;
+            this.eod = eod;
+            this.isEodSpawned = false;
+            this.shadowPrefab = shadow;
+            jumpState = JumpState.START;
         }
+        
 
         public override NodeState Evaluate()
         {
-            // set up for jump
-            if (!isJumping)
+            switch (jumpState)
             {
-                SetupJump();
-            } 
-            
-            // move the boss up to its jump height location if the jump count down is running and if its not there yet
-            // if the jump timer is running still, keep running down the clock
-            if (isJumpCountDownRunning)
-            {
-                MoveBossToJumpHeightLocation();
-                RunCountDown();
-            }
+                case JumpState.START:
+                    SetupJump();
+                    break;
+                case JumpState.UPWARDS:
+                    MoveBossToJumpHeightLocation();
+                    RunCountDown();
+                    MoveShadow();
+                    break;
+                case JumpState.DIVE:
+                    MoveToward(bossTransform, shadow.transform, diveSpeed);
 
-            // drop the boss from the sky and have it fall onto it's shadow
-            if (!isJumpCountDownRunning)
-            {
-                const float diveSpeed = 100f;
-                MoveToward(bossTransform, shadow.transform, diveSpeed);
-
-                // finish the jump if the boss is close enough to its shadow
-                if (Vector3.Distance(shadow.transform.position, bossTransform.position) < 0.2f)
-                {
-                    FinishJump();
-                    state = NodeState.SUCCESS;
+                    // finish the dive if the boss is close enough to its shadow
+                    if (Vector3.Distance(shadow.transform.position, bossTransform.position) < 0.2f)
+                    {
+                        boss.transform.position = shadow.transform.position;
+                        FinishJump();
+                    }
+                    break;
+                case JumpState.LANDED:
+                    if (!isEodSpawned)
+                    {
+                        SpawnEOD();
+                        isEodSpawned = true;
+                    }
+                    RunIdleCountDown();
                     return state;
-                }
+                default:
+                    return state;
             }
-
-            if (jumpTime >= 0.5 && isShadowSpawned)
-            {
-                // have shadow target and follow the player
-                const float shadowSpeed = 100;
-                MoveToward(shadow.transform, player.transform, shadowSpeed);
-            }
-
-            // check to see if we should spawn the shadow
-            if (!isShadowSpawned && IsOffScreen())
-            {
-                shadow = Boss.Instantiate(shadowPrefab, Vector3.zero, Quaternion.identity);
-                Debug.Log("Shadow here");
-                isShadowSpawned = true;
-            }
-            
             state = NodeState.RUNNING;
-            return state;
+            return NodeState.RUNNING;
         }
 
         private void SetupJump()
         {
-            isJumping = true;
-            isJumpCountDownRunning = true;
             BoxCollider2D bossCollider = bossTransform.GetComponent<BoxCollider2D>();
             bossCollider.enabled = false;
             jumpTime = totalJumpTime;
+            idleTime = totalIdleTime;
             originalJumpY = bossTransform.position.y;
-        }
-
-        private void FinishJump()
-        {
-            BoxCollider2D bossCollider = bossTransform.GetComponent<BoxCollider2D>();
-            bossCollider.enabled = true;
-            isJumping = false;
-            isShadowSpawned = false;
-            Boss.Destroy(shadow);
+            isEodSpawned = false;
+            jumpState = JumpState.UPWARDS;
         }
 
         private void MoveBossToJumpHeightLocation()
@@ -114,19 +119,59 @@ namespace BossArena.game
             }
         }
 
-        private void MoveToward(Transform follower, Transform target, float speed)
-        {
-            follower.position = Vector3.MoveTowards(follower.position, target.position, speed * Time.deltaTime);
-        }
-
         private void RunCountDown()
         {
             jumpTime -= Time.deltaTime;
-
             if (jumpTime <= 0)
             {
-                isJumpCountDownRunning = false;
+                jumpState = JumpState.DIVE;
             }
+        }
+
+        private void RunIdleCountDown()
+        {
+            idleTime -= Time.deltaTime;
+            if (idleTime <= 0)
+            {
+                jumpState = JumpState.START;
+                state = NodeState.SUCCESS;
+            }
+        }
+
+        private void MoveShadow()
+        {
+            if (!isShadowEnabled && IsOffScreen())
+            {
+                shadow = Boss.Instantiate(shadowPrefab, Vector3.zero, Quaternion.identity);
+                Debug.Log("Shadow here");
+                isShadowEnabled = true;
+            }
+
+            if (jumpTime >= 0.25f && isShadowEnabled)
+            {
+                // have shadow target and follow the player
+                const float shadowSpeed = 100;
+                MoveToward(shadow.transform, player.transform, shadowSpeed);
+            }
+        }
+
+        private void FinishJump()
+        {
+            BoxCollider2D bossCollider = bossTransform.GetComponent<BoxCollider2D>();
+            bossCollider.enabled = true;
+            Boss.Destroy(shadow);
+            jumpState = JumpState.LANDED;
+            isShadowEnabled = false;
+        }
+
+        private void SpawnEOD()
+        {
+            Boss.Instantiate(eod, bossTransform.position, Quaternion.identity);
+        }
+
+        private void MoveToward(Transform follower, Transform target, float speed)
+        {
+            follower.position = Vector3.MoveTowards(follower.position, target.position, speed * Time.deltaTime);
         }
 
         private bool IsOffScreen()
