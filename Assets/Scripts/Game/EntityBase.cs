@@ -45,11 +45,7 @@ namespace BossArena.game
 
         protected void OnCollisionEnter2D(Collision2D collision)
         {
-            if (IsServer)
-            {
-                HandleCollision(collision);
-            }
-
+            HandleCollision(collision);
         }
         protected abstract void HandleCollision(Collision2D collision);
     }

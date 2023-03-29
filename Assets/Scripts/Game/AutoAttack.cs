@@ -67,6 +67,7 @@ namespace BossArena.game
 
         public override void ApplyEffect()
         {
+            //Play AutoAttack Animation
             AUTOATTACK_COLLIDER.enabled = true;
             //Delay for length of attack
             AUTOATTACK_COLLIDER.enabled = false;
