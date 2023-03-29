@@ -31,6 +31,8 @@ namespace BossArena.game
             basicActivated = true;
             timeStart = Time.time;
             ApplyEffect();
+            TauntPrefabCollider.enabled = false;
+            TauntPrefabSpriteRenderer.enabled = false;
         }
 
         public override void ApplyEffect()
@@ -42,6 +44,20 @@ namespace BossArena.game
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
         {
+            // Update MousePosition
+            currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+            // Check MousePosition distance from Player for TauntRange
+            if (Vector2.Distance(currentMousePosition, TauntPrefab.transform.parent.transform.position) < range)
+            {
+                withinTauntRange = true;
+            }
+            else
+            {
+                withinTauntRange = false;
+            }
+
+            TauntPrefab.transform.position = calculateBasicAbilityCursor();
             TauntPrefabCollider.enabled = true;
             TauntPrefabSpriteRenderer.enabled = true;
             //TauntPrefab.SetActive(true);
@@ -55,33 +71,21 @@ namespace BossArena.game
             // Every frame, check for cooldowns, set bool accordingly.
             checkCooldown();
 
-            // Update MousePosition
-            currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-
-            // Check MousePosition distance from Player for TauntRange
-            if (Vector2.Distance(currentMousePosition, TauntPrefab.transform.parent.transform.position) < range)
-            {
-                withinTauntRange = true;
-            } else
-            {
-                withinTauntRange = false;
-            }
-
-            TauntPrefab.transform.position = calculateBasicAbilityCursor();
+            
 
             // Every Frame, check for Key: Q, Key Up or Key Down.
-            if (Input.GetKeyDown(KeyCode.Q) && basicActivated == false)
-            {
-                DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-            }
-            else if (Input.GetKeyUp(KeyCode.Q) && basicActivated == false)
-            {
-                // Apply Effect first, then deactivate it
-                ActivateAbility();
-                TauntPrefabCollider.enabled = false;
-                TauntPrefabSpriteRenderer.enabled = false;
-                //TauntPrefab.SetActive(false);
-            }
+            //if (Input.GetKeyDown(KeyCode.Q) && basicActivated == false)
+            //{
+            //    DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+            //}
+            //else if (Input.GetKeyUp(KeyCode.Q) && basicActivated == false)
+            //{
+            //    // Apply Effect first, then deactivate it
+            //    ActivateAbility();
+            //    //TauntPrefabCollider.enabled = false;
+            //    //TauntPrefabSpriteRenderer.enabled = false;
+            //    //TauntPrefab.SetActive(false);
+            //}
             
 
         }
