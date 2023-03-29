@@ -15,10 +15,10 @@ namespace BossArena.game
         // Need to have reference to Taunt Prefab
         [SerializeField]
         private GameObject TauntPrefab;
-
         private CircleCollider2D TauntPrefabCollider;
 
         private bool basicActivated = false;
+        private bool withinTauntRange = false;
 
         // Use for checking elapsed time while ulted.
         private float timeStart;
@@ -50,12 +50,19 @@ namespace BossArena.game
             // Every frame, check for cooldowns, set bool accordingly.
             checkCooldown();
 
-            // TODO: Given MousePosition, calculate bounds for this ability
+            // Update MousePosition
             currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-            TauntPrefab.transform.position = calculateBasicAbilityCursor();
+            // Check MousePosition distance from Player for TauntRange
+            if (Vector2.Distance(currentMousePosition, PlayerPrefab.transform.position) < range)
+            {
+                withinTauntRange = true;
+            } else
+            {
+                withinTauntRange = false;
+            }
 
-            UnityEngine.Debug.Log("BasicActivated: " + basicActivated);
+            TauntPrefab.transform.position = calculateBasicAbilityCursor();
 
             // Every Frame, check for Key: Q, Key Up or Key Down.
             if (Input.GetKeyDown(KeyCode.Q) && basicActivated == false)
@@ -73,7 +80,7 @@ namespace BossArena.game
         }
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
             timeStart = Time.time;
             TauntPrefab.SetActive(false);
@@ -83,14 +90,40 @@ namespace BossArena.game
         {
             Vector3 playerPos = PlayerPrefab.transform.position;
 
-            float angle = Mathf.Atan2(currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
+            Vector3 cursorPosition = currentMousePosition;
+            cursorPosition.z = 1f;
 
-            float focusX = playerPos.x + Mathf.Cos(angle) * 3;
-            float focusY = playerPos.y + Mathf.Sin(angle) * 3;
+            UnityEngine.Debug.Log("withinTauntRange: " + withinTauntRange);
 
-            Vector3 BasicAbilityCursorPosition = new Vector3(focusX, focusY, 0f);
+            // Mouse Cursor not in Ability Range
+            if (!withinTauntRange)
+            {
+                //float dx = cursorPosition.x - playerPos.x;
+                //float dy = cursorPosition.y - playerPos.y;
 
-            return BasicAbilityCursorPosition;
+                //float angle = Mathf.Atan2(dy, dx);
+
+                //float dxx = (radius - TauntPrefab.transform.localScale.x) * Mathf.Cos(angle);
+                //float dyy = (radius - TauntPrefab.transform.localScale.y) * Mathf.Sin(angle);
+
+                //cursorPosition.x = playerPos.x + dxx;
+                //cursorPosition.y = playerPos.y + dyy;
+
+                float angle = Mathf.Atan2(this.currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
+
+                //UnityEngine.Debug.Log("Transform Position: " + playerPos);
+
+                float focusX = playerPos.x + Mathf.Cos(angle)*range;
+                float focusY = playerPos.y + Mathf.Sin(angle)*range;
+
+                Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
+                //UnityEngine.Debug.Log(focusCursorPosition);
+
+                return focusCursorPosition;
+
+            }
+            return cursorPosition;
+
         }
 
         private void OnDrawGizmos()

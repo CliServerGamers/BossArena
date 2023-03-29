@@ -26,7 +26,7 @@ namespace BossArena.game
 
         public override void ApplyEffect()
         {
-            UnityEngine.Debug.Log("Ultimate Ability");
+            //UnityEngine.Debug.Log("Ultimate Ability");
             PlayerCollider = transform.GetComponent<BoxCollider2D>();
             if (PlayerCollider.enabled == true)
             {
@@ -53,16 +53,16 @@ namespace BossArena.game
 
         protected override void Update()
         {
-            UnityEngine.Debug.Log("TIMESTART: " + timeStart);
-            UnityEngine.Debug.Log("UltimateActivated: " + ultimateActivated + "\n" +
-                "Current Time: " + Time.time + "\n" +
-                "timeStart: " + timeStart);
+            //UnityEngine.Debug.Log("TIMESTART: " + timeStart);
+            //UnityEngine.Debug.Log("UltimateActivated: " + ultimateActivated + "\n" +
+            //    "Current Time: " + Time.time + "\n" +
+            //    "timeStart: " + timeStart);
 
             checkUltimateCooldown();
 
             if (Input.GetKeyDown(KeyCode.E) && ultimateActivated==false)
             {
-                UnityEngine.Debug.Log("Ultimate Ability");
+                //UnityEngine.Debug.Log("Ultimate Ability");
                 ActivateAbility();
             }
         }
