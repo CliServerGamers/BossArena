@@ -16,6 +16,7 @@ namespace BossArena.game
         [SerializeField]
         private GameObject TauntPrefab;
         private CircleCollider2D TauntPrefabCollider;
+        private SpriteRenderer TauntPrefabSpriteRenderer;
 
         private bool basicActivated = false;
         private bool withinTauntRange = false;
@@ -35,18 +36,22 @@ namespace BossArena.game
         public override void ApplyEffect()
         {
             // Get Collider
-            TauntPrefabCollider = TauntPrefab.transform.GetComponent<CircleCollider2D>();
 
             // Apply Taunt Debuff for each enemy in collider
         }
 
         public override void DrawAbilityIndicator(Vector3 targetLocation)
         {
-            TauntPrefab.SetActive(true);
+            TauntPrefabCollider.enabled = true;
+            TauntPrefabSpriteRenderer.enabled = true;
+            //TauntPrefab.SetActive(true);
         }
 
         protected override void Update()
         {
+
+            //UnityEngine.Debug.Log("HELLLLL");
+
             // Every frame, check for cooldowns, set bool accordingly.
             checkCooldown();
 
@@ -73,7 +78,9 @@ namespace BossArena.game
             {
                 // Apply Effect first, then deactivate it
                 ActivateAbility();
-                TauntPrefab.SetActive(false);
+                TauntPrefabCollider.enabled = false;
+                TauntPrefabSpriteRenderer.enabled = false;
+                //TauntPrefab.SetActive(false);
             }
             
 
@@ -83,7 +90,18 @@ namespace BossArena.game
         protected override void Start()
         {
             timeStart = Time.time;
-            TauntPrefab.SetActive(false);
+
+            // Get Collider
+            TauntPrefabCollider = TauntPrefab.transform.GetComponent<CircleCollider2D>();
+
+            // Get SpriteRenderer
+            TauntPrefabSpriteRenderer = TauntPrefab.transform.GetComponent<SpriteRenderer>();
+
+            // Initially Disable
+            TauntPrefabCollider.enabled = false;
+            TauntPrefabSpriteRenderer.enabled = false;
+
+            //TauntPrefab.SetActive(false);
         }
 
         protected Vector3 calculateBasicAbilityCursor()
