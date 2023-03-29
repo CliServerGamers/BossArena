@@ -22,7 +22,6 @@ namespace BossArena.game
         private BoxCollider2D AUTOATTACK_COLLIDER;
 
         // Use for checking elapsed time while ulted.
-        private float timeStart;
         private bool autoActivated = false;
 
 
@@ -42,8 +41,8 @@ namespace BossArena.game
 
 
             // Get the Prefab holding the BoxCollider2D
-            AutoAttackPrefab = parentPlayer.transform.GetChild(0).gameObject;
-            AUTOATTACK_COLLIDER = parentPlayer.transform.GetChild(0).GetComponent<BoxCollider2D>();
+            AutoAttackPrefab = gameObject;
+            AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
         }
 
@@ -58,7 +57,7 @@ namespace BossArena.game
         protected override void Update()
         {
             // if (!IsOwner) return;
-
+            
             checkCooldown();
 
             //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
