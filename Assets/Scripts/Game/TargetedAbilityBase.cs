@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    abstract class TargetedAbilityBase : AbilityBase
+    public abstract class TargetedAbilityBase : AbilityBase
     {
         // Need to have reference to Camera.
         [SerializeField]

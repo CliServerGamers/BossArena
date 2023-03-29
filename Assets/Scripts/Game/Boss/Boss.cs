@@ -11,12 +11,11 @@ namespace BossArena.game
 
     public class Boss : Enemy
     {
-
-        [SerializeField]
-        private GameObject shadow;
+        public static int MAX_BOSS_HEALTH = 1000;
 
         public static float speed = 5f;
 
+        [SerializeField]
         private Node _root = null;
 
         protected override void FixedUpdate()
@@ -32,16 +31,18 @@ namespace BossArena.game
         protected override void Start()
         {
             base.Start();
+            SetHealth(MAX_BOSS_HEALTH);
+            _root.boss = this.gameObject;
         }
 
         protected override Node SetupTree()
         {
-            _root = new SequenceNode(new List<Node>
-            {
-                new JumpAttack(this, shadow)
-            });
-
             return _root;
+
+/*            _root = new SequenceNode(new List<Node>
+            {
+                new Node()
+            });*/
         }
 
     }

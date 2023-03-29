@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BossArena.game
@@ -11,8 +12,8 @@ namespace BossArena.game
     public abstract class EntityBase : NetworkBehaviour
     {
         [SerializeField]
-        public int MaxHealth { get; protected set; }
-        public int CurrentHealth { get; set; }
+        public float MaxHealth { get; protected set; }
+        public float CurrentHealth { get; set; }
         public bool IsAlive { get; protected set; }
 
         public EntityState State { get; set; }
@@ -37,10 +38,11 @@ namespace BossArena.game
 
         protected abstract void LateUpdate();
 
-        protected void SetHealth(int health)
+        protected void SetHealth(float health)
         {
             MaxHealth = health;
             CurrentHealth = health;
         }
+
     }
 }

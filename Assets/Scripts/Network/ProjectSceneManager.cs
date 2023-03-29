@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using BossArena.game;
+using UnityEditor;
 
 namespace BossArena
 {
@@ -131,10 +132,26 @@ namespace BossArena
         private void processSceneByName(SceneEvent sceneEvent)
         {
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
-            if (sceneEvent.SceneName == testScene || sceneEvent.SceneName == "BossTestScene")
+            if (sceneEvent.SceneName == "BossTestScene")
             {
                 if (IsServer)
                 {
+                    string path = "Assets/Prefabs/Boss.prefab";
+                    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    Instantiate(prefab);
+                    spawnPlayer(sceneEvent.ClientId);
+                }
+                else
+                {
+                    spawnPlayerServerRPC(sceneEvent.ClientId);
+                }
+                return;
+            }
+            if (sceneEvent.SceneName == testScene)
+            {
+                if (IsServer)
+                {
+                    
                     spawnPlayer(sceneEvent.ClientId);
                 }
                 else

@@ -27,8 +27,6 @@ namespace BossArena.game
         // no object that extends entity should be able to override this method as it takes care of running the tree
         protected override sealed void Update()
         {
-            // flag for server or client
-            // only do all the things on the server 
             _root?.Evaluate();
         }
 

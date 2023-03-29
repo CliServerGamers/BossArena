@@ -49,6 +49,8 @@ namespace BossArena.game
                 psemit.enabled = true;
                 ps.Play();
             }
+
+            Debug.Log(this.CurrentHealth);
         }
         
         protected override void FixedUpdate()

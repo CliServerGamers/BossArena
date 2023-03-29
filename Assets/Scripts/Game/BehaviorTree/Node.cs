@@ -1,9 +1,14 @@
-﻿using BossArena.game;
+﻿using Assets.Scripts.Game.Boss;
+using BossArena.game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Netcode;
+using UnityEditor.PackageManager;
+using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace Assets.Scripts.Game.BehaviorTree
 {
@@ -14,9 +19,16 @@ namespace Assets.Scripts.Game.BehaviorTree
         FAILURE
     }
 
-    public class Node
+    [CreateAssetMenu]
+    public class Node : ScriptableObject
     {
-        protected AbilityBase ability;
+
+        [SerializeField]
+        protected GameObject ability;
+
+        [SerializeField]
+        public GameObject boss;
+
         protected NodeState state;
         public Node parent;
         protected List<Node> children;
@@ -24,11 +36,19 @@ namespace Assets.Scripts.Game.BehaviorTree
 
         public Node()
         {
+            GameObject basicAttack = Instantiate(ability);
+            basicAttack.GetComponent<NetworkObject>().Spawn();
+            basicAttack.transform.SetParent(boss.transform, false);
+            basicAttack.GetComponent<IBossAbility>().InitializeNode(this);
             children = new List<Node>();
             parent = null;
         }
 
         public Node(List<Node> children) {
+            GameObject basicAttack = Instantiate(ability);
+            basicAttack.GetComponent<NetworkObject>().Spawn();
+            basicAttack.transform.SetParent(boss.transform, false);
+            basicAttack.GetComponent<IBossAbility>().InitializeNode(this);
             this.children = new List<Node>();
             foreach (Node child in children)
             {
@@ -42,7 +62,12 @@ namespace Assets.Scripts.Game.BehaviorTree
             children.Add(node);
         }
 
-        public virtual NodeState Evaluate() => NodeState.FAILURE;
+        public virtual NodeState Evaluate()
+        {
+            IBossAbility abilityComponent = ability.GetComponent<IBossAbility>();
+            state = abilityComponent.RunAbility();
+            return state;
+        }
 
         public void SetData(string key, object value)
         {
