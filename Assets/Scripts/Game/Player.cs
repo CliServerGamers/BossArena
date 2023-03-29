@@ -21,7 +21,7 @@ namespace BossArena.game
         public Archetype Archetype;
         public AbilityBase BasicAttack;
         public AbilityBase BasicAbility;
-        //public AbilityBase UltimateAbility;
+        public AbilityBase UltimateAbility;
 
         //Since this isn't a monobehaviour, we can't simply use gameObject to reference the attached gameobject
         //So we kinda have to do this
@@ -51,28 +51,33 @@ namespace BossArena.game
                 spawnAbilities(clientId);
             }
 
+            
+        }
+
+        [ClientRpc]
+        private void setAbilitiesClientRPC()
+        {
+            setAbilities();
+        }
+
+        private void setAbilities()
+        {
             BasicAttack = transform.GetChild(0).GetComponent<AbilityBase>();
             BasicAbility = transform.GetChild(1).GetComponent<AbilityBase>();
-            //UltimateAbility =  transform.GetChild(3).GetComponent<AbilityBase>();
+            UltimateAbility = transform.GetChild(2).GetComponent<AbilityBase>();
 
             if (BasicAttack is TargetedAbilityBase)
             {
-                ((TargetedAbilityBase)BasicAttack).SetParent(gameObject);
+                ((TargetedAbilityBase) BasicAttack).SetParent(gameObject);
             }
             if (BasicAbility is TargetedAbilityBase)
             {
-                ((TargetedAbilityBase)BasicAbility).SetParent(gameObject);
+                ((TargetedAbilityBase) BasicAbility).SetParent(gameObject);
             }
-            //if (Archetype.UltimateAbility is TargetedAbilityBase)
-            //{
-            //    ((TargetedAbilityBase)UltimateAbility).SetParent(gameObject);
-            //} 
-        }
-
-        [ServerRpc]
-        private void spawnAbilitiesServerRPC(ulong clientId)
-        {
-            spawnAbilities(clientId);
+            if (UltimateAbility is TargetedAbilityBase)
+            {
+                ((TargetedAbilityBase) UltimateAbility).SetParent(gameObject);
+            }
         }
 
         private void spawnAbilities(ulong clientId)
@@ -85,9 +90,10 @@ namespace BossArena.game
             basicAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             basicAbility.transform.SetParent(transform, false);
 
-            //GameObject ultimateAbility = (GameObject)Instantiate(Archetype.UltimateAbility, transform.position, playerObj.transform.rotation);
-            //ultimateAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
-            //ultimateAbility.transform.SetParent(transform, false);
+            GameObject ultimateAbility = (GameObject) Instantiate(Archetype.UltimateAbility, transform.position, playerObj.transform.rotation);
+            ultimateAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+            ultimateAbility.transform.SetParent(transform, false);
+            setAbilitiesClientRPC();
         }
 
         protected override void Update()

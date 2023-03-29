@@ -7,7 +7,7 @@ namespace BossArena.game
     /// <summary>
     /// This script must be a componenet of "TankPrefab".
     /// </summary>
-    class TankUltimateAbility : TargetedAbilityBase
+    class TankUltimateAbility : TargetedAbilityBase, IDrawIndicator
     {
 
         // Need to have reference to Parent Player Prefab
@@ -40,7 +40,7 @@ namespace BossArena.game
             }
         }
 
-        public override void DrawAbilityIndicator(Vector3 targetLocation)
+        public void DrawAbilityIndicator(Vector3 targetLocation)
         {
             throw new System.NotImplementedException();
         }

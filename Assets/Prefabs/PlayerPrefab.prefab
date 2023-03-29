@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMoveSpeed: 5
   dodgeCooldown: 0
-  Archetype: {fileID: 11400000, guid: 1ad52b70ac0b6e544a389338170f1d2f, type: 2}
+  Archetype: {fileID: 11400000, guid: 8a4c032443357984c83e5944a7a6b6cf, type: 2}
   BasicAttack: {fileID: 0}
   BasicAbility: {fileID: 0}
   playerObj: {fileID: 3819106736952998509}

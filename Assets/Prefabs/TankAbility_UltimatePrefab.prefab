@@ -52,6 +52,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
+  parentPlayer: {fileID: 0}
   ultimatePrefab: {fileID: 6919458306558213587}
 --- !u!114 &6919458306558213550
 MonoBehaviour:

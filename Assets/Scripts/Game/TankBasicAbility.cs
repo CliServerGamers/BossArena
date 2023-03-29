@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    class TankBasicAbility : TargetedAbilityBase
+    class TankBasicAbility : TargetedAbilityBase, IDrawIndicator
     {
 
         // Need to have reference to Parent Player Prefab
@@ -40,7 +40,7 @@ namespace BossArena.game
             // Apply Taunt Debuff for each enemy in collider
         }
 
-        public override void DrawAbilityIndicator(Vector3 targetLocation)
+        public void DrawAbilityIndicator(Vector3 targetLocation)
         {
             TauntPrefabCollider.enabled = true;
             TauntPrefabSpriteRenderer.enabled = true;
