@@ -9,8 +9,8 @@ namespace BossArena.game
     {
 
         // Need to have reference to Parent Player Prefab
-        [SerializeField]
-        private GameObject PlayerPrefab;
+        //[SerializeField]
+        //private GameObject PlayerPrefab;
 
         // Need to have reference to Taunt Prefab
         [SerializeField]
@@ -59,7 +59,7 @@ namespace BossArena.game
             currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
             // Check MousePosition distance from Player for TauntRange
-            if (Vector2.Distance(currentMousePosition, PlayerPrefab.transform.position) < range)
+            if (Vector2.Distance(currentMousePosition, TauntPrefab.transform.parent.transform.position) < range)
             {
                 withinTauntRange = true;
             } else
@@ -91,6 +91,9 @@ namespace BossArena.game
         {
             timeStart = Time.time;
 
+            // Get Main Camera
+            mainCamera = Camera.main;
+
             // Get Collider
             TauntPrefabCollider = TauntPrefab.transform.GetComponent<CircleCollider2D>();
 
@@ -106,7 +109,7 @@ namespace BossArena.game
 
         protected Vector3 calculateBasicAbilityCursor()
         {
-            Vector3 playerPos = PlayerPrefab.transform.position;
+            Vector3 playerPos = TauntPrefab.transform.parent.transform.position;
 
             Vector3 cursorPosition = currentMousePosition;
             cursorPosition.z = 1f;

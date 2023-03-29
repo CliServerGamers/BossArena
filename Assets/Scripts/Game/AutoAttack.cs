@@ -35,6 +35,8 @@ namespace BossArena.game
             AUTOATTACK_COLLIDER = AutoAttackPrefab.transform.parent.transform.GetChild(0).GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
 
+            mainCamera = Camera.main;
+
         }
 
         public void Initialize()

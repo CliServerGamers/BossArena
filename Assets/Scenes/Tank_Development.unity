@@ -475,6 +475,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4312382434637248667, guid: 2d5f750354d5a6b42a8f91e1e8b17a50, type: 3}
+      propertyPath: PlayerPrefab
+      value: 
+      objectReference: {fileID: 550768541}
     - target: {fileID: 7986055475673144722, guid: 2d5f750354d5a6b42a8f91e1e8b17a50, type: 3}
       propertyPath: m_Name
       value: TankAbility_TauntPrefab
