@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BossArena.game
@@ -15,8 +16,13 @@ namespace BossArena.game
         private float horizVelocity;
         private float vertVelocity;
         public int dodgeCooldown;
+
         [SerializeField]
-        public Archetype Archetype { get; private set; }
+        public Archetype Archetype;
+        public AbilityBase BasicAttack;
+        public AbilityBase BasicAbility;
+        //public AbilityBase UltimateAbility;
+
         //Since this isn't a monobehaviour, we can't simply use gameObject to reference the attached gameobject
         //So we kinda have to do this
         //(That or i'm just dumb lol)
@@ -35,22 +41,89 @@ namespace BossArena.game
             rb = playerObj.GetComponent<Rigidbody2D>();
             ps = playerObj.GetComponent<ParticleSystem>();
             dodgeCooldown = 0;
+            initAbilities(GetComponent<NetworkObject>().OwnerClientId);
+        }
+
+        protected void initAbilities(ulong clientId)
+        {
+            if (IsServer)
+            {
+                spawnAbilities(clientId);
+            }
+
+            BasicAttack = transform.GetChild(0).GetComponent<AbilityBase>();
+            BasicAbility = transform.GetChild(1).GetComponent<AbilityBase>();
+            //UltimateAbility =  transform.GetChild(3).GetComponent<AbilityBase>();
+
+            if (BasicAttack is TargetedAbilityBase)
+            {
+                ((TargetedAbilityBase)BasicAttack).SetParent(gameObject);
+            }
+            if (BasicAbility is TargetedAbilityBase)
+            {
+                ((TargetedAbilityBase)BasicAbility).SetParent(gameObject);
+            }
+            //if (Archetype.UltimateAbility is TargetedAbilityBase)
+            //{
+            //    ((TargetedAbilityBase)UltimateAbility).SetParent(gameObject);
+            //} 
+        }
+
+        [ServerRpc]
+        private void spawnAbilitiesServerRPC(ulong clientId)
+        {
+            spawnAbilities(clientId);
+        }
+
+        private void spawnAbilities(ulong clientId)
+        {
+            GameObject basicAttack = (GameObject)Instantiate(Archetype.BasicAttack, transform.position, playerObj.transform.rotation);
+            basicAttack.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+            basicAttack.transform.SetParent(transform, false);
+
+            GameObject basicAbility = (GameObject)Instantiate(Archetype.BasicAbility, transform.position, playerObj.transform.rotation);
+            basicAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+            basicAbility.transform.SetParent(transform, false);
+
+            //GameObject ultimateAbility = (GameObject)Instantiate(Archetype.UltimateAbility, transform.position, playerObj.transform.rotation);
+            //ultimateAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+            //ultimateAbility.transform.SetParent(transform, false);
         }
 
         protected override void Update()
         {
-            if (IsOwner)
-            {
+            if (!IsOwner) return;
 
-                horizVelocity = Input.GetAxisRaw("Horizontal");
-                vertVelocity = Input.GetAxisRaw("Vertical");
-                if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-                //Make the player dash a short distance on spacebar press
-                {
-                    var psemit = ps.emission;
-                    psemit.enabled = true;
-                    ps.Play();
-                }
+
+            horizVelocity = Input.GetAxisRaw("Horizontal");
+            vertVelocity = Input.GetAxisRaw("Vertical");
+
+            if (BasicAttack is IDrawIndicator)
+            {
+                ((IDrawIndicator)BasicAttack).DrawAbilityIndicator(Input.mousePosition);
+            }
+
+            //Ability Section
+            if (Input.GetMouseButtonDown(0))
+            {
+                BasicAttack.ActivateAbility();
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                ((IDrawIndicator)BasicAbility).DrawAbilityIndicator(Input.mousePosition);
+            }
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                BasicAbility.ActivateAbility(Input.mousePosition);
+            }
+
+            //Make the player dash a short distance on spacebar press
+            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
+            {
+                var psemit = ps.emission;
+                psemit.enabled = true;
+                ps.Play();
             }
         }
 
@@ -63,14 +136,13 @@ namespace BossArena.game
 
         protected override void LateUpdate()
         {
-            if (IsOwner)
+            if (!IsOwner) return;
+
+            //Make the player dash a short distance on spacebar press
+            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
             {
-                if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-                //Make the player dash a short distance on spacebar press
-                {
-                    dash();
-                    dodgeCooldown = 90;
-                }
+                dash();
+                dodgeCooldown = 90;
             }
 
         }

@@ -31,11 +31,11 @@ namespace BossArena.game
             currentMoveSpeed = baseMoveSpeed;
         }
 
-        protected abstract void Update();
+        protected virtual void Update() { }
 
-        protected abstract void FixedUpdate();
+        protected virtual void FixedUpdate() { }
 
-        protected abstract void LateUpdate();
+        protected virtual void LateUpdate() { }
 
         protected void SetHealth(int health)
         {

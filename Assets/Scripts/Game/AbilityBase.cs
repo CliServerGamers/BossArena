@@ -10,7 +10,7 @@ using UnityEngine.Experimental.AI;
 
 namespace BossArena.game
 {
-    abstract class AbilityBase : NetworkBehaviour, IApplyEffect
+    public abstract class AbilityBase : NetworkBehaviour, IApplyEffect
     {
         [SerializeField]
         protected int windUpDelay;

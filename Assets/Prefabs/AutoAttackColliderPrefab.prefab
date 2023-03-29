@@ -43,7 +43,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5899021118764256236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -133,7 +133,9 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
-  AutoAttackPrefab: {fileID: 5899021118764256236}
+  parentPlayer: {fileID: 0}
+  AutoAttackPrefab: {fileID: 0}
+  AUTOATTACK_COLLIDER: {fileID: 8653697211529025735}
 --- !u!114 &-6080601832609894320
 MonoBehaviour:
   m_ObjectHideFlags: 0

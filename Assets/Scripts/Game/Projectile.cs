@@ -11,16 +11,7 @@ namespace BossArena.game
 
         protected override void FixedUpdate()
         {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void LateUpdate()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void Update()
-        {
+            if (!IsOwner || !IsAlive) return;
             UnityEngine.Debug.Log("Moving");
             // Projectile has infinite range, so we constantly update its destination.
             //findDestination();
@@ -34,11 +25,6 @@ namespace BossArena.game
             Debug.DrawRay(transform.position, fwd, Color.red, 0f, true);
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
 
         //public void findDestination()
         //{
@@ -46,5 +32,12 @@ namespace BossArena.game
 
         //}
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!IsOwner) return;
+            IsAlive = false;
+            this.GetComponent<Collider>().enabled = false;
+            //Return to pool
+        }
     }
 }
