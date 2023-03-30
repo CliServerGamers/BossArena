@@ -10,7 +10,7 @@ using UnityEngine;
 namespace BossArena.game
 {
 
-    public class Boss : Enemy
+    class Boss : Enemy
     {
 
         [SerializeField]
@@ -56,5 +56,9 @@ namespace BossArena.game
             return _root;
         }
 
+        protected override void HandleCollision(Collision2D collision)
+        {
+            return;
+        }
     }
 }

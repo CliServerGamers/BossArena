@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.Boss
 {
-    public class EOD : EntityBase
+     class EOD : EntityBase
     {
         // set size, decay value, damage tick
 
@@ -66,7 +66,7 @@ namespace Assets.Scripts.Game.Boss
             renderer.color = spriteColor;
         }
 
-        void OnCollisionEnter(Collision collision)
+        protected override void HandleCollision(Collision2D collision)
         {
             // reduce player health upon collision
             GameObject gameObject = collision.gameObject;
@@ -78,6 +78,5 @@ namespace Assets.Scripts.Game.Boss
                 player.CurrentHealth -= currentDamage;
             }
         }
-
     }
 }

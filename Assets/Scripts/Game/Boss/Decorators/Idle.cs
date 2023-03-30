@@ -1,12 +1,29 @@
-﻿using System;
+﻿using Assets.Scripts.Game.BehaviorTree;
+using Assets.Scripts.Game.Boss.BossUtil;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Game.Boss.SkyDive
+
+namespace BossArena.game
 {
-    internal class Idle
+    public class Idle : Node
     {
+        public Idle() { 
+        
+        }
+
+        public NodeState Evaluate()
+        {
+
+
+
+
+            return NodeState.RUNNING;
+        }
+
     }
+
 }

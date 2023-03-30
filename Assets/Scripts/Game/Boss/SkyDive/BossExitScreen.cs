@@ -17,7 +17,6 @@ namespace BossArena.game
         private const float totalJumpTime = 5.0f;
         private const float shadowOffset = 2.0f;
         private const int maxHeight = 10;
-        private float jumpTime;
         private bool isShadowEnabled;
         private float originalJumpY;
 
@@ -59,10 +58,12 @@ namespace BossArena.game
             {
                 SetupJump();
                 isJumping = true;
+                this.jumpTimer.Restart();
+                this.jumpTimer.Run();
             } else
             {
+                this.jumpTimer.Update();
                 MoveBossToJumpHeightLocation();
-                jumpTimer.Tick(Time.deltaTime);
                 MoveShadow();
             }
             return state;
@@ -72,7 +73,6 @@ namespace BossArena.game
         {
             BoxCollider2D bossCollider = boss.transform.GetComponent<BoxCollider2D>();
             bossCollider.enabled = false;
-            jumpTime = totalJumpTime;
             originalJumpY = boss.transform.position.y;
         }
 
@@ -102,7 +102,7 @@ namespace BossArena.game
                 isShadowEnabled = true;
             }
 
-            if (jumpTime >= 0.25f && isShadowEnabled)
+            if (jumpTimer.GetCurrentTime() >= 0.25f && isShadowEnabled)
             {
                 // have shadow target and follow the player
                 const float shadowSpeed = 100;
