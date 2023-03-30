@@ -20,6 +20,9 @@ namespace BossArena.game
         protected float range;
         [SerializeField]
         protected bool onCoolDown;
+        [SerializeField]
+        protected float timeStart;
+
         protected virtual void Start()
         {
             onCoolDown = false;
@@ -30,5 +33,14 @@ namespace BossArena.game
 
 
         protected abstract void Update();
+
+        protected void checkCooldown()
+        {
+            if (Time.time - timeStart >= coolDownDelay)
+            {
+                // Enough time has passed, set ultimatedActivated as off.
+                onCoolDown = false;
+            }
+        }
     }
 }

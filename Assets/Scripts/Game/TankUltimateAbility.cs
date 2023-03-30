@@ -7,81 +7,76 @@ namespace BossArena.game
     /// <summary>
     /// This script must be a componenet of "TankPrefab".
     /// </summary>
-    class TankUltimateAbility : TargetedAbilityBase, IDrawIndicator
+    class TankUltimateAbility : TargetedAbilityBase
     {
-
-        // Need to have reference to Parent Player Prefab
         [SerializeField]
         private GameObject ultimatePrefab;
 
         private BoxCollider2D PlayerCollider;
-        private bool ultimateActivated = false;
+        //private bool ultimateActivated = false;
         // Use for checking elapsed time while ulted.
-        private float timeStart;
+        //private float timeStart;
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
+            if (onCoolDown)
+                return;
+            onCoolDown = true;
+            timeStart = Time.time;
             ApplyEffect();
         }
 
         public override void ApplyEffect()
         {
-            //UnityEngine.Debug.Log("Ultimate Ability");
+            UnityEngine.Debug.Log("Ultimate Ability");
             //PlayerCollider = ultimatePrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
-            if (PlayerCollider.enabled == true)
-            {
-                // Ult-ing
-                ultimateActivated = true;
-                timeStart = Time.time;
-                PlayerCollider.enabled = false; 
-            } else
-            {
-                PlayerCollider.enabled = true;
-            }
+            PlayerCollider.enabled = false;
+            StartCoroutine(WaitForAbilityEnd());
         }
 
-        public void DrawAbilityIndicator(Vector3 targetLocation)
+        IEnumerator WaitForAbilityEnd()
         {
-            throw new System.NotImplementedException();
+            yield return new WaitForSeconds(5);
+            PlayerCollider.enabled = true;
         }
 
         // Start is called before the first frame update
         protected override void Start()
         {
             timeStart = Time.time;
-            PlayerCollider = ultimatePrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
-            mainCamera=Camera.main;
+            PlayerCollider = parentPlayer.transform.GetComponent<BoxCollider2D>();
+            //mainCamera=Camera.main;
         }
 
         protected override void Update()
         {
-            UnityEngine.Debug.Log("TIMESTART: " + timeStart);
-            UnityEngine.Debug.Log("UltimateActivated: " + ultimateActivated + "\n" +
-                "Current Time: " + Time.time + "\n" +
-                "timeStart: " + timeStart);
+            //UnityEngine.Debug.Log("TIMESTART: " + timeStart);
+            //UnityEngine.Debug.Log("UltimateActivated: " + onCoolDown + "\n" +
+            //    "Current Time: " + Time.time + "\n" +
+            //    "timeStart: " + timeStart);
 
-            checkUltimateCooldown();
+            checkCooldown();
 
-            if (Input.GetKeyDown(KeyCode.E) && ultimateActivated==false)
-            {
-                //UnityEngine.Debug.Log("Ultimate Ability");
-                ActivateAbility();
-            }
+            //if (Input.GetKeyDown(KeyCode.E) && onCoolDown == false)
+            //{
+            //    //UnityEngine.Debug.Log("Ultimate Ability");
+            //    ActivateAbility();
+            //}
         }
 
-        public bool checkUltimateCooldown()
-        {
-            if (Time.time - timeStart >= coolDownDelay)
-            {
-                // Enough time has passed, set ultimatedActivated as off.
-                ultimateActivated = false;
-                PlayerCollider.enabled = true;
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
+        //public bool checkUltimateCooldown()
+        //{
+        //    if (Time.time - timeStart >= coolDownDelay)
+        //    {
+        //        // Enough time has passed, set ultimatedActivated as off.
+        //        onCoolDown = false;
+        //        //PlayerCollider.enabled = true;
+        //        return true;
+        //    } else
+        //    {
+        //        return false;
+        //    }
+        //}
 
     }
 }
