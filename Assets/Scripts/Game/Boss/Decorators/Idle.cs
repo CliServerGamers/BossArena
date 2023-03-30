@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BossArena.game
+namespace Assets.Scripts.Game.Boss.SkyDive
 {
-    public enum EntityState
+    internal class Idle
     {
-        DEFUALT = 0,
-        STUNNED,
-        TAUNTED
     }
 }

@@ -131,7 +131,7 @@ namespace BossArena
         private void processSceneByName(SceneEvent sceneEvent)
         {
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
-            if (sceneEvent.SceneName == testScene)
+            if (sceneEvent.SceneName == testScene || sceneEvent.SceneName == "BossTestScene")
             {
                 if (IsServer)
                 {
@@ -148,12 +148,10 @@ namespace BossArena
 
         private void spawnPlayer(ulong clientId)
         {
-            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             GameObject newPlayer;
             newPlayer = (GameObject)Instantiate(PlayerPrefab);
             NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
             newPlayer.SetActive(true);
-            Debug.Log($"Spawning Player owned by clientId: {clientId}");
             playerObj.SpawnWithOwnership(clientId, true);
             //GameObject autoAttackObj = Instantiate(AutoAttackPrefab, Vector3.zero, Quaternion.identity);
             //autoAttackObj.GetComponent<NetworkObject>().Spawn();

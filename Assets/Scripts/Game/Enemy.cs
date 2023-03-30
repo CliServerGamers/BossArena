@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Game.BehaviorTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,18 +8,29 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    abstract class Enemy : EntityBase, IHostile
+    public abstract class Enemy : EntityBase, IHostile
     {
         [SerializeField]
         public Player CurrentTarget { get; set; }
         [SerializeField]
         float threatRadius;
 
+        private Node _root = null;
+
         protected override void Start()
         {
+            _root = SetupTree();
             base.Start();
             SetHealth(MaxHealth);
         }
+
+        // no object that extends entity should be able to override this method as it takes care of running the tree
+        protected override sealed void Update()
+        {
+            _root?.Evaluate();
+        }
+
+        protected abstract Node SetupTree();
 
         protected void getTarget() {
             var colliders = Physics2D.OverlapCircleAll(transform.position, threatRadius);
@@ -27,5 +39,6 @@ namespace BossArena.game
                 Debug.Log($"{collider.gameObject.name} is threat");
             }
         }
+
     }
 }
