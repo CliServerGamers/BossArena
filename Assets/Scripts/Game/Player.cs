@@ -172,7 +172,7 @@ namespace BossArena.game
         protected override void FixedUpdate()
         {
             //Actually moving the player by changing their rigidbody velocity
-            rb.velocity = (new Vector2(horizVelocity * currentMoveSpeed, vertVelocity * currentMoveSpeed)).normalized;
+            rb.velocity = (new Vector2(horizVelocity * currentMoveSpeed, vertVelocity * currentMoveSpeed));
             timerCheck();
         }
 

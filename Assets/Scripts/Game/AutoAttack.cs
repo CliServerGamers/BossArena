@@ -175,7 +175,7 @@ namespace BossArena.game
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTirggerStay2D(Collider2D collision)
         {
             if (IsServer)
             {
@@ -185,7 +185,7 @@ namespace BossArena.game
             
         }
 
-        protected void HandleCollision(Collision2D collision)
+        protected void HandleCollision(Collider2D collision)
         {
             var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in tempMonoArray)
