@@ -16,3 +16,4 @@ MonoBehaviour:
   BasicAbility: {fileID: 7986055475673144722, guid: 2d5f750354d5a6b42a8f91e1e8b17a50, type: 3}
   UltimateAbility: {fileID: 6919458306558213587, guid: f1e5e2f48cff37e4eb23265d5a49441b, type: 3}
   MaxHealth: 0
+  classColor: {r: 1, g: 0.9499881, b: 0, a: 1}
