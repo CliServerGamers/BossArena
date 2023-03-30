@@ -109,7 +109,7 @@ MonoBehaviour:
   baseMoveSpeed: 5
   anim: {fileID: -1219645316650621072}
   dodgeCooldown: 0
-  Archetype: {fileID: 11400000, guid: 8a4c032443357984c83e5944a7a6b6cf, type: 2}
+  Archetype: {fileID: 11400000, guid: bd87c74ac27359a47990373f222a7ff6, type: 2}
   BasicAttack: {fileID: 0}
   BasicAbility: {fileID: 0}
   UltimateAbility: {fileID: 0}

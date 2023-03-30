@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844974ebe3ee10d40a1abc564fe7d988, type: 3}
+  m_Name: Support
+  m_EditorClassIdentifier: 
+  BasicAttack: {fileID: 701251243846124494, guid: 3ce25b55d8af1184b887059a02a0777d, type: 3}
+  BasicAbility: {fileID: 7986055475673144722, guid: 9fbf04e87243e4e42944f3ac62503737, type: 3}
+  UltimateAbility: {fileID: 6919458306558213587, guid: f1e5e2f48cff37e4eb23265d5a49441b, type: 3}
+  MaxHealth: 0
+  classColor: {r: 0, g: 1, b: 0.9827037, a: 0}
