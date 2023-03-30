@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace Assets.Scripts.Game.BehaviorTree
 {
     public enum NodeState
     {
+        READY,
         RUNNING,
         SUCCESS,
         FAILURE
@@ -17,7 +19,7 @@ namespace Assets.Scripts.Game.BehaviorTree
     public class Node
     {
         protected AbilityBase ability;
-        protected NodeState state;
+        public NodeState state;
         public Node parent;
         protected List<Node> children;
         private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
@@ -26,6 +28,7 @@ namespace Assets.Scripts.Game.BehaviorTree
         {
             children = new List<Node>();
             parent = null;
+            this.state = NodeState.READY;
         }
 
         public Node(List<Node> children) {
@@ -34,15 +37,19 @@ namespace Assets.Scripts.Game.BehaviorTree
             {
                 _Attach(child);
             }
+            this.state = NodeState.READY;
         }
 
         private void _Attach(Node node)
         {
             node.parent = this;
             children.Add(node);
+            this.state = NodeState.READY;
         }
 
-        public virtual NodeState Evaluate() => NodeState.FAILURE;
+        public virtual NodeState Evaluate() {
+            return NodeState.READY;
+        }
 
         public void SetData(string key, object value)
         {

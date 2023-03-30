@@ -12,9 +12,14 @@ namespace BossArena.game
 
     public class PassiveJump : Node
     {
+        private const float IDLE_TIME = 1.0f;
+
         private PassiveJumpState passiveJumpState;
         private Vector3 initialCoords;
         private Vector3 finalCoords;
+        private float jumpSpeed = 15f;
+        private const int AMOUNT_OF_JUMPS = 5;
+        private int currentJumps;
 
         private GameObject boss;
         private GameObject shadow;
@@ -27,14 +32,24 @@ namespace BossArena.game
             this.boss = boss;
             this.shadow = shadow;
             this.player = GameObject.Find("PlayerPrefab(Clone)");
+            this.currentJumps = 0;
             passiveJumpState = PassiveJumpState.START;
-
-            const float idleTime = 3;
-            idleTimer = new AbilityTimer(idleTime, AfterIdleTimer);
+            idleTimer = new AbilityTimer(IDLE_TIME, AfterIdleTimer);
         }
 
         public override NodeState Evaluate()
         {
+            // if we are in the ready state, set the node state to running
+            if (state == NodeState.READY)
+            {
+                state = NodeState.RUNNING;
+            }
+            // if we are not in the running state, dont do logic here
+            if (state != NodeState.RUNNING)
+            {
+                return state;
+            }
+
             switch (passiveJumpState)
             {
                 case PassiveJumpState.START:
@@ -47,11 +62,15 @@ namespace BossArena.game
                     idleTimer.Tick(Time.deltaTime);
                     break;
                 case PassiveJumpState.END:
+                    ++currentJumps;
+                    if (currentJumps == AMOUNT_OF_JUMPS)
+                    {
+                        currentJumps = 0;
+                        state = NodeState.SUCCESS;
+                    }
                     passiveJumpState = PassiveJumpState.START;
-                    state = NodeState.SUCCESS;
                     return state;
             }
-            state = NodeState.RUNNING;
             return state;
         }
 
@@ -65,7 +84,7 @@ namespace BossArena.game
 
         private void Jump()
         {
-            boss.transform.position = Vector3.MoveTowards(boss.transform.position, finalCoords, Boss.speed * Time.deltaTime);
+            boss.transform.position = Vector3.MoveTowards(boss.transform.position, finalCoords, jumpSpeed * Time.deltaTime);
             const float basicallyZero = 0.01f;
             if (Vector3.Distance(boss.transform.position, finalCoords) < basicallyZero)
             {

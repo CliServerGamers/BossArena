@@ -6,6 +6,7 @@ namespace Assets.Scripts.Game.Boss
 {
     public class EOD : EntityBase
     {
+        // set size, decay value, damage tick
 
         [SerializeField]
         private const float START_DAMAGE = 10;

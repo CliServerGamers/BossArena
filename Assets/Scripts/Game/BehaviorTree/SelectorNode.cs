@@ -14,7 +14,8 @@ namespace Assets.Scripts.Game.BehaviorTree
 
         public override NodeState Evaluate()
         {
-            foreach(Node node in children) {
+            foreach (Node node in children)
+            {
                 switch (node.Evaluate())
                 {
                     case NodeState.FAILURE:
@@ -29,6 +30,7 @@ namespace Assets.Scripts.Game.BehaviorTree
                         continue;
                 }
             }
+
             state = NodeState.FAILURE;
             return state;
         }

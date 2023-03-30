@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace BossArena.game
@@ -40,10 +41,16 @@ namespace BossArena.game
 
         protected override Node SetupTree()
         {
-            _root = new SequenceNode(new List<Node>
+            /*      _root = new SequenceNode(new List<Node>
+                  {
+                      new JumpAttack(this.gameObject, eod, shadow),
+                      new PassiveJump(this.gameObject, shadow)
+                  });*/
+
+            _root = new InOrderSequenceNode(new List<Node>
             {
-                new JumpAttack(this.gameObject, eod, shadow)
-                //new PassiveJump(this.gameObject, shadow)
+                new BossExitScreen(this.gameObject, shadow),
+                new SkyDive(this.gameObject, eod, shadow)
             });
 
             return _root;
