@@ -148,7 +148,6 @@ namespace BossArena
 
         private void spawnPlayer(ulong clientId)
         {
-            Debug.Log($"Spawning Player with clientId: {clientId}");
             GameObject newPlayer;
             newPlayer = (GameObject)Instantiate(PlayerPrefab);
             NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();

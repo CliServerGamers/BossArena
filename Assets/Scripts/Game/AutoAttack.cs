@@ -1,32 +1,51 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BossArena.game
 {
-    class AutoAttack : TargetedAbilityBase
+    class AutoAttack : TargetedAbilityBase, IDrawIndicator
     {
         // Need to have reference to Parent Player Prefab
+        //[SerializeField]
+        //private GameObject PlayerPrefab;
+
+        // Need reference to AutoAttack Prefab
         [SerializeField]
-        private GameObject PlayerPrefab;
+        private GameObject AutoAttackPrefab;
 
         // Parent Player Prefab MUST have AutoAttackCollider Prefab\
+        [SerializeField]
         private BoxCollider2D AUTOATTACK_COLLIDER;
 
+        // Use for checking elapsed time while ulted.
+        private bool autoActivated = false;
+
+        Quaternion rot = new Quaternion();
 
         Vector3 currentMousePosition;
 
         // Start is called before the first frame update
         protected override void Start()
         {
+
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             base.Start();
             //PlayerPrefab = transform.parent.gameObject;
             //// Get the Prefab holding the BoxCollider2D
-            AUTOATTACK_COLLIDER = PlayerPrefab.transform.GetChild(0).GetComponent<BoxCollider2D>();
-            AUTOATTACK_COLLIDER.enabled = false;
+            //AUTOATTACK_COLLIDER = AutoAttackPrefab.transform.parent.transform.GetChild(0).GetComponent<BoxCollider2D>();
+            //AUTOATTACK_COLLIDER.enabled = false;
 
+            //mainCamera = Camera.main;
+
+
+            // Get the Prefab holding the BoxCollider2D
+            AutoAttackPrefab = gameObject;
+            AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
+            AUTOATTACK_COLLIDER.enabled = false;
         }
 
         public void Initialize()
@@ -39,22 +58,33 @@ namespace BossArena.game
         // Update is called once per frame
         protected override void Update()
         {
-            if (!IsOwner) return;
+            // if (!IsOwner) return;
+            
+            checkCooldown();
 
-            DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-            if (Input.GetMouseButtonDown(0))
-            {
-                //Debug.Log("peepeepoopoo");
-                ActivateAbility(Input.mousePosition);
+            //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //Debug.Log("peepeepoopoo");
+            //ActivateAbility(Input.mousePosition);
 
-            }
+            //}
+            //if (!IsOwner) return;
 
+            //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    //Debug.Log("peepeepoopoo");
+            //    ActivateAbility(Input.mousePosition);
 
+            //}
 
         }
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
+            UnityEngine.Debug.Log("Activate AutoAttack");
+            autoActivated = true;
             //ApplyWindUp
             ApplyEffect();
             //ApplyCooldown
@@ -63,20 +93,22 @@ namespace BossArena.game
 
         public override void ApplyEffect()
         {
+            //Play AutoAttack Animation
             AUTOATTACK_COLLIDER.enabled = true;
-
-
+            //Delay for length of attack
             AUTOATTACK_COLLIDER.enabled = false;
         }
 
-        public override void DrawAbilityIndicator(Vector3 targetLocation)
+        public void DrawAbilityIndicator(Vector3 targetLocation)
         {
+            //Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+            Vector3 targetWorldLocation = mainCamera.ScreenToWorldPoint(targetLocation);
             // Get and Convert Mouse Position into World Coordinates
-            currentMousePosition = new Vector3(targetLocation.x, targetLocation.y, 0f);
+            currentMousePosition = new Vector3(targetWorldLocation.x, targetWorldLocation.y, 0f);
             // Calculate Focus Cursor
             Vector2 focusCursor = calculateFocusCursor();
 
-            transform.position = focusCursor;
+            AutoAttackPrefab.transform.position = focusCursor;
             //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 
@@ -105,7 +137,10 @@ namespace BossArena.game
         {
             /*Vector2 mousePosition = Input.mousePosition;
             UnityEngine.Debug.Log("MousePosition - X:" + mousePosition.x + "Y:" + mousePosition.y);*/
-            Vector3 playerPos = PlayerPrefab.transform.position;
+            //Vector3 playerPos = AutoAttackPrefab.transform.parent.position;
+
+            Vector3 playerPos = parentPlayer.transform.position;
+
 
             float angle = Mathf.Atan2(this.currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
 
@@ -129,6 +164,37 @@ namespace BossArena.game
             //UnityEngine.Debug.Log("Auto Attacking");
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
+        }
+        
+         public void checkCooldown()
+        {
+            if (Time.time - timeStart >= coolDownDelay)
+            {
+                // Enough time has passed, set ultimatedActivated as off.
+                autoActivated = false;
+            }
+        }
+
+        private void OnTirggerStay2D(Collider2D collision)
+        {
+            if (IsServer)
+            {
+                HandleCollision(collision);
+            }
+
+            
+        }
+
+        protected void HandleCollision(Collider2D collision)
+        {
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                if (monoBehaviour is IFriendly)
+                {
+                    Debug.Log("Hit friendly player");
+                }
+            }
         }
 
     }

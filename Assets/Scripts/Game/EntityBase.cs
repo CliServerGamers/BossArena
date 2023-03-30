@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    public abstract class EntityBase : NetworkBehaviour
+    abstract class EntityBase : NetworkBehaviour
     {
         [SerializeField]
         public float MaxHealth { get; protected set; }
@@ -19,8 +19,8 @@ namespace BossArena.game
         public int ThreatLevel { get; set; }
 
         [SerializeField]
-        protected int baseMoveSpeed;
-        protected int currentMoveSpeed;
+        protected float baseMoveSpeed;
+        protected float currentMoveSpeed;
 
         protected virtual void Start()
         {
@@ -31,16 +31,22 @@ namespace BossArena.game
             currentMoveSpeed = baseMoveSpeed;
         }
 
-        protected abstract void Update();
+        protected virtual void Update() { }
 
-        protected abstract void FixedUpdate();
+        protected virtual void FixedUpdate() { }
 
-        protected abstract void LateUpdate();
+        protected virtual void LateUpdate() { }
 
         protected void SetHealth(float health)
         {
             MaxHealth = health;
             CurrentHealth = health;
         }
+
+        protected void OnCollisionEnter2D(Collision2D collision)
+        {
+            HandleCollision(collision);
+        }
+        protected abstract void HandleCollision(Collision2D collision);
     }
 }
