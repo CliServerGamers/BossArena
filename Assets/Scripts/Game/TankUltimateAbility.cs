@@ -17,6 +17,8 @@ namespace BossArena.game
         // Use for checking elapsed time while ulted.
         //private float timeStart;
 
+        private SpriteRenderer spriteRenderer;
+
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             if (onCoolDown)
@@ -45,6 +47,7 @@ namespace BossArena.game
         {
             timeStart = Time.time;
             PlayerCollider = parentPlayer.transform.GetComponent<BoxCollider2D>();
+            spriteRenderer = parentPlayer.transform.GetComponent<SpriteRenderer>();
             //mainCamera=Camera.main;
         }
 
@@ -56,6 +59,8 @@ namespace BossArena.game
             //    "timeStart: " + timeStart);
 
             checkCooldown();
+
+
 
             //if (Input.GetKeyDown(KeyCode.E) && onCoolDown == false)
             //{

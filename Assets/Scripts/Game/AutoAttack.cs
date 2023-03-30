@@ -24,12 +24,14 @@ namespace BossArena.game
         // Use for checking elapsed time while ulted.
         private bool autoActivated = false;
 
+        Quaternion rot = new Quaternion();
 
         Vector3 currentMousePosition;
 
         // Start is called before the first frame update
         protected override void Start()
         {
+
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             base.Start();
             //PlayerPrefab = transform.parent.gameObject;
@@ -63,8 +65,8 @@ namespace BossArena.game
             //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             //if (Input.GetMouseButtonDown(0))
             //{
-                //Debug.Log("peepeepoopoo");
-                //ActivateAbility(Input.mousePosition);
+            //Debug.Log("peepeepoopoo");
+            //ActivateAbility(Input.mousePosition);
 
             //}
             //if (!IsOwner) return;
@@ -81,6 +83,7 @@ namespace BossArena.game
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
+            UnityEngine.Debug.Log("Activate AutoAttack");
             autoActivated = true;
             //ApplyWindUp
             ApplyEffect();

@@ -9,3 +9,4 @@ Jay Wang
     - Implemented GenericProjectile and GenericProjectileAbility
     - Implemented Tank Ultimate Ability
     - Implemented Taunt Ability
+    - Add Tank Ability Sprites for: AutoAttack, Taunt, Ultimate
