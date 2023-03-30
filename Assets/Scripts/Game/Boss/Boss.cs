@@ -43,6 +43,7 @@ namespace BossArena.game
             _root = new SequenceNode(new List<Node>
             {
                 new JumpAttack(this.gameObject, eod, shadow)
+                //new PassiveJump(this.gameObject, shadow)
             });
 
             return _root;

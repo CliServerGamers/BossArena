@@ -143,7 +143,6 @@ namespace BossArena.game
             if (!isShadowEnabled && IsOffScreen())
             {
                 shadow = Boss.Instantiate(shadowPrefab, Vector3.zero, Quaternion.identity);
-                Debug.Log("Shadow here");
                 isShadowEnabled = true;
             }
 

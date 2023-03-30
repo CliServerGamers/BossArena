@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 5488780174772858828, guid: fad2d295f0b73d441ba1e4d60b4b621d, type: 3}
+      propertyPath: baseMoveSpeed
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5488780174772858830, guid: fad2d295f0b73d441ba1e4d60b4b621d, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3281568131

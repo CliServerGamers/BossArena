@@ -1,11 +1,13 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
+using Assets.Scripts.Game.Boss.BossUtil;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-namespace Assets.Scripts.Game.Boss
+namespace BossArena.game
 {
     enum PassiveJumpState
     {
-        START, JUMPING, END
+        START, JUMPING, END, AFTER
     }
 
     public class PassiveJump : Node
@@ -14,9 +16,21 @@ namespace Assets.Scripts.Game.Boss
         private Vector3 initialCoords;
         private Vector3 finalCoords;
 
-        public PassiveJump()
+        private GameObject boss;
+        private GameObject shadow;
+        private GameObject player;
+
+        private AbilityTimer idleTimer;
+
+        public PassiveJump(GameObject boss, GameObject shadow)
         {
+            this.boss = boss;
+            this.shadow = shadow;
+            this.player = GameObject.Find("PlayerPrefab(Clone)");
             passiveJumpState = PassiveJumpState.START;
+
+            const float idleTime = 3;
+            idleTimer = new AbilityTimer(idleTime, AfterIdleTimer);
         }
 
         public override NodeState Evaluate()
@@ -29,29 +43,41 @@ namespace Assets.Scripts.Game.Boss
                 case PassiveJumpState.JUMPING:
                     Jump();
                     break;
+                case PassiveJumpState.AFTER:
+                    idleTimer.Tick(Time.deltaTime);
+                    break;
                 case PassiveJumpState.END:
-                    End();
                     passiveJumpState = PassiveJumpState.START;
-                    return NodeState.SUCCESS;
+                    state = NodeState.SUCCESS;
+                    return state;
             }
-            return NodeState.RUNNING;
+            state = NodeState.RUNNING;
+            return state;
         }
 
         private void InitializeTrajectory()
         {
-            // TODO: set the initialCoords to the boss's position
-            // TODO: set the finalCoords to the targeted player coords
-            // TODO: turn hitbox off
+            initialCoords = boss.transform.position;
+            finalCoords = player.transform.position;
+            boss.GetComponent<BoxCollider2D>().enabled = false;
+            passiveJumpState = PassiveJumpState.JUMPING;
         }
 
         private void Jump()
         {
-            // TODO: have the boss follow the trajectory along with its shadow and animate it
+            boss.transform.position = Vector3.MoveTowards(boss.transform.position, finalCoords, Boss.speed * Time.deltaTime);
+            const float basicallyZero = 0.01f;
+            if (Vector3.Distance(boss.transform.position, finalCoords) < basicallyZero)
+            {
+                boss.transform.position = finalCoords;
+                passiveJumpState = PassiveJumpState.AFTER;
+                boss.GetComponent<BoxCollider2D>().enabled = true;
+            }
         }
 
-        private void End()
+        public void AfterIdleTimer()
         {
-            // TODO: turn hitbox on again
+            passiveJumpState = PassiveJumpState.END;
         }
 
     }

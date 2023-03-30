@@ -26,11 +26,11 @@ namespace Assets.Scripts.Game.Boss
             currentDamage = START_DAMAGE;
 
             // Get all colliders on objects with the specified tag
-            Collider colliderToIgnore = GameObject.FindGameObjectWithTag("Boss").GetComponent<Collider>();
+            BoxCollider2D colliderToIgnore = GameObject.FindGameObjectWithTag("Boss").GetComponent<BoxCollider2D>();
 
             // Ignore collisions between the current object's collider and all colliders on the specified tag
-            Collider currentCollider = GetComponent<Collider>();
-            Physics.IgnoreCollision(currentCollider, colliderToIgnore, true);
+            Collider2D currentCollider = GetComponent<Collider2D>();
+            Physics2D.IgnoreCollision(currentCollider, colliderToIgnore, true);
         }
 
         protected override void FixedUpdate()
