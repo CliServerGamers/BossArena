@@ -149,7 +149,7 @@ namespace BossArena.game
                 ((IDrawIndicator) UltimateAbility).DrawAbilityIndicator(Input.mousePosition);
             }
 
-            if (Input.GetButtonUp("Fire3"))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 UltimateAbility.ActivateAbility(Input.mousePosition);
             }
