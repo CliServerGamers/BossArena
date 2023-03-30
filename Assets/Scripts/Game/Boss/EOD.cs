@@ -18,8 +18,9 @@ namespace Assets.Scripts.Game.Boss
 
         public const float MAX_HEALTH = 1000.0f;
 
-        public void Start()
+        protected override void Start()
         {
+            Debug.Log("I am in the start method for EOD");
             SetHealth(MAX_HEALTH);
             renderer = GetComponent<SpriteRenderer>();
             currentDamage = START_DAMAGE;
