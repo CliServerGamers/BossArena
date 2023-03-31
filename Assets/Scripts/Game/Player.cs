@@ -199,6 +199,10 @@ namespace BossArena.game
             if (dodgeCooldown > 0)
             {
                 dodgeCooldown--;
+            } else
+            {
+                var psemit = ps.emission;
+                psemit.enabled = false;
             }
         }
 

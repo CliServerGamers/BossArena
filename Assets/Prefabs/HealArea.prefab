@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 185581507486990248}
   - component: {fileID: 1688286230976398642}
   - component: {fileID: 8863836404236359746}
-  - component: {fileID: -8374708169123227092}
+  - component: {fileID: 4999883442535426222}
   m_Layer: 0
-  m_Name: SupportAbility-Heal
-  m_TagString: Untagged
+  m_Name: HealArea
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,11 +73,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1915940351
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8d7b3c40f58b45f489c78159f1020a4f, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.10297489, a: 1}
+  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Color: {r: 0.29622638, g: 1, b: 0.41071218, a: 0.42745098}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-8374708169123227092
+--- !u!114 &4999883442535426222
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,19 +128,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7986055475673144722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4803a859199c24458ed1ae70c5c4d20, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windUpDelay: 0
-  coolDownDelay: 5000
-  range: 6
-  onCoolDown: 0
-  timeStart: 0
-  mainCamera: {fileID: 0}
-  isSelfTarget: 0
-  radius: 0
-  parentPlayer: {fileID: 0}
-  HealTargetPrefab: {fileID: 7986055475673144722}
-  HealAreaPrefab: {fileID: 7986055475673144722, guid: 99c9268ce5ebcbb48a78700d979cdf7d, type: 3}
-  HealArea: {fileID: 0}
-  HealAreaPrefabSpriteRenderer: {fileID: 185581507486990248, guid: 99c9268ce5ebcbb48a78700d979cdf7d, type: 3}
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1

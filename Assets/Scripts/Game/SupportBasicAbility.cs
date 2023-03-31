@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace BossArena.game
@@ -13,32 +15,48 @@ namespace BossArena.game
 
         // Need to have reference to Taunt Prefab
         [SerializeField]
-        private GameObject HealPrefab;
-        private CircleCollider2D HealPrefabCollider;
-        private SpriteRenderer HealPrefabSpriteRenderer;
+        private GameObject HealTargetPrefab;
+        public GameObject HealAreaPrefab;
+        public GameObject HealArea;
+        private CircleCollider2D HealAreaPrefabCollider;
+        private SpriteRenderer HealTargetPrefabSpriteRenderer;
+        public SpriteRenderer HealAreaPrefabSpriteRenderer;
 
         private bool basicActivated = false;
-        private bool withinTauntRange = false;
+        private bool withinHealRange = false;
 
         Vector3 currentMousePosition;
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
-            HealPrefabSpriteRenderer.enabled = false;
+            HealTargetPrefabSpriteRenderer.enabled = false;
             if (onCoolDown)
                 return;
             onCoolDown = true;
             timeStart = Time.time;
             ApplyEffect();
-            HealPrefabCollider.enabled = true;
-            HealPrefabCollider.enabled = false;
+            HealAreaPrefabCollider.enabled = true;
+            HealAreaPrefabCollider.enabled = false;
         }
 
         public override void ApplyEffect()
         {
-            // Get Collider
+            // Update MousePosition
+            currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-            // Apply Taunt Debuff for each enemy in collider
+            // Check MousePosition distance from Player for TauntRange
+            if (Vector2.Distance(currentMousePosition, parentPlayer.transform.position) < range)
+            {
+                withinHealRange = true;
+            }
+            else
+            {
+                withinHealRange = false;
+            }
+
+            HealArea = Instantiate(HealAreaPrefab, calculateBasicAbilityCursor(), Quaternion.identity);
+            HealArea.GetComponent<NetworkObject>().Spawn();
+            
         }
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
@@ -49,16 +67,16 @@ namespace BossArena.game
             // Check MousePosition distance from Player for TauntRange
             if (Vector2.Distance(currentMousePosition, parentPlayer.transform.position) < range)
             {
-                withinTauntRange = true;
+                withinHealRange = true;
             }
             else
             {
-                withinTauntRange = false;
+                withinHealRange = false;
             }
 
-            HealPrefab.transform.position = calculateBasicAbilityCursor();
+            HealTargetPrefab.transform.position = calculateBasicAbilityCursor();
             
-            HealPrefabSpriteRenderer.enabled = true;
+            HealTargetPrefabSpriteRenderer.enabled = true;
             //TauntPrefab.SetActive(true);
         }
 
@@ -98,14 +116,14 @@ namespace BossArena.game
             mainCamera = Camera.main;
 
             // Get Collider
-            HealPrefabCollider = GetComponent<CircleCollider2D>();
+            HealAreaPrefabCollider = GetComponent<CircleCollider2D>();
 
             // Get SpriteRenderer
-            HealPrefabSpriteRenderer = GetComponent<SpriteRenderer>();
+            HealTargetPrefabSpriteRenderer = GetComponent<SpriteRenderer>();
 
             // Initially Disable
-            HealPrefabCollider.enabled = false;
-            HealPrefabSpriteRenderer.enabled = false;
+            HealAreaPrefabCollider.enabled = false;
+            HealTargetPrefabSpriteRenderer.enabled = false;
 
             //TauntPrefab.SetActive(false);
         }
@@ -117,10 +135,10 @@ namespace BossArena.game
             Vector3 cursorPosition = currentMousePosition;
             cursorPosition.z = 1f;
 
-            UnityEngine.Debug.Log("withinTauntRange: " + withinTauntRange);
+            UnityEngine.Debug.Log("withinTauntRange: " + withinHealRange);
 
             // Mouse Cursor not in Ability Range
-            if (!withinTauntRange)
+            if (!withinHealRange)
             {
                 //float dx = cursorPosition.x - playerPos.x;
                 //float dy = cursorPosition.y - playerPos.y;
