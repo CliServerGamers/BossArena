@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BossArena.game 
 {
-    public class DPSBasicAbility : TargetedAbilityBase, IDrawIndicator
+    class DPSBasicAbility : TargetedAbilityBase, IDrawIndicator
     {
         //Referencing Tank class structure...
 
@@ -47,8 +47,14 @@ namespace BossArena.game
             ps.Play();
         }
 
+        public void DrawAbilityIndicator(Vector3 targetLocation)
+        {
+           
+        }
+
+
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
             timeStart = Time.time;
 
@@ -70,18 +76,14 @@ namespace BossArena.game
         }
 
         // Update is called once per frame
-        void Update()
+        protected override void Update()
         {
             // Every frame, check for cooldowns, set bool accordingly.
             checkCooldown();
 
         }
 
-        protected Vector3 calculateBasicAbilityCursor()
-        {
-            //leaving this blank for now
 
-        }
     }
 
 }
