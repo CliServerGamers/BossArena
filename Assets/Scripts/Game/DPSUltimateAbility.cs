@@ -10,44 +10,55 @@ namespace BossArena.game
         [SerializeField]
         private GameObject BlastPrefab;
 
+        private CircleCollider2D BlastPrefabCollider;
+
         private BoxCollider2D PlayerCollider;
         //private bool blastActivated = false;
         // Use for checking elapsed time while ulted.
         //private float timeStart;
+        public GameObject playerObj;
 
         private SpriteRenderer spriteRenderer;
 
+        private bool abilityEndabled;
+        private Player player;
+
         public override void ActivateAbility(Vector3? mosPos = null)
         {
-            //blastActivated = true;
-            if (onCoolDown)
-                return;
-            onCoolDown = true;
-            timeStart = Time.time;
+            if (onCoolDown) return;
 
-            // Start rendering the ability
-            spriteRenderer.enabled = true;
+            if (abilityEndabled)
+            {
+                onCoolDown = true;
+                timeStart = Time.time;
+                abilityEndabled = false;
 
-            ApplyEffect();
+                // Stop rendering the ability
+                spriteRenderer.enabled = false;
+
+                IRemoveEffect();
+            } else
+            {
+                abilityEndabled = true;
+
+                // Start rendering the ability
+                spriteRenderer.enabled = true;
+
+                ApplyEffect();
+            }
         }
 
         public override void ApplyEffect()
         {
             UnityEngine.Debug.Log("DPS Ultimate Ability");
+            player.SetState(EntityState.STUNNED);
             //PlayerCollider = BlastPrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
-            PlayerCollider.enabled = false;
-            StartCoroutine(WaitForAbilityEnd());
         }
 
-        IEnumerator WaitForAbilityEnd()
+        public override void IRemoveEffect()
         {
-            yield return new WaitForSeconds(5);
-            PlayerCollider.enabled = true;
-
-            // Stop drawing the Ultimate Ability
-            spriteRenderer.enabled = false;
+            player.SetState(EntityState.DEFUALT);
         }
-
 
         // Start is called before the first frame update
         protected override void Start()
@@ -55,9 +66,13 @@ namespace BossArena.game
             timeStart = Time.time;
             PlayerCollider = parentPlayer.transform.GetComponent<BoxCollider2D>();
             spriteRenderer = BlastPrefab.transform.GetComponent<SpriteRenderer>();
+            player = parentPlayer.GetComponent<Player>();
 
             // Initally false 
             spriteRenderer.enabled = false;
+
+            //Set Ability State
+            abilityEndabled = false;
 
             // Set scale of AbilityPrefab.
             BlastPrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);

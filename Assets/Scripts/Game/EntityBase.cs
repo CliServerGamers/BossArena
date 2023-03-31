@@ -24,6 +24,8 @@ namespace BossArena.game
         protected float baseMoveSpeed;
         protected float currentMoveSpeed;
 
+        protected EntityState state;
+
         protected virtual void Start()
         {
             SetHealth(100);
@@ -31,6 +33,11 @@ namespace BossArena.game
             State = EntityState.DEFUALT;
             ThreatLevel = 0;
             currentMoveSpeed = baseMoveSpeed;
+        }
+
+        public virtual void SetState(EntityState state)
+        {
+            this.state = state;
         }
 
         protected virtual void Update() { }
