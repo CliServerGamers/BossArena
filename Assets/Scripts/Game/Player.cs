@@ -157,12 +157,14 @@ namespace BossArena.game
                 UltimateAbility.ActivateAbility(Input.mousePosition);
             }
 
+            /*
             if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
             {
                 var psemit = ps.emission;
                 psemit.enabled = true;
                 ps.Play();
             }
+            */
         }
 
         [ServerRpc]
