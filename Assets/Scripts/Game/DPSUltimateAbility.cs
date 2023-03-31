@@ -22,7 +22,7 @@ namespace BossArena.game
 
         private bool abilityEndabled;
         private Player player;
-        private Vector3 targetPos;
+        private Vector3? targetPos;
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
@@ -56,12 +56,12 @@ namespace BossArena.game
             UnityEngine.Debug.Log("DPS Ultimate Ability");
             player.SetState(EntityState.STUNNED);
 
-            BlastPrefabCollider.transform(targetPos);
+            BlastPrefabCollider.transform.GetComponent<CircleCollider2D>();
 
             //PlayerCollider = BlastPrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
         }
 
-        public override void RemoveEffect()
+        public void RemoveEffect()
         {
             player.SetState(EntityState.DEFUALT);
         }
