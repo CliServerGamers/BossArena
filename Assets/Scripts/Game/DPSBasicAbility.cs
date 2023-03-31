@@ -1,4 +1,4 @@
-using BossArena.game
+using BossArena.game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +18,7 @@ namespace BossArena.game
         private GameObject BlinkPrefab;
         private CircleCollider2D BlinkPrefabCollider;
         private SpriteRenderer BlinkPrefabSpriteRenderer;
+        private ParticleSystem ps;
 
         private bool basicActivated = false;
         private bool withinTauntRange = false;
@@ -26,6 +27,7 @@ namespace BossArena.game
 
         public override void ActivateAbility(Vector3? mousepos = null)
         {
+            ps = playerObj.GetComponent<ParticleSystem>();
             BlinkPrefabSpriteRenderer.enabled = false;
             if (onCoolDown)
                 return;
@@ -39,9 +41,11 @@ namespace BossArena.game
         public override void ApplyEffect()
         {
             // since this is blink, this may just be apply the change of position
+            playerObj.transform.position += new Vector3(horizVelocity * 3, vertVelocity * 3, 0);
+            var psemit = ps.emission;
+            psemit.enabled = true;
+            ps.Play();
         }
-
-
 
         // Start is called before the first frame update
         void Start()
@@ -72,7 +76,6 @@ namespace BossArena.game
             checkCooldown();
 
         }
-
 
         protected Vector3 calculateBasicAbilityCursor()
         {

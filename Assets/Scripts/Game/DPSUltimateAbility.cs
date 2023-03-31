@@ -1,4 +1,4 @@
-using BossArena.game
+using BossArena.game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
