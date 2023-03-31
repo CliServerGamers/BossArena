@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace BossArena.game
 {
-    public interface IFriendly { }
+    public interface IFriendly {
+        public void HitFriendlyServerRpc(ulong hitter);
+    }
     public interface IHostile { }
 }

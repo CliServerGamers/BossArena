@@ -6,23 +6,24 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    class Projectile : EntityBase, IHostile
+    class Projectile : EntityBase
     {
-        Vector2 projectileDestination;
+
 
         protected override void FixedUpdate()
         {
-            if (!IsOwner || !IsAlive) return;
+            if (!IsOwner || !IsAlive)
+                return;
             //UnityEngine.Debug.Log("Moving");
             // Projectile has infinite range, so we constantly update its destination.
             //findDestination();
 
             //transform.position *= baseMoveSpeed;
             //transform.forward += baseMoveSpeed;
+            Vector3 movement = transform.right * baseMoveSpeed;
+            rb.velocity = new Vector2(movement.x, movement.y);
 
-            transform.position += transform.forward * baseMoveSpeed;
-
-            Vector3 fwd = transform.rotation * Vector3.forward;
+            Vector3 fwd = transform.rotation * Vector3.right;
             Debug.DrawRay(transform.position, fwd, Color.red, 0f, true);
         }
 
@@ -38,7 +39,26 @@ namespace BossArena.game
             Debug.Log($"{OwnerClientId}: Hit");
             IsAlive = false;
             this.GetComponent<Collider2D>().enabled = false;
-            //Return to Pool
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                if (monoBehaviour is not EntityBase)
+                {
+                    //Return to Pool
+                    continue;
+                }
+                if(monoBehaviour is IFriendly)
+                {
+                    ((IFriendly) monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
+                }
+                    Despawn();
+            }
+
+
+        }
+
+        void Despawn()
+        {
             if (IsServer)
             {
                 Debug.Log($"{OwnerClientId}: Despawn");
@@ -46,6 +66,7 @@ namespace BossArena.game
             }
             else
             {
+                Debug.Log($"{OwnerClientId}: Despawn RPC");
                 DespawnServerRpc();
             }
         }
@@ -53,11 +74,8 @@ namespace BossArena.game
         [ServerRpc(RequireOwnership = false)]
         public void DespawnServerRpc()
         {
-            if (IsServer)
-            {
-                Debug.Log($"{OwnerClientId}: Despawn RPC");
-                this.GetComponent<NetworkObject>().Despawn();
-            }
+            this.GetComponent<NetworkObject>().Despawn();
+
         }
     }
 }

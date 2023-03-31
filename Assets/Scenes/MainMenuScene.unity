@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 48974612}
   - component: {fileID: 48974611}
   - component: {fileID: 48974610}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 87187898}
   - component: {fileID: 87187900}
   - component: {fileID: 87187899}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +553,7 @@ GameObject:
   - component: {fileID: 94710810}
   - component: {fileID: 94710809}
   - component: {fileID: 94710808}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: InputCode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -729,7 +729,7 @@ GameObject:
   - component: {fileID: 148168616}
   - component: {fileID: 148168615}
   - component: {fileID: 148168614}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -872,7 +872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 415771127}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MultiplayerMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -913,7 +913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 428026772}
   - component: {fileID: 428026773}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -968,7 +968,7 @@ GameObject:
   - component: {fileID: 502760136}
   - component: {fileID: 502760135}
   - component: {fileID: 502760134}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: InputField (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1144,7 +1144,7 @@ GameObject:
   - component: {fileID: 694526641}
   - component: {fileID: 694526640}
   - component: {fileID: 694526639}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1289,7 +1289,7 @@ GameObject:
   - component: {fileID: 717313431}
   - component: {fileID: 717313433}
   - component: {fileID: 717313432}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1693,7 +1693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 869117252}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: CreateLobby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1738,7 +1738,7 @@ GameObject:
   - component: {fileID: 888780362}
   - component: {fileID: 888780361}
   - component: {fileID: 888780365}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: UI
   m_Icon: {fileID: 0}
@@ -1794,8 +1794,8 @@ Canvas:
   m_GameObject: {fileID: 888780360}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1705574183}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1855,7 +1855,7 @@ GameObject:
   - component: {fileID: 953772079}
   - component: {fileID: 953772081}
   - component: {fileID: 953772080}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1993,7 +1993,7 @@ GameObject:
   - component: {fileID: 961455309}
   - component: {fileID: 961455308}
   - component: {fileID: 961455307}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Placeholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2148,7 +2148,7 @@ GameObject:
   - component: {fileID: 982849405}
   - component: {fileID: 982849407}
   - component: {fileID: 982849406}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2604,7 +2604,7 @@ GameObject:
   - component: {fileID: 1221938887}
   - component: {fileID: 1221938889}
   - component: {fileID: 1221938888}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2739,7 +2739,7 @@ GameObject:
   - component: {fileID: 1222370670}
   - component: {fileID: 1222370672}
   - component: {fileID: 1222370671}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2884,7 +2884,7 @@ GameObject:
   - component: {fileID: 1277611326}
   - component: {fileID: 1277611328}
   - component: {fileID: 1277611327}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3018,7 +3018,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1322824185}
   - component: {fileID: 1322824186}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3073,7 +3073,7 @@ GameObject:
   - component: {fileID: 1426503016}
   - component: {fileID: 1426503015}
   - component: {fileID: 1426503014}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Join
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3279,7 +3279,7 @@ GameObject:
   - component: {fileID: 1625645008}
   - component: {fileID: 1625645010}
   - component: {fileID: 1625645009}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3355,6 +3355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1705574184}
   - component: {fileID: 1705574183}
+  - component: {fileID: 1705574185}
   - component: {fileID: 1705574182}
   m_Layer: 0
   m_Name: Main Camera
@@ -4599,7 +4600,7 @@ GameObject:
   - component: {fileID: 2142653635}
   - component: {fileID: 2142653637}
   - component: {fileID: 2142653636}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
