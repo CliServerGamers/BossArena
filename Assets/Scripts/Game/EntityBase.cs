@@ -13,9 +13,8 @@ namespace BossArena.game
         [SerializeField]
         protected Rigidbody2D rb;
 
-        [SerializeField]
-        public int MaxHealth { get; protected set; }
-        public int CurrentHealth { get; set; }
+        public float MaxHealth { get; protected set; }
+        public float CurrentHealth { get; set; }
         public bool IsAlive { get; protected set; }
 
         public EntityState State { get; set; }
@@ -40,7 +39,8 @@ namespace BossArena.game
 
         protected virtual void LateUpdate() { }
 
-        protected void SetHealth(int health)
+        protected void SetHealth(float health)
+
         {
             MaxHealth = health;
             CurrentHealth = health;
@@ -52,4 +52,6 @@ namespace BossArena.game
         }
         protected abstract void HandleCollision(Collision2D collision);
     }
+
 }
+

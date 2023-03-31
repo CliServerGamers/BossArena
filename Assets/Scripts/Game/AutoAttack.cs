@@ -17,6 +17,8 @@ namespace BossArena.game
         [SerializeField]
         private GameObject AutoAttackPrefab;
 
+        private SpriteRenderer AutoAttackPrefabSpriteRenderer;
+
         // Parent Player Prefab MUST have AutoAttackCollider Prefab\
         [SerializeField]
         private BoxCollider2D AUTOATTACK_COLLIDER;
@@ -26,12 +28,14 @@ namespace BossArena.game
         [SerializeField]
         private float lengthOfAttackInSec;
 
+        Quaternion rot = new Quaternion();
 
         Vector3 currentMousePosition;
 
         // Start is called before the first frame update
         protected override void Start()
         {
+
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             base.Start();
             //PlayerPrefab = transform.parent.gameObject;
@@ -39,11 +43,20 @@ namespace BossArena.game
             //AUTOATTACK_COLLIDER = AutoAttackPrefab.transform.parent.transform.GetChild(0).GetComponent<BoxCollider2D>();
             //AUTOATTACK_COLLIDER.enabled = false;
 
-            //mainCamera = Camera.main;
-
+            //mainCamera = Camera.main
 
             // Get the Prefab holding the BoxCollider2D
             AutoAttackPrefab = gameObject;
+
+            // Get SpriteRenderer
+            AutoAttackPrefabSpriteRenderer = AutoAttackPrefab.GetComponent<SpriteRenderer>();
+
+            // Set AutoAttackPrefab Scale
+            AutoAttackPrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
+            // Intially Off
+            AutoAttackPrefabSpriteRenderer.enabled = false;
+
             AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
         }
@@ -61,6 +74,9 @@ namespace BossArena.game
             // if (!IsOwner) return;
 
             checkCooldown();
+
+
+
 
             //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             //if (Input.GetMouseButtonDown(0))
@@ -83,14 +99,23 @@ namespace BossArena.game
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
+            UnityEngine.Debug.Log("Activate AutoAttack");
 
             autoActivated = true;
+            AutoAttackPrefabSpriteRenderer.enabled = true;
             //ApplyWindUp
             ApplyEffect();
             //ApplyCooldown
+            StartCoroutine(WaitForAbilityEnd());
 
         }
 
+
+        IEnumerator WaitForAbilityEnd()
+        {
+            yield return new WaitForSeconds(.5f);
+            AutoAttackPrefabSpriteRenderer.enabled = false;
+        }
         public override void ApplyEffect()
         {
 
@@ -121,6 +146,12 @@ namespace BossArena.game
             Vector2 focusCursor = calculateFocusCursor();
 
             AutoAttackPrefab.transform.position = focusCursor;
+
+         
+            Vector3 diff = currentMousePosition - parentPlayer.transform.position;
+            float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+
+            AutoAttackPrefab.transform.rotation = Quaternion.Euler(0, 0, angle+90);
             //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 

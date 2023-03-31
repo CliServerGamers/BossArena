@@ -6,6 +6,10 @@ TagManager:
   tags:
   - UI
   - Projectile
+  - Terrain
+  - Boss
+  - EOD
+  - shadow
   layers:
   - Default
   - TransparentFX

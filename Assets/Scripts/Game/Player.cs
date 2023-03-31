@@ -11,7 +11,11 @@ namespace BossArena.game
     /// </summary>
     class Player : EntityBase, IFriendly, IThreat
     {
-        //private Rigidbody2D rb;
+
+        public Animator anim;
+        private Renderer rend;
+        private Rigidbody2D rb;
+
         private ParticleSystem ps;
         private float horizVelocity;
         private float vertVelocity;
@@ -46,6 +50,11 @@ namespace BossArena.game
             ps = playerObj.GetComponent<ParticleSystem>();
             dodgeCooldown = 0;
             initAbilities(GetComponent<NetworkObject>().OwnerClientId);
+            // Assign Renderer component to rend variable
+            rend = GetComponent<Renderer>();
+
+            // Change sprite color to selected color
+            rend.material.color = Archetype.classColor;
         }
 
         protected void initAbilities(ulong clientId)
@@ -108,6 +117,11 @@ namespace BossArena.game
 
             horizVelocity = Input.GetAxisRaw("Horizontal");
             vertVelocity = Input.GetAxisRaw("Vertical");
+            anim.SetFloat("Horizontal", horizVelocity);
+            anim.SetFloat("Vertical", vertVelocity);
+            anim.SetBool("IsHMove", horizVelocity != 0);
+            anim.SetBool("IsVMove", vertVelocity != 0);
+
             isAttacking = Input.GetAxisRaw("Fire1") != 0;
             isAbiliting = Input.GetAxisRaw("Fire2") != 0;
             isUlting = Input.GetAxisRaw("Fire1") != 0;
@@ -161,7 +175,7 @@ namespace BossArena.game
         protected override void FixedUpdate()
         {
             //Actually moving the player by changing their rigidbody velocity
-            rb.velocity = new Vector2(horizVelocity * currentMoveSpeed, vertVelocity * currentMoveSpeed);
+            rb.velocity = (new Vector2(horizVelocity * currentMoveSpeed, vertVelocity * currentMoveSpeed));
             timerCheck();
         }
 
