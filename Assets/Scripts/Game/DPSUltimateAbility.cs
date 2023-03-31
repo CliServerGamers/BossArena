@@ -1,11 +1,11 @@
-using BossArena.game
+using BossArena.game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BossArena.game
 {
-    public class DPSUltimateAbility : TargetedAbilityBase
+    class DPSUltimateAbility : TargetedAbilityBase
     {
         [SerializeField]
         private GameObject BlastPrefab;
@@ -50,11 +50,11 @@ namespace BossArena.game
 
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
             timeStart = Time.time;
             PlayerCollider = parentPlayer.transform.GetComponent<BoxCollider2D>();
-            spriteRenderer = ultimatePrefab.transform.GetComponent<SpriteRenderer>();
+            spriteRenderer = BlastPrefab.transform.GetComponent<SpriteRenderer>();
 
             // Initally false 
             spriteRenderer.enabled = false;
@@ -62,12 +62,12 @@ namespace BossArena.game
             // Set scale of AbilityPrefab.
             BlastPrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             // Negative Z-Axis Value, "Go closer towards Camera"
-            BlastPrefab.transform.position = new Vector3(ultimatePrefab.transform.position.x, ultimatePrefab.transform.position.y, -2f);
+            BlastPrefab.transform.position = new Vector3(BlastPrefab.transform.position.x, BlastPrefab.transform.position.y, -2f);
             //mainCamera=Camera.main;
         }
 
         // Update is called once per frame
-        void Update()
+        protected override void Update()
         {
             checkCooldown();
 

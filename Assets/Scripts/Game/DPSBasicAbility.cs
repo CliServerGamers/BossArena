@@ -1,11 +1,11 @@
-using BossArena.game
+using BossArena.game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BossArena.game 
 {
-    public class DPSBasicAbility : TargetedAbilityBase, IDrawIndicator
+    class DPSBasicAbility : TargetedAbilityBase, IDrawIndicator
     {
         //Referencing Tank class structure...
 
@@ -41,10 +41,14 @@ namespace BossArena.game
             // since this is blink, this may just be apply the change of position
         }
 
+        public void DrawAbilityIndicator(Vector3 targetLocation)
+        {
+           
+        }
 
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
             timeStart = Time.time;
 
@@ -66,7 +70,7 @@ namespace BossArena.game
         }
 
         // Update is called once per frame
-        void Update()
+        protected override void Update()
         {
             // Every frame, check for cooldowns, set bool accordingly.
             checkCooldown();
@@ -74,11 +78,7 @@ namespace BossArena.game
         }
 
 
-        protected Vector3 calculateBasicAbilityCursor()
-        {
-            //leaving this blank for now
 
-        }
     }
 
 }
