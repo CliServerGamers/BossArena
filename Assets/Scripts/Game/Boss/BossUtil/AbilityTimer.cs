@@ -9,12 +9,14 @@ using BossArena.game;
 
 namespace Assets.Scripts.Game.Boss.BossUtil
 {
-    public class AbilityTimer
+    public class AbilityTimer<T, V>
     {
-        public delegate void AbilityTimerCallBack();
+        public delegate T AbilityTimerCallBack(V t);
         private float TimerCount { get; set; }
         private float currentTime;
         private bool isRunning;
+        private T type;
+        private V argument;
 
         private AbilityTimerCallBack callback;
 
@@ -23,6 +25,11 @@ namespace Assets.Scripts.Game.Boss.BossUtil
             this.currentTime = TimerCount;
             this.callback = callback;
             this.isRunning = false;
+        }
+
+        public void SetArgument(V v)
+        {
+            this.argument = v;
         }
 
         public void Restart()
@@ -48,7 +55,7 @@ namespace Assets.Scripts.Game.Boss.BossUtil
                 currentTime -= Time.deltaTime;
                 if (currentTime < 0)
                 {
-                    callback();
+                    callback(argument);
                     isRunning = false;
                 }
             }

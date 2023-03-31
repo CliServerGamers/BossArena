@@ -14,6 +14,9 @@ namespace BossArena.game
     {
 
         [SerializeField]
+        private GameObject projectilePrefab;
+
+        [SerializeField]
         private GameObject shadow;
 
         [SerializeField]
@@ -37,20 +40,38 @@ namespace BossArena.game
         {
             base.Start();
             shadow.gameObject.transform.position = new Vector3(shadow.transform.position.x, shadow.transform.position.y, 3);
+            eod.gameObject.transform.position = new Vector3(eod.transform.position.x, eod.transform.position.y, -1);
+
+
+            // Ignore collisions with the boss shadow
+            Collider2D bossCollider = GetComponent<Collider2D>();
+            Collider2D shadowCollider = shadow.GetComponent<Collider2D>();
+            Physics2D.IgnoreCollision(bossCollider, shadowCollider, true);
         }
 
         protected override Node SetupTree()
         {
-            /*      _root = new SequenceNode(new List<Node>
-                  {
-                      new JumpAttack(this.gameObject, eod, shadow),
-                      new PassiveJump(this.gameObject, shadow)
-                  });*/
-
-            _root = new InOrderSequenceNode(new List<Node>
+            Node _root = new InOrderSequenceNode(new List<Node>
             {
-                new BossExitScreen(this.gameObject, shadow),
-                new SkyDive(this.gameObject, eod, shadow)
+                new InOrderSequenceNode(new List<Node>
+                {
+                    new IdleNode(),
+                    new BossExitScreen(this.gameObject, shadow),
+                    new SkyDive(this.gameObject, eod, shadow),
+
+                    new IdleNode(),
+                    new PassiveJump(this.gameObject, shadow),
+                    new IdleNode(),
+                    new PassiveJump(this.gameObject, shadow),
+                    new IdleNode(),
+                    new PassiveJump(this.gameObject, shadow),
+                    new IdleNode(),
+                    new PassiveJump(this.gameObject, shadow),
+                    new IdleNode(),
+                    new PassiveJump(this.gameObject, shadow),
+
+                    new ProjectileAttackNode(this.gameObject, projectilePrefab),
+                })
             });
 
             return _root;

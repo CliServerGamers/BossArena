@@ -17,7 +17,7 @@ namespace Assets.Scripts.Game.Boss
 
         SpriteRenderer renderer;
 
-        public const float MAX_HEALTH = 1000.0f;
+        public const float MAX_HEALTH = 250.0f;
 
         protected override void Start()
         {
@@ -32,6 +32,9 @@ namespace Assets.Scripts.Game.Boss
             // Ignore collisions between the current object's collider and all colliders on the specified tag
             Collider2D currentCollider = GetComponent<Collider2D>();
             Physics2D.IgnoreCollision(currentCollider, colliderToIgnore, true);
+
+            // make it behind everything because the unity editor being jank
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, 5);
         }
 
         protected override void FixedUpdate()
@@ -46,6 +49,7 @@ namespace Assets.Scripts.Game.Boss
 
         protected override void Update()
         {
+            Debug.Log("I am update EOD");
             // have the damage lose effects as the object begins to decay
             if (currentDamage > 0)
             {
@@ -66,7 +70,7 @@ namespace Assets.Scripts.Game.Boss
             renderer.color = spriteColor;
         }
 
-        protected override void HandleCollision(Collision2D collision)
+        protected void OnTriggerEnter2D(Collider2D collision)
         {
             // reduce player health upon collision
             GameObject gameObject = collision.gameObject;
@@ -77,6 +81,10 @@ namespace Assets.Scripts.Game.Boss
                 Player player = (Player)component;
                 player.CurrentHealth -= currentDamage;
             }
+        }
+
+        protected override void HandleCollision(Collision2D collision)
+        {
         }
     }
 }

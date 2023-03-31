@@ -38,7 +38,7 @@ namespace Assets.Scripts.Game.BehaviorTree
                 ResetAllChildNodeStates();
                 state = NodeState.SUCCESS;
                 return state;
-            } 
+            }
 
             return state;
         }

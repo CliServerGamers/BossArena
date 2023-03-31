@@ -16,8 +16,6 @@ namespace BossArena.game
         private Vector3 initialCoords;
         private Vector3 finalCoords;
         private float jumpSpeed = 15f;
-        private const int AMOUNT_OF_JUMPS = 5;
-        private int currentJumps;
 
         private GameObject boss;
         private GameObject shadow;
@@ -28,7 +26,6 @@ namespace BossArena.game
             this.boss = boss;
             this.shadow = shadow;
             this.player = GameObject.Find("PlayerPrefab(Clone)");
-            this.currentJumps = 0;
             passiveJumpState = PassiveJumpState.START;
         }
 
@@ -54,12 +51,7 @@ namespace BossArena.game
                     Jump();
                     break;
                 case PassiveJumpState.END:
-                    ++currentJumps;
-                    if (currentJumps == AMOUNT_OF_JUMPS)
-                    {
-                        currentJumps = 0;
-                        state = NodeState.SUCCESS;
-                    }
+                    state = NodeState.SUCCESS;
                     passiveJumpState = PassiveJumpState.START;
                     return state;
             }
