@@ -32,7 +32,7 @@ namespace BossArena.game
             HealTargetPrefabSpriteRenderer.enabled = false;
             if (onCoolDown)
                 return;
-            onCoolDown = true;
+            //onCoolDown = true;
             timeStart = Time.time;
             ApplyEffect();
             HealAreaPrefabCollider.enabled = true;
@@ -53,7 +53,11 @@ namespace BossArena.game
             {
                 withinHealRange = false;
             }
-
+            if (HealArea != null)
+            {
+                HealArea.GetComponent<NetworkObject>().Despawn();
+                Destroy(HealArea);
+            }
             HealArea = Instantiate(HealAreaPrefab, calculateBasicAbilityCursor(), Quaternion.identity);
             HealArea.GetComponent<NetworkObject>().Spawn();
             
