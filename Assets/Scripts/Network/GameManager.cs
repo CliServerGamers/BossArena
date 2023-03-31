@@ -234,7 +234,8 @@ namespace BossArena
             m_localUser.UserStatus.Value = PlayerStatus.InGame;
             m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
             //await RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
-            ProjectSceneManager.Instance.LoadScene("BossTestScene");
+            //ProjectSceneManager.Instance.LoadScene("BossTestScene");
+            ProjectSceneManager.Instance.LoadScene("DPS_DevelopmentScene");
             //NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
             //m_setupInGame.StartNetworkedGame(m_LocalLobby, m_localUser);
         }

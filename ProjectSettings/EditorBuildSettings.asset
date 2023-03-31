@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BossTestScene.unity
     guid: 5eec5b8744854c6469fdc4f3e73aea59
+  - enabled: 1
+    path: Assets/Scenes/DPS_DevelopmentScene.unity
+    guid: 1f9fc7f193e35154ca7d2f5782bc3760
   m_configObjects: {}
