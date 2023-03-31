@@ -35,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3819106736952998509}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -110,10 +110,10 @@ MonoBehaviour:
   baseMoveSpeed: 5
   anim: {fileID: -1219645316650621072}
   dodgeCooldown: 0
-  Archetype: {fileID: 11400000, guid: 1ad52b70ac0b6e544a389338170f1d2f, type: 2}
-  BasicAttack: {fileID: 0}
-  BasicAbility: {fileID: 0}
-  UltimateAbility: {fileID: 0}
+  Archetype: {fileID: 11400000, guid: 5894d194eeb9ca745b6e23e710689920, type: 2}
+  BasicAttack: {fileID: 54374114409144770, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+  BasicAbility: {fileID: 4506303783431142119, guid: 2c77151701e292a459de337a1673916f, type: 3}
+  UltimateAbility: {fileID: 4577363400728431482, guid: db6f6daf5924f1a4abbfd88bc02d74e6, type: 3}
   playerObj: {fileID: 3819106736952998509}
 --- !u!50 &3819106736952998504
 Rigidbody2D:
@@ -5071,9 +5071,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3819106736952998509}
   m_Enabled: 1
-
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 06caebd9a357e8f46b83e738cc19c53c, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

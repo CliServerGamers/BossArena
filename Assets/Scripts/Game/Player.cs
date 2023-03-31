@@ -54,7 +54,7 @@ namespace BossArena.game
             rend = GetComponent<Renderer>();
 
             // Change sprite color to selected color
-            rend.material.color = Archetype.classColor;
+            //rend.material.color = Archetype.classColor;
         }
 
         protected void initAbilities(ulong clientId)

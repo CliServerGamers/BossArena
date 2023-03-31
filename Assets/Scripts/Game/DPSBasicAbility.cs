@@ -42,6 +42,8 @@ namespace BossArena.game
 
         public override void ApplyEffect()
         {
+
+            UnityEngine.Debug.Log("Blink ability");
             // since this is blink, this may just be apply the change of position
             parentPlayer.transform.position += new Vector3(horizVelocity * 3, vertVelocity * 3, 0);
             var psemit = ps.emission;
