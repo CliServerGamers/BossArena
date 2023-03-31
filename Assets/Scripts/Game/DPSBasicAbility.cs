@@ -26,8 +26,6 @@ namespace BossArena.game
         private bool basicActivated = false;
         private bool withinTauntRange = false;
 
-        public GameObject playerObj;
-
         Vector3 currentMousePosition;
 
         public override void ActivateAbility(Vector3? mousepos = null)
@@ -45,7 +43,7 @@ namespace BossArena.game
         public override void ApplyEffect()
         {
             // since this is blink, this may just be apply the change of position
-            playerObj.transform.position += new Vector3(horizVelocity * 3, vertVelocity * 3, 0);
+            parentPlayer.transform.position += new Vector3(horizVelocity * 3, vertVelocity * 3, 0);
             var psemit = ps.emission;
             psemit.enabled = true;
             ps.Play();
@@ -62,7 +60,7 @@ namespace BossArena.game
         {
             timeStart = Time.time;
 
-            rb = playerObj.GetComponent<Rigidbody2D>();
+            rb = parentPlayer.GetComponent<Rigidbody2D>();
 
         // Get Main Camera
         mainCamera = Camera.main;
@@ -78,7 +76,7 @@ namespace BossArena.game
             BlinkPrefabSpriteRenderer.enabled = false;
 
             //Particles!
-            ps = playerObj.GetComponent<ParticleSystem>();
+            ps = parentPlayer.GetComponent<ParticleSystem>();
 
 
 
