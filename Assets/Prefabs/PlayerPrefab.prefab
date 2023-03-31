@@ -106,10 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15b8160c49f52642a7d5fb64c698f6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 3819106736952998504}
   baseMoveSpeed: 5
   anim: {fileID: -1219645316650621072}
   dodgeCooldown: 0
-  Archetype: {fileID: 11400000, guid: 8a4c032443357984c83e5944a7a6b6cf, type: 2}
+  Archetype: {fileID: 11400000, guid: 1ad52b70ac0b6e544a389338170f1d2f, type: 2}
   BasicAttack: {fileID: 0}
   BasicAbility: {fileID: 0}
   UltimateAbility: {fileID: 0}

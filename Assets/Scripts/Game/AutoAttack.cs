@@ -25,6 +25,8 @@ namespace BossArena.game
 
         // Use for checking elapsed time while ulted.
         private bool autoActivated = false;
+        [SerializeField]
+        private float lengthOfAttackInSec;
 
         Quaternion rot = new Quaternion();
 
@@ -98,6 +100,7 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             UnityEngine.Debug.Log("Activate AutoAttack");
+
             autoActivated = true;
             AutoAttackPrefabSpriteRenderer.enabled = true;
             //ApplyWindUp
@@ -115,10 +118,22 @@ namespace BossArena.game
         }
         public override void ApplyEffect()
         {
+
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             //Play AutoAttack Animation
             AUTOATTACK_COLLIDER.enabled = true;
+
+            Debug.Log("Collider.enabled = " + AUTOATTACK_COLLIDER.enabled);
             //Delay for length of attack
+            //AUTOATTACK_COLLIDER.enabled = false;
+            StartCoroutine(WaitToDisableHitbox());
+        }
+
+        IEnumerator WaitToDisableHitbox()
+        {
+            yield return new WaitForSeconds(lengthOfAttackInSec);
             AUTOATTACK_COLLIDER.enabled = false;
+            Debug.Log("Collider.enabled = " + AUTOATTACK_COLLIDER.enabled);
         }
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
@@ -193,37 +208,36 @@ namespace BossArena.game
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }
-        
-         public void checkCooldown()
-        {
-            if (Time.time - timeStart >= coolDownDelay)
-            {
-                // Enough time has passed, set ultimatedActivated as off.
-                autoActivated = false;
-            }
-        }
 
-        private void OnTirggerStay2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collider)
         {
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+                HandleCollision(collider);
             if (IsServer)
             {
-                HandleCollision(collision);
             }
 
-            
+
         }
 
-        protected void HandleCollision(Collider2D collision)
+        protected void HandleCollision(Collider2D collider)
         {
-            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+
+
+            var tempMonoArray = collider.gameObject.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in tempMonoArray)
             {
                 if (monoBehaviour is IFriendly)
                 {
-                    Debug.Log("Hit friendly player");
+                    if (IsOwner)
+                    {
+                        ((IFriendly) monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
+                    }
                 }
             }
         }
+
 
     }
 }

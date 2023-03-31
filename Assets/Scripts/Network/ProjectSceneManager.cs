@@ -52,7 +52,7 @@ namespace BossArena
 
         public override void OnNetworkSpawn()
         {
-            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+            //Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             if (IsServer)
             {
                 NetworkManager.SceneManager.OnSceneEvent += SceneManager_OnSceneEvent;
@@ -84,7 +84,7 @@ namespace BossArena
         /// <param name="sceneEvent">class that has information about the scene event</param>
         private void SceneManager_OnSceneEvent(SceneEvent sceneEvent)
         {
-            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+            //Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             var clientOrServer = sceneEvent.ClientId == NetworkManager.ServerClientId ? "server" : "client";
             switch (sceneEvent.SceneEventType)
             {
@@ -130,8 +130,10 @@ namespace BossArena
 
         private void processSceneByName(SceneEvent sceneEvent)
         {
+
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             if (sceneEvent.SceneName == testScene || sceneEvent.SceneName == "BossTestScene")
+
             {
                 if (IsServer)
                 {
