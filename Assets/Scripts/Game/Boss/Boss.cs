@@ -14,6 +14,9 @@ namespace BossArena.game
     {
 
         [SerializeField]
+        private GameObject skydiveHitbox;
+
+        [SerializeField]
         private GameObject projectilePrefab;
 
         [SerializeField]
@@ -40,7 +43,6 @@ namespace BossArena.game
         {
             base.Start();
             shadow.gameObject.transform.position = new Vector3(shadow.transform.position.x, shadow.transform.position.y, 3);
-            eod.gameObject.transform.position = new Vector3(eod.transform.position.x, eod.transform.position.y, -1);
 
 
             // Ignore collisions with the boss shadow
@@ -55,21 +57,26 @@ namespace BossArena.game
             {
                 new InOrderSequenceNode(new List<Node>
                 {
-                    new IdleNode(),
+/*                    new IdleNode(1),
                     new BossExitScreen(this.gameObject, shadow),
-                    new SkyDive(this.gameObject, eod, shadow),
+                    new SkyDive(this.gameObject, eod, shadow, skydiveHitbox),
 
-                    new IdleNode(),
+                    new IdleNode(1),
                     new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(),
+                    new IdleNode(1),
                     new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(),
+                    new IdleNode(1),
                     new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(),
+                    new IdleNode(1),
                     new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(),
-                    new PassiveJump(this.gameObject, shadow),
+                    new IdleNode(1),
+                    new PassiveJump(this.gameObject, shadow),*/
 
+                    new IdleNode(0.5f),
+                    new ProjectileAttackNode(this.gameObject, projectilePrefab),
+                    new IdleNode(0.5f),
+                    new ProjectileAttackNode(this.gameObject, projectilePrefab),
+                    new IdleNode(0.5f),
                     new ProjectileAttackNode(this.gameObject, projectilePrefab),
                 })
             });

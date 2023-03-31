@@ -9,15 +9,15 @@ namespace Assets.Scripts.Game.Boss
         // set size, decay value, damage tick
 
         [SerializeField]
-        private const float START_DAMAGE = 10;
+        private const float START_DAMAGE = 15;
 
         private float currentDamage;
 
-        private float decay = 0.1f;
+        private float decay = 0.4f;
 
         SpriteRenderer renderer;
 
-        public const float MAX_HEALTH = 250.0f;
+        public const float MAX_HEALTH = 500.0f;
 
         protected override void Start()
         {
@@ -49,7 +49,6 @@ namespace Assets.Scripts.Game.Boss
 
         protected override void Update()
         {
-            Debug.Log("I am update EOD");
             // have the damage lose effects as the object begins to decay
             if (currentDamage > 0)
             {

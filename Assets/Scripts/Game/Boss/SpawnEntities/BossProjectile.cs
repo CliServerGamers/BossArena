@@ -10,7 +10,7 @@ namespace Assets.Scripts.Game.Boss
 {
     class BossProjectile : TargetedAbilityBase
     {
-        private float projectileSpeed = 5.0f;
+        private float projectileSpeed = 7.0f;
         private float timeToLive = 5.0f;
 
         public override void ActivateAbility(Vector3? mosPos = null)

@@ -12,11 +12,12 @@ namespace BossArena.game
     public class IdleNode : Node
     {
 
-        private float idleTime = 2.0f;
+        private float idleTime;
         AbilityTimer<int, int> idleTimer;
 
-        public IdleNode() {
+        public IdleNode(float idleTime) {
             this.idleTimer = new AbilityTimer<int, int>(idleTime, AfterTimer);
+            this.idleTime= idleTime;
         }
 
         public override NodeState Evaluate()

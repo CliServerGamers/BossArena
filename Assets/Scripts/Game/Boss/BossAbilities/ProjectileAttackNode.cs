@@ -22,7 +22,7 @@ namespace BossArena.game
             {
                 state = NodeState.RUNNING;
 
-                SpawnProjectilesAroundBoss(8);
+                SpawnProjectilesAroundBoss(32);
 
                 state = NodeState.SUCCESS;
             }
