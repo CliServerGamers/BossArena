@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    class DPSUltimateAbility : TargetedAbilityBase
+    class DPSUltimateAbility : TargetedAbilityBase, IRemoveEffect
     {
         [SerializeField]
         private GameObject BlastPrefab;
@@ -39,7 +39,7 @@ namespace BossArena.game
                 // Stop rendering the ability
                 spriteRenderer.enabled = false;
 
-                IRemoveEffect();
+                RemoveEffect();
             } else
             {
                 abilityEndabled = true;
@@ -61,7 +61,7 @@ namespace BossArena.game
             //PlayerCollider = BlastPrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
         }
 
-        public override void IRemoveEffect()
+        public override void RemoveEffect()
         {
             player.SetState(EntityState.DEFUALT);
         }
