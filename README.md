@@ -10,3 +10,5 @@ Jay Wang
     - Implemented Tank Ultimate Ability
     - Implemented Taunt Ability
     - Add Tank Ability Sprites for: AutoAttack, Taunt, Ultimate
+    - Tank Abilites Finalized
+    - CRT Shader
