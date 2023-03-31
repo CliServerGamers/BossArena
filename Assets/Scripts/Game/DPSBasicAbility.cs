@@ -19,15 +19,19 @@ namespace BossArena.game
         private CircleCollider2D BlinkPrefabCollider;
         private SpriteRenderer BlinkPrefabSpriteRenderer;
         private ParticleSystem ps;
+        private Rigidbody2D rb;
+        private float horizVelocity;
+        private float vertVelocity;
 
         private bool basicActivated = false;
         private bool withinTauntRange = false;
+
+        public GameObject playerObj;
 
         Vector3 currentMousePosition;
 
         public override void ActivateAbility(Vector3? mousepos = null)
         {
-            ps = playerObj.GetComponent<ParticleSystem>();
             BlinkPrefabSpriteRenderer.enabled = false;
             if (onCoolDown)
                 return;
@@ -58,8 +62,10 @@ namespace BossArena.game
         {
             timeStart = Time.time;
 
-            // Get Main Camera
-            mainCamera = Camera.main;
+            rb = playerObj.GetComponent<Rigidbody2D>();
+
+        // Get Main Camera
+        mainCamera = Camera.main;
 
             // Get Collider
             BlinkPrefabCollider = GetComponent<CircleCollider2D>();
@@ -70,6 +76,11 @@ namespace BossArena.game
             // Initially Disable
             BlinkPrefabCollider.enabled = false;
             BlinkPrefabSpriteRenderer.enabled = false;
+
+            //Particles!
+            ps = playerObj.GetComponent<ParticleSystem>();
+
+
 
             //BlinkPrefab.SetActive(false);
 
