@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    public abstract class Enemy : EntityBase, IHostile
+    abstract class Enemy : EntityBase, IHostile
     {
         [SerializeField]
         public Player CurrentTarget { get; set; }

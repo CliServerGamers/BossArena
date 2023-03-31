@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.Boss
 {
-    public class EOD : EntityBase
+    class EOD : EntityBase
     {
         // set size, decay value, damage tick
 
@@ -79,5 +79,9 @@ namespace Assets.Scripts.Game.Boss
             }
         }
 
+        protected override void HandleCollision(Collision2D collision)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
