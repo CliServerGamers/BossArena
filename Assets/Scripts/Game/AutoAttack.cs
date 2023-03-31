@@ -178,12 +178,12 @@ namespace BossArena.game
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }
 
-        private void OnTriggerStay2D(Collider2D collider)
+        private void OnTriggerEnter2D(Collider2D collider)
         {
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+                HandleCollision(collider);
             if (IsServer)
             {
-                HandleCollision(collider);
             }
 
 
@@ -201,17 +201,12 @@ namespace BossArena.game
                 {
                     if (IsOwner)
                     {
-                        HitFriendlyServerRpc();
+                        ((IFriendly) monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
                     }
                 }
             }
         }
 
-        [ServerRpc]
-        private void HitFriendlyServerRpc()
-        {
-            Debug.Log("Hit friendly player");
-        }
 
     }
 }

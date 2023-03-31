@@ -11,7 +11,7 @@ namespace BossArena.game
     /// </summary>
     class Player : EntityBase, IFriendly, IThreat
     {
-        private Rigidbody2D rb;
+        //private Rigidbody2D rb;
         private ParticleSystem ps;
         private float horizVelocity;
         private float vertVelocity;
@@ -55,7 +55,7 @@ namespace BossArena.game
                 spawnAbilities(clientId);
             }
 
-            
+
         }
 
         [ClientRpc]
@@ -86,11 +86,11 @@ namespace BossArena.game
 
         private void spawnAbilities(ulong clientId)
         {
-            GameObject basicAttack = (GameObject)Instantiate(Archetype.BasicAttack, transform.position, playerObj.transform.rotation);
+            GameObject basicAttack = (GameObject) Instantiate(Archetype.BasicAttack, transform.position, playerObj.transform.rotation);
             basicAttack.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             basicAttack.transform.SetParent(transform, false);
 
-            GameObject basicAbility = (GameObject)Instantiate(Archetype.BasicAbility, transform.position, playerObj.transform.rotation);
+            GameObject basicAbility = (GameObject) Instantiate(Archetype.BasicAbility, transform.position, playerObj.transform.rotation);
             basicAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             basicAbility.transform.SetParent(transform, false);
 
@@ -102,7 +102,8 @@ namespace BossArena.game
 
         protected override void Update()
         {
-            if (!IsOwner) return;
+            if (!IsOwner)
+                return;
 
 
             horizVelocity = Input.GetAxisRaw("Horizontal");
@@ -113,7 +114,7 @@ namespace BossArena.game
 
             if (BasicAttack is IDrawIndicator)
             {
-                ((IDrawIndicator)BasicAttack).DrawAbilityIndicator(Input.mousePosition);
+                ((IDrawIndicator) BasicAttack).DrawAbilityIndicator(Input.mousePosition);
             }
 
             //Ability Section
@@ -124,7 +125,7 @@ namespace BossArena.game
 
             if (BasicAbility is IDrawIndicator && Input.GetButton("Fire2"))
             {
-                ((IDrawIndicator)BasicAbility).DrawAbilityIndicator(Input.mousePosition);
+                ((IDrawIndicator) BasicAbility).DrawAbilityIndicator(Input.mousePosition);
             }
 
             if (Input.GetButtonUp("Fire2"))
@@ -166,7 +167,8 @@ namespace BossArena.game
 
         protected override void LateUpdate()
         {
-            if (!IsOwner) return;
+            if (!IsOwner)
+                return;
 
             //Make the player dash a short distance on spacebar press
             if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
@@ -192,14 +194,24 @@ namespace BossArena.game
 
         protected override void HandleCollision(Collision2D collision)
         {
+            if (!IsOwner)
+                return;
             var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in tempMonoArray)
             {
                 if (monoBehaviour is IHostile)
                 {
                     Debug.Log($"{OwnerClientId}: Owie bad man touch me.");
+                    continue;
                 }
+                Debug.Log($"{OwnerClientId}: Huh? Must be the wind.");
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void HitFriendlyServerRpc(ulong hitter)
+        {
+            Debug.Log($"{hitter}: Hiting friendly player {OwnerClientId}");
         }
     }
 

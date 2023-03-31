@@ -11,6 +11,9 @@ namespace BossArena.game
     abstract class EntityBase : NetworkBehaviour
     {
         [SerializeField]
+        protected Rigidbody2D rb;
+
+        [SerializeField]
         public int MaxHealth { get; protected set; }
         public int CurrentHealth { get; set; }
         public bool IsAlive { get; protected set; }
