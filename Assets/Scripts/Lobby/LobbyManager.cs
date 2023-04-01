@@ -400,7 +400,6 @@ namespace BossArena
                     dataCurr[dataNew.Key] = dataObj;
                 else
                     dataCurr.Add(dataNew.Key, dataObj);
-                Debug.Log($"{dataNew.Key} : {dataNew.Value}");
             }
 
             if (m_UpdatePlayerCooldown.TaskQueued)

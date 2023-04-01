@@ -4,6 +4,8 @@ using UnityEngine;
 using BossArena.game;
 using TMPro;
 using UnityEngine.UI;
+using Unity.Netcode;
+using UnityEngine.SocialPlatforms;
 
 namespace BossArena.UI
 {
@@ -43,6 +45,10 @@ namespace BossArena.UI
         {
             m_LocalPlayer = localPlayer;
             SubscribeToPlayerUpdates();
+
+            if (m_LocalPlayer.ID.Value != Manager.m_localUser.ID.Value) return;
+            m_NextButton.GetComponent<Image>().enabled = true;
+            m_PreviousButton.GetComponent<Image>().enabled = true;
         }
 
         public void ResetUI()
@@ -56,6 +62,7 @@ namespace BossArena.UI
         void SubscribeToPlayerUpdates()
         {
             m_LocalPlayer.Archetype.onChanged += ArchetypeChanged;
+            m_LocalPlayer.UserStatus.onChanged += OnUserStateChanged;
         }
 
         void UnsubscribeToPlayerUpdates()
@@ -72,6 +79,25 @@ namespace BossArena.UI
             m_NextButton.onClick.AddListener(Next);
             m_PreviousButton.onClick.AddListener(Previous);
             m_ArchetypeText.text = Manager.m_localUser.Archetype.Value.ToString();
+        }
+
+        void OnUserStateChanged(PlayerStatus state)
+        {
+            Debug.Log($"{m_LocalPlayer.ID.Value} : {Manager.m_localUser.ID.Value}");
+            if (m_LocalPlayer.ID.Value != Manager.m_localUser.ID.Value) return;
+            if (state == PlayerStatus.Ready)
+            {
+                Debug.Log("It's lobbying time");
+                m_NextButton.GetComponent<Image>().enabled = false;
+                m_PreviousButton.GetComponent<Image>().enabled = false;
+            }
+            if (state == PlayerStatus.Lobby)
+            {
+                Debug.Log("G A Y M E R");
+                m_NextButton.GetComponent<Image>().enabled = true;
+                m_PreviousButton.GetComponent<Image>().enabled = true;
+
+            }
         }
     }
 }

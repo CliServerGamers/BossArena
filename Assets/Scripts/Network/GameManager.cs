@@ -21,6 +21,7 @@ namespace BossArena
         Menu = 1,
         Lobby = 2,
         JoinMenu = 4,
+        OptionMenu = 8,
     }
 
     /// <summary>
@@ -203,42 +204,26 @@ namespace BossArena
                 SendLocalLobbyData();
             }
         }
-        //TODO: Set ready
-        void OnLobbyStateChanged(LobbyState state)
-        {
-            if (state == LobbyState.Lobby) ;
-                //DisableStart();
-                if (state == LobbyState.AllReady) ;
-                //EnableStart();
-        }
-
-        //void BeginCountDown()
+        ////TODO: Set ready
+        //void OnLobbyStateChanged(LobbyState state)
         //{
-        //    Debug.Log("Beginning Countdown.");
-        //    m_countdown.StartCountDown();
-        //}
-
-        //void CancelCountDown()
-        //{
-        //    Debug.Log("Countdown Cancelled.");
-        //    m_countdown.CancelCountDown();
-        //}
-
-        //public void FinishedCountDown()
-        //{
-        //    m_localUser.UserStatus.Value = PlayerStatus.InGame;
-        //    m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
-        //    m_setupInGame.StartNetworkedGame(m_LocalLobby, m_localUser);
+        //    if (state == LobbyState.Lobby)
+        //    {
+        //        Debug.Log("It's lobbying time");
+        //        //DisableStart();
+        //    }
+        //    if (state == LobbyState.AllReady)
+        //    {
+        //        Debug.Log("G A Y M E R");
+        //        //EnableStart();
+        //    }
         //}
 
         public async Task StartGame()
         {
             m_localUser.UserStatus.Value = PlayerStatus.InGame;
             m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
-            //await RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
             ProjectSceneManager.Instance.LoadScene("TestScene");
-            //NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
-            //m_setupInGame.StartNetworkedGame(m_LocalLobby, m_localUser);
         }
 
         public void BeginGame()
@@ -348,7 +333,7 @@ namespace BossArena
         {
             await LobbyManager.BindLocalLobbyToRemote(m_LocalLobby.LobbyID.Value, m_LocalLobby);
             await RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
-            m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+            //m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
 
             SetLobbyView();
         }

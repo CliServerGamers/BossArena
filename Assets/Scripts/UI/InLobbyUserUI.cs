@@ -95,6 +95,8 @@ namespace BossArena.UI
             ArchetypeIcon(archetype);
         }
 
+
+
         //void SetIsHost(bool isHost)
         //{
         //    m_HostIcon.enabled = isHost;

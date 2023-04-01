@@ -89,7 +89,6 @@ namespace BossArena
 
         public LocalPlayer GetLocalPlayer(int index)
         {
-            Debug.Log("Gep logcal");
             return PlayerCount > index ? m_LocalPlayers[index] : null;
         }
 

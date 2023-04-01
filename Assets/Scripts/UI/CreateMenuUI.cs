@@ -41,7 +41,8 @@ namespace BossArena.UI
 
         public void OnCreatePressed()
         {
-            Manager.CreateLobby(m_ServerName, m_IsServerPrivate);
+            int maxPlayers = 6;
+            Manager.CreateLobby(m_ServerName, m_IsServerPrivate, maxPlayers);
         }
     }
 }
