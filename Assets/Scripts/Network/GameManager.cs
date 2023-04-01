@@ -313,15 +313,15 @@ namespace BossArena
             onGameStateChanged.Invoke(LocalGameState);
         }
 
-        void SetCurrentLobbies(IEnumerable<LocalLobby> lobbies)
-        {
-            var newLobbyDict = new Dictionary<string, LocalLobby>();
-            foreach (var lobby in lobbies)
-                newLobbyDict.Add(lobby.LobbyID.Value, lobby);
+        //void SetCurrentLobbies(IEnumerable<LocalLobby> lobbies)
+        //{
+        //    var newLobbyDict = new Dictionary<string, LocalLobby>();
+        //    foreach (var lobby in lobbies)
+        //        newLobbyDict.Add(lobby.LobbyID.Value, lobby);
 
-            //LobbyList.CurrentLobbies = newLobbyDict;
-            //LobbyList.QueryState.Value = LobbyQueryState.Fetched;
-        }
+        //    //LobbyList.CurrentLobbies = newLobbyDict;
+        //    //LobbyList.QueryState.Value = LobbyQueryState.Fetched;
+        //}
 
         async Task CreateLobby()
         {
