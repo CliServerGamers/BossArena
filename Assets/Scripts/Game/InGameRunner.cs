@@ -181,22 +181,22 @@ namespace BossArena.game
             m_onGameEnd();
         }
 
-        private void spawnPlayer(PlayerData playerData)
-        {
-            GameObject newPlayer;
-            newPlayer = (GameObject)Instantiate(m_PlayerPrefab);
-            NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
-            newPlayer.SetActive(true);
-            newPlayer.GetComponent<Player>().Archetype = playerData.archetype;
-            InGameRunner.Instance.PlayerList.Add(newPlayer);
-            playerObj.SpawnWithOwnership(playerData.id, true);
-        }
+        //private void spawnPlayer(PlayerData playerData)
+        //{
+        //    GameObject newPlayer;
+        //    newPlayer = (GameObject)Instantiate(m_PlayerPrefab);
+        //    NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
+        //    newPlayer.SetActive(true);
+        //    newPlayer.GetComponent<Player>().Archetype = playerData.archetype;
+        //    InGameRunner.Instance.PlayerList.Add(newPlayer);
+        //    playerObj.SpawnWithOwnership(playerData.id, true);
+        //}
 
-        [ServerRpc(RequireOwnership = false)]
-        private void spawnPlayerServerRPC(PlayerData playerData)
-        {
-            Debug.Log("Spawning Player RPC");
-            spawnPlayer(playerData);
-        }
+        //[ServerRpc(RequireOwnership = false)]
+        //private void spawnPlayerServerRPC(PlayerData playerData)
+        //{
+        //    Debug.Log("Spawning Player RPC");
+        //    spawnPlayer(playerData);
+        //}
     }
 }

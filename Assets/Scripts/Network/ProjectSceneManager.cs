@@ -160,7 +160,7 @@ namespace BossArena
             newPlayer = (GameObject)Instantiate(PlayerPrefab);
             NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
             newPlayer.SetActive(true);
-            newPlayer.GetComponent<Player>().Archetype.Value = GameManager.Instance.LocalLobby.LocalPlayers.;
+            newPlayer.GetComponent<Player>().Archetype.Value = GameManager.Instance.LocalLobby.GetLocalPlayer((int)clientId).Archetype.Value;
             InGameRunner.Instance.PlayerList.Add(newPlayer);
             playerObj.SpawnWithOwnership(clientId, true);
         }
