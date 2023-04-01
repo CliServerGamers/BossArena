@@ -31,6 +31,7 @@ namespace BossArena.game
             State = EntityState.DEFUALT;
             ThreatLevel = 0;
             currentMoveSpeed = baseMoveSpeed;
+            rb = GetComponent<Rigidbody2D>();
         }
 
         protected virtual void Update() { }

@@ -7,6 +7,12 @@ using UnityEngine;
 
 namespace BossArena.game
 {
+    public enum Archetypes
+    {
+        Tank = 0,
+        Test
+    }
+
     [CreateAssetMenu]
     public class Archetype : ScriptableObject
     {

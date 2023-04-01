@@ -3,15 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LobbyMenuUI : MonoBehaviour
+namespace BossArena.UI
 {
-    public void LeaveLobby()
+
+    public class LobbyMenuUI : UIPanelBase
     {
-        GameManager.Instance.LeaveLobby();
+        public void LeaveLobby()
+        {
+            GameManager.Instance.UIChangeMenuState(GameState.Menu);
+        }
+
+        public async void StartGame()
+        {
+            await GameManager.Instance.StartGame();
+        }
     }
 
-    public async void StartGame()
-    {
-        await GameManager.Instance.StartGame();
-    }
 }

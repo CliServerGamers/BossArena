@@ -10,13 +10,15 @@ namespace BossArena.game
     {
         public string name;
         public ulong id;
+        public Archetypes archetype;
         public PlayerData() { } // A default constructor is explicitly required for serialization.
-        public PlayerData(string name, ulong id) { this.name = name; this.id = id; }
+        public PlayerData(string name, ulong id, Archetypes archetype = default) { this.name = name; this.id = id; this.archetype = archetype; }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref name);
             serializer.SerializeValue(ref id);
+            serializer.SerializeValue(ref archetype);
         }
     }
 }

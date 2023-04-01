@@ -14,7 +14,6 @@ namespace BossArena.game
 
         public Animator anim;
         private Renderer rend;
-        private Rigidbody2D rb;
 
         private ParticleSystem ps;
         private float horizVelocity;

@@ -14,7 +14,7 @@ namespace BossArena
     /// </summary>
     ///
     /// Manages one Lobby at a time, Only entry points to a lobby with ID is via JoinAsync, CreateAsync, and QuickJoinAsync
-    public class LobbyManager : MonoBehaviour
+    public class LobbyManager : IDisposable
     {
         const string key_RelayCode = nameof(LocalLobby.RelayCode);
         const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
@@ -126,6 +126,7 @@ namespace BossArena
 
         public async Task<Lobby> JoinLobbyAsync(string lobbyId, string lobbyCode, LocalPlayer localUser)
         {
+            Debug.Log($"{m_JoinCooldown.IsCoolingDown} : {lobbyId} : {lobbyCode}");
             if (m_JoinCooldown.IsCoolingDown ||
                 (lobbyId == null && lobbyCode == null))
             {
@@ -270,6 +271,7 @@ namespace BossArena
 
                 void PlayersJoined()
                 {
+                    Debug.Log("Players Joinging");
                     foreach (var playerChanges in changes.PlayerJoined.Value)
                     {
                         Player joinedPlayer = playerChanges.Player;

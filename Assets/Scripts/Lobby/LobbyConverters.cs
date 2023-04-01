@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.Services.Lobbies.Models;
+using BossArena.game;
 using UnityEngine;
 
 namespace BossArena.lobby
@@ -16,7 +17,7 @@ namespace BossArena.lobby
 
         const string key_Displayname = nameof(LocalPlayer.DisplayName);
         const string key_Userstatus = nameof(LocalPlayer.UserStatus);
-        //const string key_Emote = nameof(LocalPlayer.Emote);
+        const string key_Archetype = nameof(LocalPlayer.Archetype);
 
         public static Dictionary<string, string> LocalToRemoteLobbyData(LocalLobby lobby)
         {
@@ -36,7 +37,7 @@ namespace BossArena.lobby
                 return data;
             data.Add(key_Displayname, user.DisplayName.Value);
             data.Add(key_Userstatus, ((int)user.UserStatus.Value).ToString());
-            //data.Add(key_Emote, ((int)user.Emote.Value).ToString());
+            data.Add(key_Archetype, ((int)user.Archetype.Value).ToString());
             return data;
         }
 
@@ -88,9 +89,9 @@ namespace BossArena.lobby
                 var displayName = player.Data?.ContainsKey(key_Displayname) == true
                     ? player.Data[key_Displayname].Value
                     : default;
-                //var emote = player.Data?.ContainsKey(key_Emote) == true
-                //    ? (EmoteType)int.Parse(player.Data[key_Emote].Value)
-                //    : EmoteType.None;
+                var playerArchetype = player.Data?.ContainsKey(key_Archetype) == true
+                    ? (Archetypes)int.Parse(player.Data[key_Archetype].Value)
+                    : Archetypes.Tank;
                 var userStatus = player.Data?.ContainsKey(key_Userstatus) == true
                     ? (PlayerStatus)int.Parse(player.Data[key_Userstatus].Value)
                     : PlayerStatus.Lobby;
@@ -99,7 +100,7 @@ namespace BossArena.lobby
 
                 if (localPlayer == null)
                 {
-                    localPlayer = new LocalPlayer(id, index, isHost, displayName, userStatus);
+                    localPlayer = new LocalPlayer(id, index, isHost, displayName, playerArchetype, userStatus);
                     localLobby.AddPlayer(index, localPlayer);
                 }
                 else
@@ -108,7 +109,7 @@ namespace BossArena.lobby
                     localPlayer.Index.Value = index;
                     localPlayer.IsHost.Value = isHost;
                     localPlayer.DisplayName.Value = displayName;
-                    //localPlayer.Emote.Value = emote;
+                    localPlayer.Archetype.Value = playerArchetype;
                     localPlayer.UserStatus.Value = userStatus;
                 }
 

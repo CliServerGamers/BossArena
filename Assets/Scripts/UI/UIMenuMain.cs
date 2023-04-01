@@ -1,4 +1,5 @@
 using BossArena;
+using BossArena.UI;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 
 
-public class UIMenuMain : MonoBehaviour
+public class UIMenuMain : UIPanelBase
 {
     public bool isPrivate = true;
     [SerializeField]
@@ -21,19 +22,24 @@ public class UIMenuMain : MonoBehaviour
         Debug.Log("Quitting");
         Application.Quit();
     }
-
+    public void ToJoinMenu()
+    {
+        Manager.UIChangeMenuState(GameState.JoinMenu);
+    }
     public void HostLobby()
     {
         Debug.Log("Hosting Lobby");
         string lobbyName = "new lobby";
-        int maxPlayers = 4;
-        GameManager.Instance.CreateLobby(lobbyName, isPrivate, maxPlayers);
+        int maxPlayers = 6;
+        Manager.CreateLobby(lobbyName, isPrivate, maxPlayers);
+        //GameManager.Instance.CreateLobby(lobbyName, , maxPlayers);
     }
 
     public void JoinLobby()
     {
         Debug.Log("Joinging Lobby");
-        GameManager.Instance.JoinLobby(null, m_inputText.text.ToUpper());
+        Manager.JoinLobby(null, m_inputText.text.ToUpper());
+        //GameManager.Instance.JoinLobby();
     }
 
     public void SetPrivacy()

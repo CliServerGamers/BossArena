@@ -1,3 +1,4 @@
+using BossArena.game;
 using System;
 
 namespace BossArena
@@ -25,7 +26,7 @@ namespace BossArena
     {
         public CallbackValue<bool> IsHost = new CallbackValue<bool>(false);
         public CallbackValue<string> DisplayName = new CallbackValue<string>("");
-        //public CallbackValue<EmoteType> Emote = new CallbackValue<EmoteType>(EmoteType.None);
+        public CallbackValue<Archetypes> Archetype = new CallbackValue<Archetypes>(Archetypes.Tank);
         public CallbackValue<PlayerStatus> UserStatus = new CallbackValue<PlayerStatus>((PlayerStatus)0);
         public CallbackValue<string> ID = new CallbackValue<string>("");
         public CallbackValue<int> Index = new CallbackValue<int>(0);
@@ -33,21 +34,21 @@ namespace BossArena
         public DateTime LastUpdated;
 
         public LocalPlayer(string id, int index, bool isHost, string displayName = default,
+            Archetypes archetype = Archetypes.Tank,
              PlayerStatus status = default)
-            //EmoteType emote = default,
         {
             ID.Value = id;
             IsHost.Value = isHost;
             Index.Value = index;
             DisplayName.Value = displayName;
-            //Emote.Value = emote;
+            Archetype.Value = archetype;
             UserStatus.Value = status;
         }
 
         public void ResetState()
         {
             IsHost.Value = false;
-            //Emote.Value = EmoteType.None;
+            Archetype.Value = Archetypes.Tank;
             UserStatus.Value = PlayerStatus.Menu;
         }
     }

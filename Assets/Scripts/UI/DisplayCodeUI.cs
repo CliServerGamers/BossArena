@@ -32,6 +32,7 @@ namespace BossArena.UI
         public override void Start()
         {
             base.Start();
+            m_outputText.readOnly = true;
             if (m_codeType == CodeType.Lobby)
             {
                 Manager.LocalLobby.LobbyCode.onChanged += LobbyCodeChanged;

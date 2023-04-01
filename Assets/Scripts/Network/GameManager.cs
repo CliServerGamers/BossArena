@@ -31,7 +31,7 @@ namespace BossArena
     public class GameManager : Singleton<GameManager>
     {
         public LocalLobby LocalLobby => m_LocalLobby;
-        //public Action<GameState> onGameStateChanged;
+        public Action<GameState> onGameStateChanged;
         //public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
 
         public GameState LocalGameState { get; private set; }
@@ -42,6 +42,7 @@ namespace BossArena
         //Countdown m_countdown;
 
         public LocalPlayer m_localUser { get; private set; }
+        [SerializeField]
         LocalLobby m_LocalLobby;
 
         LobbyColor m_lobbyColorFilter;
@@ -133,12 +134,12 @@ namespace BossArena
             m_localUser.DisplayName.Value = name;
             SendLocalUserData();
         }
-
-        //public void Setm_localUserEmote(EmoteType emote)
-        //{
-        //    m_m_localUser.Emote.Value = emote;
-        //    SendLocalUserData();
-        //}
+        //TODO: Set local user Archetype
+        public void SetLocalUserArchetype(Archetypes archetype)
+        {
+            m_localUser.Archetype.Value = archetype;
+            SendLocalUserData();
+        }
 
         public void SetLocalUserStatus(PlayerStatus status)
         {
@@ -177,7 +178,7 @@ namespace BossArena
                 state = GameState.Lobby;
                 //ClientQuitGame();
             }
-            //SetGameState(state);
+            SetGameState(state);
         }
 
         public void HostSetRelayCode(string code)
@@ -190,25 +191,25 @@ namespace BossArena
         void OnPlayersReady(int readyCount)
         {
             if (readyCount == m_LocalLobby.PlayerCount &&
-                m_LocalLobby.LocalLobbyState.Value != LobbyState.CountDown)
+                m_LocalLobby.LocalLobbyState.Value != LobbyState.AllReady)
             {
-                m_LocalLobby.LocalLobbyState.Value = LobbyState.CountDown;
+                m_LocalLobby.LocalLobbyState.Value = LobbyState.AllReady;
                 SendLocalLobbyData();
             }
-            else if (m_LocalLobby.LocalLobbyState.Value == LobbyState.CountDown)
+            else if (m_LocalLobby.LocalLobbyState.Value == LobbyState.AllReady)
             {
                 m_LocalLobby.LocalLobbyState.Value = LobbyState.Lobby;
                 SendLocalLobbyData();
             }
         }
-
-        //void OnLobbyStateChanged(LobbyState state)
-        //{
-        //    if (state == LobbyState.Lobby)
-        //        CancelCountDown();
-        //    if (state == LobbyState.CountDown)
-        //        BeginCountDown();
-        //}
+        //TODO: Set ready
+        void OnLobbyStateChanged(LobbyState state)
+        {
+            if (state == LobbyState.Lobby) ;
+                //DisableStart();
+                if (state == LobbyState.AllReady) ;
+                //EnableStart();
+        }
 
         //void BeginCountDown()
         //{
@@ -234,7 +235,7 @@ namespace BossArena
             m_localUser.UserStatus.Value = PlayerStatus.InGame;
             m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
             //await RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
-            ProjectSceneManager.Instance.LoadScene("BossTestScene");
+            ProjectSceneManager.Instance.LoadScene("TestScene");
             //NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
             //m_setupInGame.StartNetworkedGame(m_LocalLobby, m_localUser);
         }
@@ -308,7 +309,7 @@ namespace BossArena
 
             if (isLeavingLobby)
                 LeaveLobby();
-            //onGameStateChanged.Invoke(LocalGameState);
+            onGameStateChanged.Invoke(LocalGameState);
         }
 
         void SetCurrentLobbies(IEnumerable<LocalLobby> lobbies)
@@ -346,7 +347,7 @@ namespace BossArena
         {
             await LobbyManager.BindLocalLobbyToRemote(m_LocalLobby.LobbyID.Value, m_LocalLobby);
             await RelayManager.Instance.StartNetwork(m_LocalLobby, m_localUser);
-            //m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
+            m_LocalLobby.LocalLobbyState.onChanged += OnLobbyStateChanged;
 
             SetLobbyView();
         }
@@ -359,7 +360,7 @@ namespace BossArena
             LobbyManager.LeaveLobbyAsync();
 #pragma warning restore 4014
             ResetLocalLobby();
-            SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
+            //SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
         }
 
 
@@ -374,9 +375,9 @@ namespace BossArena
         void SetLobbyView()
         {
             Debug.Log($"Setting Lobby user state {GameState.Lobby}");
-            //SetGameState(GameState.Lobby);
+            SetGameState(GameState.Lobby);
             SetLocalUserStatus(PlayerStatus.Lobby);
-            SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+            //SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
         }
 
         void ResetLocalLobby()
