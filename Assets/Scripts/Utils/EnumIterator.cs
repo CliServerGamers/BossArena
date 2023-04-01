@@ -23,7 +23,7 @@ namespace BossArena
 
             T[] Arr = (T[])Enum.GetValues(src.GetType());
             int j = Array.IndexOf<T>(Arr, src) - 1;
-            return (0 == j) ? Arr[Arr.Length - 1] : Arr[j];
+            return (0 > j) ? Arr[Arr.Length - 1] : Arr[j];
         }
     }
 }

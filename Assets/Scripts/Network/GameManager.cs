@@ -137,6 +137,7 @@ namespace BossArena
         //TODO: Set local user Archetype
         public void SetLocalUserArchetype(Archetypes archetype)
         {
+            Debug.Log($"GameManager Local: {m_localUser.Archetype.Value}");
             m_localUser.Archetype.Value = archetype;
             SendLocalUserData();
         }

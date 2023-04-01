@@ -652,7 +652,7 @@ MonoBehaviour:
       - m_Target: {fileID: 415771128}
         m_TargetAssemblyTypeName: BossArena.UI.JoinMenuUI, Assembly-CSharp
         m_MethodName: OnLobbyCodeInputFieldChanged
-        m_Mode: 5
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2045,6 +2045,30 @@ PrefabInstance:
       propertyPath: m_BlocksRaycasts
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8605672304103390645, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
+      propertyPath: m_Name
+      value: PlayerUI 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605672304387792072, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
+      propertyPath: m_Name
+      value: PlayerUI 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605672304557685987, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
+      propertyPath: m_Name
+      value: PlayerUI 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605672304902729830, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
+      propertyPath: m_Name
+      value: PlayerUI 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605672305418549495, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
+      propertyPath: m_Name
+      value: PlayerUI 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605672305499293745, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
+      propertyPath: m_Name
+      value: PlayerUI 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
 --- !u!1 &953772078
@@ -2509,7 +2533,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

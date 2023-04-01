@@ -18,17 +18,19 @@ namespace BossArena.UI
         Button m_NextButton;
         [SerializeField]
         Button m_PreviousButton;
+        LocalPlayer m_LocalPlayer;
 
         void Next()
         {
-            Debug.Log("Nexting");
-            Archetypes type = Manager.m_localUser.Archetype.Value.Next();
+            Archetypes type = m_LocalPlayer.Archetype.Value.Next();
+            m_LocalPlayer.Archetype.Value = type;
             Manager.SetLocalUserArchetype(type);
         }
 
         void Previous()
         {
-            Archetypes type = Manager.m_localUser.Archetype.Value.Previous();
+            Archetypes type = m_LocalPlayer.Archetype.Value.Previous();
+            m_LocalPlayer.Archetype.Value = type;
             Manager.SetLocalUserArchetype(type);
         }
 
@@ -37,12 +39,38 @@ namespace BossArena.UI
             m_ArchetypeText.text = archetype.ToString();
         }
 
+        public void SetUser(LocalPlayer localPlayer)
+        {
+            m_LocalPlayer = localPlayer;
+            SubscribeToPlayerUpdates();
+        }
+
+        public void ResetUI()
+        {
+            if (m_LocalPlayer == null)
+                return;
+            UnsubscribeToPlayerUpdates();
+            m_LocalPlayer = null;
+        }
+
+        void SubscribeToPlayerUpdates()
+        {
+            m_LocalPlayer.Archetype.onChanged += ArchetypeChanged;
+        }
+
+        void UnsubscribeToPlayerUpdates()
+        {
+            if (m_LocalPlayer == null)
+                return;
+            if (m_LocalPlayer.Archetype?.onChanged != null)
+                m_LocalPlayer.Archetype.onChanged -= ArchetypeChanged;
+        }
+
         public override void Start()
         {
             base.Start();
             m_NextButton.onClick.AddListener(Next);
             m_PreviousButton.onClick.AddListener(Previous);
-            Manager.m_localUser.Archetype.onChanged += ArchetypeChanged;
             m_ArchetypeText.text = Manager.m_localUser.Archetype.Value.ToString();
         }
     }

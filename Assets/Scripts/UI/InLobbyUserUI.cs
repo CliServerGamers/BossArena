@@ -24,10 +24,12 @@ namespace BossArena.UI
         [SerializeField]
         Archetype[] m_Archetypes;
 
+        [SerializeField]
+        ClassSelectionUI classSelection;
+
         public bool IsAssigned => UserId != null;
         public string UserId { get; set; }
-        LocalPlayer m_LocalPlayer;
-
+        public LocalPlayer m_LocalPlayer;
         public void SetUser(LocalPlayer localPlayer)
         {
             Show();
@@ -39,6 +41,7 @@ namespace BossArena.UI
             SetDisplayName(m_LocalPlayer.DisplayName.Value);
             SubscribeToPlayerUpdates();
 
+            classSelection.SetUser(m_LocalPlayer);
         }
 
         void SubscribeToPlayerUpdates()
@@ -47,6 +50,7 @@ namespace BossArena.UI
             m_LocalPlayer.DisplayName.onChanged += SetDisplayName;
             m_LocalPlayer.UserStatus.onChanged += SetUserStatus;
             m_LocalPlayer.Archetype.onChanged += SetArchetype;
+
             //m_LocalPlayer.IsHost.onChanged += SetIsHost;
         }
 

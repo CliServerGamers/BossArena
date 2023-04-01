@@ -84,12 +84,12 @@ namespace BossArena
 
         public LocalLobby()
         {
-            Debug.Log("LocalLoby made");
             LastUpdated.Value = DateTime.Now.ToFileTimeUtc();
         }
 
         public LocalPlayer GetLocalPlayer(int index)
         {
+            Debug.Log("Gep logcal");
             return PlayerCount > index ? m_LocalPlayers[index] : null;
         }
 

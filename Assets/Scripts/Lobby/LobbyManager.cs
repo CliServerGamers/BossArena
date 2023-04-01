@@ -126,7 +126,7 @@ namespace BossArena
 
         public async Task<Lobby> JoinLobbyAsync(string lobbyId, string lobbyCode, LocalPlayer localUser)
         {
-            Debug.Log($"{m_JoinCooldown.IsCoolingDown} : {lobbyId} : {lobbyCode}");
+            Debug.Log($"{m_JoinCooldown.IsCoolingDown} : {lobbyId} : {lobbyCode} : {localUser}");
             if (m_JoinCooldown.IsCoolingDown ||
                 (lobbyId == null && lobbyCode == null))
             {
@@ -402,6 +402,7 @@ namespace BossArena
                     dataCurr[dataNew.Key] = dataObj;
                 else
                     dataCurr.Add(dataNew.Key, dataObj);
+                Debug.Log($"{dataNew.Key} : {dataNew.Value}");
             }
 
             if (m_UpdatePlayerCooldown.TaskQueued)
