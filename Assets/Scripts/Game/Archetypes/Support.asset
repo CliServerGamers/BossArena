@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BasicAttack: {fileID: 5899021118764256236, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
   BasicAbility: {fileID: 7986055475673144722, guid: 9fbf04e87243e4e42944f3ac62503737, type: 3}
-  UltimateAbility: {fileID: 6919458306558213587, guid: f1e5e2f48cff37e4eb23265d5a49441b, type: 3}
+  UltimateAbility: {fileID: 6919458306558213587, guid: 6512a120fbc826d47b87911d1b88171c, type: 3}
   MaxHealth: 0
-  classColor: {r: 0, g: 1, b: 0.9827037, a: 1}
+  classColor: {r: 1, g: 0, b: 0.93903685, a: 1}
