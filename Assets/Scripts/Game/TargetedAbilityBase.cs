@@ -12,7 +12,7 @@ namespace BossArena.game
     {
         // Need to have reference to Camera.
         [SerializeField]
-        protected Camera mainCamera;
+        protected Camera? mainCamera;
 
         [SerializeField]
         protected bool isSelfTarget;

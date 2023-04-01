@@ -10,7 +10,7 @@ namespace BossArena.game
     /// Once the NetworkManager has been spawned, we need something to manage the game state and setup other in-game objects
     /// that is itself a networked object, to track things like network connect events.
     /// </summary>
-    public class InGameRunner : NetworkBehaviour
+    public class InGameRunner : NetworkSingleton<InGameRunner>
     {
 
         [SerializeField]
@@ -26,16 +26,17 @@ namespace BossArena.game
         private PlayerData
             m_localUserData; // This has an ID that's not necessarily the OwnerClientId, since all clients will see all spawned objects regardless of ownership.
 
-        public static InGameRunner Instance
-        {
-            get
-            {
-                if (s_Instance!) return s_Instance;
-                return s_Instance = FindObjectOfType<InGameRunner>();
-            }
-        }
+        [SerializeField]
+        private GameObject m_PlayerPrefab;
+        [SerializeField]
+        public ArchetypeList ArchetypeList;
 
-        static InGameRunner s_Instance;
+
+        [field: SerializeField]
+        public List<GameObject> PlayerList;
+
+        [field: SerializeField]
+        public List<GameObject> ActiveEntityList;
 
         public void Initialize(Action onConnectionVerified, int expectedPlayerCount, Action onGameBegin,
             Action onGameEnd,
@@ -47,7 +48,7 @@ namespace BossArena.game
             onGameBeginning = onGameBegin;
             m_onGameEnd = onGameEnd;
             m_canSpawnInGameObjects = null;
-            m_localUserData = new PlayerData(localUser.DisplayName.Value, 0);
+            m_localUserData = new PlayerData(localUser.DisplayName.Value, 0, localUser.Archetype.Value);
         }
 
         public override void OnNetworkSpawn()
@@ -55,7 +56,7 @@ namespace BossArena.game
             Debug.Log("InGameRunner: OnNetworkSpawn");
             if (IsHost)
                 FinishInitialize();
-            m_localUserData = new PlayerData(m_localUserData.name, NetworkManager.Singleton.LocalClientId);
+            m_localUserData = new PlayerData(m_localUserData.name, NetworkManager.Singleton.LocalClientId, m_localUserData.archetype);
             VerifyConnection_ServerRpc(m_localUserData.id);
         }
 
@@ -93,7 +94,7 @@ namespace BossArena.game
         private void VerifyConnectionConfirm_ServerRpc(PlayerData clientData)
         {
 
-            m_dataStore.AddPlayer(clientData.id, clientData.name);
+            m_dataStore.AddPlayer(clientData.id, clientData.name, clientData.archetype);
             // The game will begin at this point, or else there's a timeout for booting any unconnected players.
             bool areAllPlayersConnected = NetworkManager.Singleton.ConnectedClients.Count >= m_expectedPlayerCount;
             VerifyConnectionConfirm_ClientRpc(clientData.id, areAllPlayersConnected);
@@ -123,18 +124,25 @@ namespace BossArena.game
             m_canSpawnInGameObjects = true;
             GameManager.Instance.BeginGame();
             onGameBeginning?.Invoke();
-        }
-
-        public void Update()
-        {
-            if (m_timeout >= 0)
-            {
-                m_timeout -= Time.deltaTime;
-                if (m_timeout < 0)
-                    BeginGame();
-            }
+            //Debug.Log("Spanner");
+            //if (NetworkManager.Singleton.LocalClientId != m_localUserData.id) return;
+            //if (IsServer)
+            //    m_dataStore.GetPlayerData(m_localUserData.id, spawnPlayer);
+            //else
+            //    m_dataStore.GetPlayerData(m_localUserData.id, spawnPlayerServerRPC);
 
         }
+
+        //public void Update()
+        //{
+        //    if (m_timeout >= 0)
+        //    {
+        //        m_timeout -= Time.deltaTime;
+        //        if (m_timeout < 0)
+        //            BeginGame();
+        //    }
+
+        //}
 
         /// <summary>
         /// The server determines when the game should end. Once it does, it needs to inform the clients to clean up their networked objects first,
@@ -171,6 +179,24 @@ namespace BossArena.game
         private void SendLocalEndGameSignal()
         {
             m_onGameEnd();
+        }
+
+        private void spawnPlayer(PlayerData playerData)
+        {
+            GameObject newPlayer;
+            newPlayer = (GameObject)Instantiate(m_PlayerPrefab);
+            NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
+            newPlayer.SetActive(true);
+            newPlayer.GetComponent<Player>().Archetype = playerData.archetype;
+            InGameRunner.Instance.PlayerList.Add(newPlayer);
+            playerObj.SpawnWithOwnership(playerData.id, true);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void spawnPlayerServerRPC(PlayerData playerData)
+        {
+            Debug.Log("Spawning Player RPC");
+            spawnPlayer(playerData);
         }
     }
 }

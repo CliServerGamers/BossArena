@@ -703,6 +703,14 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 733421702
       objectReference: {fileID: 0}
+    - target: {fileID: 6740074668513524521, guid: cec461638309e064ca893b6d1040d38b, type: 3}
+      propertyPath: m_PlayerPrefab
+      value: 
+      objectReference: {fileID: 3819106736952998509, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
+    - target: {fileID: 6740074668513524521, guid: cec461638309e064ca893b6d1040d38b, type: 3}
+      propertyPath: m_ArchetypeList
+      value: 
+      objectReference: {fileID: 11400000, guid: 71994d617e0ffd640997e5528d2dc3a6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec461638309e064ca893b6d1040d38b, type: 3}
 --- !u!1 &2018938520
