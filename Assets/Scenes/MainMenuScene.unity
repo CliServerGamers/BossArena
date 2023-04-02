@@ -160,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: 87}
+  m_AnchoredPosition: {x: -0.000030518, y: 137.99998}
   m_SizeDelta: {x: 427.4096, y: 128.2228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &48974610
@@ -2068,10 +2068,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Will Whitfield
+  m_text: 'Jay Wang
 
-    (Probably some other people but at time of writing
-    idk who)'
+    Will Whitfield
+
+    (Probably some other people but at time
+    of writing idk who)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
   m_sharedMaterial: {fileID: 4704314613022359344, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
@@ -4331,7 +4333,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: 344}
+  m_AnchoredPosition: {x: -0.000030518, y: 299}
   m_SizeDelta: {x: 662.94, y: 189.44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1277611327
@@ -5533,7 +5535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -369}
+  m_AnchoredPosition: {x: 0, y: -318}
   m_SizeDelta: {x: 427.4096, y: 128.2228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1894869533
@@ -5804,7 +5806,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: -64.809}
+  m_AnchoredPosition: {x: -0.000030518, y: -13.80901}
   m_SizeDelta: {x: 427.4096, y: 129.6176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1913216604
@@ -6025,7 +6027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: -214}
+  m_AnchoredPosition: {x: -0.000030518, y: -163.00002}
   m_SizeDelta: {x: 427.4096, y: 128.2228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1950629758
