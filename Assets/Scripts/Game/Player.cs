@@ -15,7 +15,6 @@ namespace BossArena.game
 
         public Animator anim;
         private Renderer rend;
-        private Rigidbody2D rb;
 
         private ParticleSystem ps;
         private float horizVelocity;
@@ -27,7 +26,9 @@ namespace BossArena.game
         public int dodgeCooldown;
 
         [SerializeField]
-        public Archetype Archetype;
+        public NetworkVariable<Archetypes> Archetype = new NetworkVariable<Archetypes>();
+
+        public Archetype m_Archetype;
         public AbilityBase BasicAttack;
         public AbilityBase BasicAbility;
         public AbilityBase UltimateAbility;
@@ -56,15 +57,14 @@ namespace BossArena.game
             rb = playerObj.GetComponent<Rigidbody2D>();
             ps = playerObj.GetComponent<ParticleSystem>();
             dodgeCooldown = 0;
+            m_Archetype = InGameRunner.Instance.ArchetypeDictionary.GetValueOrDefault(Archetype.Value);
             initAbilities(GetComponent<NetworkObject>().OwnerClientId);
             // Assign Renderer component to rend variable
             rend = GetComponent<Renderer>();
-
-            // Get Reference to PlayerPrefab's SpriteRenderer Component
-            playerSpriteRenderer = playerObj.GetComponent<SpriteRenderer>();
-
             // Change sprite color to selected color
-            //rend.material.color = Archetype.classColor;
+            rend.material.color = m_Archetype.classColor;
+
+            AddPlayerToGame();
         }
 
         protected void initAbilities(ulong clientId)
@@ -105,15 +105,15 @@ namespace BossArena.game
 
         private void spawnAbilities(ulong clientId)
         {
-            GameObject basicAttack = (GameObject) Instantiate(Archetype.BasicAttack, transform.position, playerObj.transform.rotation);
+            GameObject basicAttack = (GameObject) Instantiate(m_Archetype.BasicAttack, transform.position, playerObj.transform.rotation);
             basicAttack.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             basicAttack.transform.SetParent(transform, false);
 
-            GameObject basicAbility = (GameObject) Instantiate(Archetype.BasicAbility, transform.position, playerObj.transform.rotation);
+            GameObject basicAbility = (GameObject) Instantiate(m_Archetype.BasicAbility, transform.position, playerObj.transform.rotation);
             basicAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             basicAbility.transform.SetParent(transform, false);
 
-            GameObject ultimateAbility = (GameObject) Instantiate(Archetype.UltimateAbility, transform.position, playerObj.transform.rotation);
+            GameObject ultimateAbility = (GameObject) Instantiate(m_Archetype.UltimateAbility, transform.position, playerObj.transform.rotation);
             ultimateAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             ultimateAbility.transform.SetParent(transform, false);
             setAbilitiesClientRPC();
@@ -214,6 +214,21 @@ namespace BossArena.game
             {
                 dodgeCooldown--;
             }
+        }
+
+        void AddPlayerToGame()
+        {
+            //if (!IsHost)
+            //{
+            //    AddPlayerToGameServerRpc();
+            //}
+            InGameRunner.Instance.AddPlayer(gameObject);
+        }
+
+        [ServerRpc]
+        void AddPlayerToGameServerRpc()
+        {
+            InGameRunner.Instance.AddPlayer(gameObject);
         }
 
         protected override void HandleCollision(Collision2D collision)
