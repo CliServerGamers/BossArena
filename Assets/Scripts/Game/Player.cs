@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,12 @@ namespace BossArena.game
         //So we kinda have to do this
         //(That or i'm just dumb lol)
         public GameObject playerObj;
+
+        [SerializeField]
+        private Material _DamageMaterial;
+        [SerializeField]
+        private Material _DefaultMaterial;
+        private SpriteRenderer playerSpriteRenderer;
 
         //public Player(Archetype archetype) : base()
         //{
@@ -234,6 +241,11 @@ namespace BossArena.game
                 if (monoBehaviour is IHostile)
                 {
                     Debug.Log($"{OwnerClientId}: Owie bad man touch me.");
+
+                    // Collide with something that hursts me
+                    playerSpriteRenderer.material = _DamageMaterial;
+                    StartCoroutine(switchDefaultMaterial());
+
                     continue;
                 }
                 Debug.Log($"{OwnerClientId}: Huh? Must be the wind.");
@@ -245,6 +257,14 @@ namespace BossArena.game
         {
             Debug.Log($"{hitter}: Hiting friendly player {OwnerClientId}");
         }
+
+        IEnumerator switchDefaultMaterial()
+        {
+            // Wait _ seconds before switching back to default material.
+            yield return new WaitForSeconds(1);
+            playerSpriteRenderer.material = _DefaultMaterial;
+        }
+
     }
 
 
