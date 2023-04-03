@@ -110,7 +110,9 @@ MonoBehaviour:
   baseMoveSpeed: 5
   anim: {fileID: -1219645316650621072}
   dodgeCooldown: 0
-  Archetype: {fileID: 0}
+  Archetype:
+    m_InternalValue: 0
+  m_Archetype: {fileID: 0}
   BasicAttack: {fileID: 0}
   BasicAbility: {fileID: 0}
   UltimateAbility: {fileID: 0}
@@ -5074,7 +5076,7 @@ Animator:
   m_GameObject: {fileID: 3819106736952998509}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 06caebd9a357e8f46b83e738cc19c53c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
