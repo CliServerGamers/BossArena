@@ -12,3 +12,5 @@ Jay Wang
     - Add Tank Ability Sprites for: AutoAttack, Taunt, Ultimate
     - Tank Abilites Finalized
     - CRT Shader
+    - Implemented Damage Shader and Toxic Shader (Use Material Switching)
+    - Created Boss Arena Sprite Legos

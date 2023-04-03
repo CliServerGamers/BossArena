@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,12 @@ namespace BossArena.game
         //(That or i'm just dumb lol)
         public GameObject playerObj;
 
+        [SerializeField]
+        private Material _DamageMaterial;
+        [SerializeField]
+        private Material _DefaultMaterial;
+        private SpriteRenderer playerSpriteRenderer;
+
         //public Player(Archetype archetype) : base()
         //{
         //    Archetype = archetype;
@@ -52,6 +59,9 @@ namespace BossArena.game
             initAbilities(GetComponent<NetworkObject>().OwnerClientId);
             // Assign Renderer component to rend variable
             rend = GetComponent<Renderer>();
+
+            // Get Reference to PlayerPrefab's SpriteRenderer Component
+            playerSpriteRenderer = playerObj.GetComponent<SpriteRenderer>();
 
             // Change sprite color to selected color
             //rend.material.color = Archetype.classColor;
@@ -216,6 +226,11 @@ namespace BossArena.game
                 if (monoBehaviour is IHostile)
                 {
                     Debug.Log($"{OwnerClientId}: Owie bad man touch me.");
+
+                    // Collide with something that hursts me
+                    playerSpriteRenderer.material = _DamageMaterial;
+                    StartCoroutine(switchDefaultMaterial());
+
                     continue;
                 }
                 Debug.Log($"{OwnerClientId}: Huh? Must be the wind.");
@@ -227,6 +242,14 @@ namespace BossArena.game
         {
             Debug.Log($"{hitter}: Hiting friendly player {OwnerClientId}");
         }
+
+        IEnumerator switchDefaultMaterial()
+        {
+            // Wait _ seconds before switching back to default material.
+            yield return new WaitForSeconds(1);
+            playerSpriteRenderer.material = _DefaultMaterial;
+        }
+
     }
 
 
