@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -30,13 +31,19 @@ namespace BossArena.game
         private GameObject m_PlayerPrefab;
         [SerializeField]
         public ArchetypeList ArchetypeList;
+        public Dictionary<Archetypes, Archetype> ArchetypeDictionary { get; private set; }
 
 
-        [field: SerializeField]
+[field: SerializeField]
         public List<GameObject> PlayerList;
 
         [field: SerializeField]
         public List<GameObject> ActiveEntityList;
+
+        private void Awake()
+        {
+            ArchetypeDictionary = ArchetypeList.archetypeList.ToDictionary(archetype => archetype.key, archetype => archetype.value);
+        }
 
         public void Initialize(Action onConnectionVerified, int expectedPlayerCount, Action onGameBegin,
             Action onGameEnd,
@@ -198,5 +205,11 @@ namespace BossArena.game
         //    Debug.Log("Spawning Player RPC");
         //    spawnPlayer(playerData);
         //}
+
+        public void AddPlayer(GameObject player)
+        {
+            PlayerList.Add(player);
+
+        }
     }
 }

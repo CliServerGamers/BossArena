@@ -27,7 +27,7 @@ namespace BossArena.game
         public int MaxHealth;
 
         [SerializeField]
-        public Archetype Type;
+        public Archetypes Type;
 
         [SerializeField]
         public Color classColor;
