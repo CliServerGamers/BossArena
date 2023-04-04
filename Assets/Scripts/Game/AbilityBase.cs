@@ -23,6 +23,9 @@ namespace BossArena.game
         [SerializeField]
         protected float timeStart;
 
+        [SerializeField]
+        protected float damage;
+
         protected virtual void Start()
         {
             onCoolDown = false;

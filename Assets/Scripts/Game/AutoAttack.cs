@@ -17,6 +17,9 @@ namespace BossArena.game
         [SerializeField]
         private GameObject AutoAttackPrefab;
 
+        [SerializeField]
+        private Animator anim;
+        [SerializeField]
         private SpriteRenderer AutoAttackPrefabSpriteRenderer;
 
         // Parent Player Prefab MUST have AutoAttackCollider Prefab\
@@ -24,7 +27,7 @@ namespace BossArena.game
         private BoxCollider2D AUTOATTACK_COLLIDER;
 
         // Use for checking elapsed time while ulted.
-        private bool autoActivated = false;
+        //private bool autoActivated = false;
         [SerializeField]
         private float lengthOfAttackInSec;
 
@@ -57,7 +60,7 @@ namespace BossArena.game
             // Intially Off
             //AutoAttackPrefabSpriteRenderer.enabled = false;
 
-            AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
+            //AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
         }
 
@@ -100,13 +103,14 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             UnityEngine.Debug.Log("Activate AutoAttack");
-
-            autoActivated = true;
+            
+            //autoActivated = true;
             //AutoAttackPrefabSpriteRenderer.enabled = true;
             //ApplyWindUp
             ApplyEffect();
             //ApplyCooldown
             StartCoroutine(WaitForAbilityEnd());
+            
 
         }
 
@@ -115,13 +119,15 @@ namespace BossArena.game
         {
             yield return new WaitForSeconds(.5f);
             //AutoAttackPrefabSpriteRenderer.enabled = false;
+            anim.ResetTrigger("onAttack");
         }
         public override void ApplyEffect()
         {
 
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             //Play AutoAttack Animation
-            AUTOATTACK_COLLIDER.enabled = true;
+            anim.SetTrigger("onAttack");
+            //AUTOATTACK_COLLIDER.enabled = true;
 
             Debug.Log("Collider.enabled = " + AUTOATTACK_COLLIDER.enabled);
             //Delay for length of attack
@@ -132,7 +138,7 @@ namespace BossArena.game
         IEnumerator WaitToDisableHitbox()
         {
             yield return new WaitForSeconds(lengthOfAttackInSec);
-            AUTOATTACK_COLLIDER.enabled = false;
+            //AUTOATTACK_COLLIDER.enabled = false;
             Debug.Log("Collider.enabled = " + AUTOATTACK_COLLIDER.enabled);
         }
 
@@ -234,6 +240,11 @@ namespace BossArena.game
                     {
                         ((IFriendly)monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
                     }
+                }
+                if (monoBehaviour is IHostile)
+                {
+                    Debug.Log("Smack Bad man");
+                    monoBehaviour.GetComponent<EntityBase>().TakeDamage(damage);
                 }
             }
         }
