@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ab53b5595e22bfe4988611199c12daab, type: 2}
+  m_Motion: {fileID: 7400000, guid: c01952d5ef8463843ab7e8b5e8b2874c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -33,7 +33,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TankAutoAttack
+  m_Name: HealerAutoAttack
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: onAttack
