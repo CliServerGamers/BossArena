@@ -110,6 +110,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dataStore: {fileID: 2383051813492782690}
+  m_PlayerPrefab: {fileID: 3819106736952998509, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
+  ArchetypeList: {fileID: 11400000, guid: 71994d617e0ffd640997e5528d2dc3a6, type: 2}
+  PlayerList: []
+  ActiveEntityList: []
 --- !u!114 &1903348322805050489
 MonoBehaviour:
   m_ObjectHideFlags: 0

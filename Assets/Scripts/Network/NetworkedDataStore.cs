@@ -39,15 +39,15 @@ namespace BossArena.game
             m_localId = NetworkManager.Singleton.LocalClientId;
         }
 
-        public void AddPlayer(ulong id, string name)
+        public void AddPlayer(ulong id, string name, Archetypes archetype)
         {
             if (!IsServer)
                 return;
 
             if (!m_playerData.ContainsKey(id))
-                m_playerData.Add(id, new PlayerData(name, id));
+                m_playerData.Add(id, new PlayerData(name, id, archetype));
             else
-                m_playerData[id] = new PlayerData(name, id);
+                m_playerData[id] = new PlayerData(name, id, archetype);
         }
 
         ///// <returns>The updated score for the player matching the id after adding the delta, or int.MinValue otherwise.</returns>

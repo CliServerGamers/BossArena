@@ -15,6 +15,11 @@ namespace BossArena.game
         // Need to have reference to Taunt Prefab
         [SerializeField]
         private GameObject TauntPrefab;
+
+        // Need to know how long this ability lasts for
+        [SerializeField]
+        private float lengthOfAttackInSec;
+
         private CircleCollider2D TauntPrefabCollider;
         private SpriteRenderer TauntPrefabSpriteRenderer;
 
@@ -26,24 +31,41 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             TauntPrefabSpriteRenderer.enabled = false;
+            //TauntPrefabCollider.enabled = true;
             if (onCoolDown)
                 return;
             onCoolDown = true;
             timeStart = Time.time;
+            
+            // Apply Effect
             ApplyEffect();
-            TauntPrefabCollider.enabled = true;
-            TauntPrefabCollider.enabled = false;
+
+            // Start Coroutine for end of Ability.
+            
         }
 
         public override void ApplyEffect()
         {
-            // Get Collider
+            // Activate Prefab
+            TauntPrefabCollider.enabled = true;
 
             // Apply Taunt Debuff for each enemy in collider
+            // Actual Effect here
+
+            StartCoroutine(WaitToDisableHitbox());
+
+        }
+
+        IEnumerator WaitToDisableHitbox()
+        {
+            yield return new WaitForSeconds(lengthOfAttackInSec);
+            TauntPrefabCollider.enabled = false;
         }
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
         {
+            if(onCoolDown) return;
+
             // Update MousePosition
             currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 

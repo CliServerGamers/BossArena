@@ -31,8 +31,8 @@ namespace BossArena
 
         [SerializeField]
         private GameObject PlayerPrefab;
-        [SerializeField]
-        private GameObject AutoAttackPrefab;
+        //[SerializeField]
+        //private GameObject AutoAttackPrefab;
 
         private void Awake()
         {
@@ -41,7 +41,8 @@ namespace BossArena
 
         public bool SceneIsLoaded
         {
-            get {
+            get
+            {
                 if (m_LoadedScene.IsValid() && m_LoadedScene.isLoaded)
                 {
                     return true;
@@ -136,6 +137,10 @@ namespace BossArena
     
             {
                 if (IsServer)
+                //    NetworkedDataStore.Instance.GetPlayerData(sceneEvent.ClientId, spawnPlayer);
+                //else
+                //    spawnPlayerServerRPC(sceneEvent.ClientId);
+                if (IsServer)
                 {
                     spawnPlayer(sceneEvent.ClientId);
                 }
@@ -150,18 +155,15 @@ namespace BossArena
 
         private void spawnPlayer(ulong clientId)
         {
+            //NetworkedDataStore.Instance.GetPlayerData(clientId, spawnPlayer);
             GameObject newPlayer;
             newPlayer = (GameObject)Instantiate(PlayerPrefab);
             NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
             newPlayer.SetActive(true);
+            Archetypes type = GameManager.Instance.LocalLobby.GetLocalPlayer((int)clientId).Archetype.Value;
+            newPlayer.GetComponent<Player>().Archetype.Value = type;
             playerObj.SpawnWithOwnership(clientId, true);
-            //GameObject autoAttackObj = Instantiate(AutoAttackPrefab, Vector3.zero, Quaternion.identity);
-            //autoAttackObj.GetComponent<NetworkObject>().Spawn();
-            //autoAttackObj.transform.parent = playerObj.transform;
-            //autoAttackObj.GetComponent<AutoAttack>().Initialize();
-            //Player player = newPlayer.GetComponent<Player>();
-            //player.SetPlayerID(clientId);
-            //player.SetSpawnPosition();
+            //InGameRunner.Instance.PlayerList.Add(newPlayer);
         }
 
         [ServerRpc(RequireOwnership = false)]

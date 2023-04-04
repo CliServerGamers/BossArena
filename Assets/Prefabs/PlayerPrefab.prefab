@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1455274050, guid: 73bbe78d3b36b8e4a88d569210e59bf8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,11 +110,15 @@ MonoBehaviour:
   baseMoveSpeed: 5
   anim: {fileID: -1219645316650621072}
   dodgeCooldown: 0
-  Archetype: {fileID: 11400000, guid: 5894d194eeb9ca745b6e23e710689920, type: 2}
-  BasicAttack: {fileID: 54374114409144770, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
-  BasicAbility: {fileID: 4506303783431142119, guid: 2c77151701e292a459de337a1673916f, type: 3}
-  UltimateAbility: {fileID: 4577363400728431482, guid: db6f6daf5924f1a4abbfd88bc02d74e6, type: 3}
+  Archetype:
+    m_InternalValue: 0
+  m_Archetype: {fileID: 0}
+  BasicAttack: {fileID: 0}
+  BasicAbility: {fileID: 0}
+  UltimateAbility: {fileID: 0}
   playerObj: {fileID: 3819106736952998509}
+  _DamageMaterial: {fileID: 2100000, guid: b2d974d8be6f2b741a6c539fb3f72a18, type: 2}
+  _DefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!50 &3819106736952998504
 Rigidbody2D:
   serializedVersion: 4
