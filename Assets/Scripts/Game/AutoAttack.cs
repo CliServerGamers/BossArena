@@ -52,10 +52,10 @@ namespace BossArena.game
             AutoAttackPrefabSpriteRenderer = AutoAttackPrefab.GetComponent<SpriteRenderer>();
 
             // Set AutoAttackPrefab Scale
-            AutoAttackPrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            //AutoAttackPrefab.transform.localScale = new Vector3(2f, 2f, 2f);
 
             // Intially Off
-            AutoAttackPrefabSpriteRenderer.enabled = false;
+            //AutoAttackPrefabSpriteRenderer.enabled = false;
 
             AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
@@ -102,7 +102,7 @@ namespace BossArena.game
             UnityEngine.Debug.Log("Activate AutoAttack");
 
             autoActivated = true;
-            AutoAttackPrefabSpriteRenderer.enabled = true;
+            //AutoAttackPrefabSpriteRenderer.enabled = true;
             //ApplyWindUp
             ApplyEffect();
             //ApplyCooldown
@@ -114,7 +114,7 @@ namespace BossArena.game
         IEnumerator WaitForAbilityEnd()
         {
             yield return new WaitForSeconds(.5f);
-            AutoAttackPrefabSpriteRenderer.enabled = false;
+            //AutoAttackPrefabSpriteRenderer.enabled = false;
         }
         public override void ApplyEffect()
         {
@@ -147,11 +147,11 @@ namespace BossArena.game
 
             AutoAttackPrefab.transform.position = focusCursor;
 
-         
+
             Vector3 diff = currentMousePosition - parentPlayer.transform.position;
             float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
 
-            AutoAttackPrefab.transform.rotation = Quaternion.Euler(0, 0, angle+90);
+            AutoAttackPrefab.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
             //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 
@@ -189,8 +189,8 @@ namespace BossArena.game
 
             //UnityEngine.Debug.Log("Transform Position: " + playerPos);
 
-            float focusX = playerPos.x + Mathf.Cos(angle);
-            float focusY = playerPos.y + Mathf.Sin(angle);
+            float focusX = playerPos.x + (Mathf.Cos(angle) * range);
+            float focusY = playerPos.y + (Mathf.Sin(angle) * range);
 
             Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
             //UnityEngine.Debug.Log(focusCursorPosition);
@@ -212,7 +212,7 @@ namespace BossArena.game
         private void OnTriggerEnter2D(Collider2D collider)
         {
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
-                HandleCollision(collider);
+            HandleCollision(collider);
             if (IsServer)
             {
             }
@@ -232,7 +232,7 @@ namespace BossArena.game
                 {
                     if (IsOwner)
                     {
-                        ((IFriendly) monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
+                        ((IFriendly)monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
                     }
                 }
             }

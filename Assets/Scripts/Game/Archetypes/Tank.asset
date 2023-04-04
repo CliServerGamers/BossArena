@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 844974ebe3ee10d40a1abc564fe7d988, type: 3}
   m_Name: Tank
   m_EditorClassIdentifier: 
-  BasicAttack: {fileID: 5899021118764256236, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+  BasicAttack: {fileID: 5899021118764256236, guid: 98b0f36a5dc9b8f45bdd257f7c00c416, type: 3}
   BasicAbility: {fileID: 7986055475673144722, guid: 2d5f750354d5a6b42a8f91e1e8b17a50, type: 3}
   UltimateAbility: {fileID: 6919458306558213587, guid: f1e5e2f48cff37e4eb23265d5a49441b, type: 3}
   MaxHealth: 0
+  Type: 0
   classColor: {r: 1, g: 0.9499881, b: 0, a: 1}
