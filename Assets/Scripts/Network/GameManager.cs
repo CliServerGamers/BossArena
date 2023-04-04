@@ -223,7 +223,7 @@ namespace BossArena
         {
             m_localUser.UserStatus.Value = PlayerStatus.InGame;
             m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
-            ProjectSceneManager.Instance.LoadScene("TestScene");
+            ProjectSceneManager.Instance.LoadScene("DPS_DevelopmentScene");
         }
 
         public void BeginGame()
