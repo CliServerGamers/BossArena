@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c01952d5ef8463843ab7e8b5e8b2874c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3a58fd7905558c044b74aa8b5816d38a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -33,7 +33,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HealerAutoAttack
+  m_Name: DPSAutoAttack
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: onAttack
@@ -101,7 +101,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3bf38a99ed030ad49a1b616f510c0915, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2221ab99b79a7c84ead889a76fd32fa1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
