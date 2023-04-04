@@ -57,20 +57,7 @@ namespace BossArena.game
             {
                 new InOrderSequenceNode(new List<Node>
                 {
-/*                    new IdleNode(1),
-                    new BossExitScreen(this.gameObject, shadow),
-                    new SkyDive(this.gameObject, eod, shadow, skydiveHitbox),
-
-                    new IdleNode(1),
-                    new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(1),
-                    new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(1),
-                    new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(1),
-                    new PassiveJump(this.gameObject, shadow),
-                    new IdleNode(1),
-                    new PassiveJump(this.gameObject, shadow),*/
+                    new TargetSelectionNode(),
 
                     new IdleNode(0.5f),
                     new ProjectileAttackNode(this.gameObject, projectilePrefab),
@@ -79,7 +66,7 @@ namespace BossArena.game
                     new IdleNode(0.5f),
                     new ProjectileAttackNode(this.gameObject, projectilePrefab),
                 })
-            });
+            });;
 
             return _root;
         }
