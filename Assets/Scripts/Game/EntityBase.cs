@@ -57,6 +57,12 @@ namespace BossArena.game
         {
             Debug.Log($"Taking {damage} points of damage");
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void TakeDamageServerRpc(float damage)
+        {
+            TakeDamage(damage);
+        }
     }
 
 }

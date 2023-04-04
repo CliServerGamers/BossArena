@@ -103,14 +103,14 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             UnityEngine.Debug.Log("Activate AutoAttack");
-            
+
             //autoActivated = true;
             //AutoAttackPrefabSpriteRenderer.enabled = true;
             //ApplyWindUp
             ApplyEffect();
             //ApplyCooldown
             StartCoroutine(WaitForAbilityEnd());
-            
+
 
         }
 
@@ -229,22 +229,19 @@ namespace BossArena.game
         protected void HandleCollision(Collider2D collider)
         {
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
-
+            if (!IsOwner) return;
 
             var tempMonoArray = collider.gameObject.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in tempMonoArray)
             {
                 if (monoBehaviour is IFriendly)
                 {
-                    if (IsOwner)
-                    {
-                        ((IFriendly)monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
-                    }
+                    ((IFriendly)monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
                 }
                 if (monoBehaviour is IHostile)
                 {
                     Debug.Log("Smack Bad man");
-                    monoBehaviour.GetComponent<EntityBase>().TakeDamage(damage);
+                    monoBehaviour.GetComponent<EntityBase>().TakeDamageServerRpc(damage);
                 }
             }
         }
