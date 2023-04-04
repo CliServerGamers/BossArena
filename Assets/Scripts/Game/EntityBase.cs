@@ -13,8 +13,8 @@ namespace BossArena.game
         [SerializeField]
         protected Rigidbody2D rb;
 
-        public float MaxHealth { get; protected set; }
-        public float CurrentHealth { get; set; }
+        public CallbackValue<float> MaxHealth = new CallbackValue<float>();
+        public CallbackValue<float> CurrentHealth = new CallbackValue<float>();
         public bool IsAlive { get; protected set; }
 
         public EntityState State { get; set; }
@@ -42,8 +42,8 @@ namespace BossArena.game
         protected void SetHealth(float health)
 
         {
-            MaxHealth = health;
-            CurrentHealth = health;
+            MaxHealth.Value = health;
+            CurrentHealth.Value = health;
         }
 
         protected void OnCollisionEnter2D(Collision2D collision)

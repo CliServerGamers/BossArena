@@ -22,9 +22,9 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             //ultimateActivated = true;
-            if (onCoolDown)
+            if (onCoolDown.Value)
                 return;
-            onCoolDown = true;
+            onCoolDown.Value = true;
             timeStart = Time.time;
 
             // Start rendering the ability
