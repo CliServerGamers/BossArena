@@ -99,20 +99,20 @@ public class ConnectionManager : MonoBehaviour
         OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
     }
 
-    public void SpawnPlayer(ulong clientId)
-    {
-        Debug.Log("Spawning Player");
-        GameObject newPlayer;
-        newPlayer = (GameObject) Instantiate(PlayerPrefab);
-        NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
-        newPlayer.SetActive(true);
-        playerObj.SpawnAsPlayerObject(clientId, true);
-        GameObject autoAttackObj = Instantiate(AutoAttackPrefab, Vector3.zero, Quaternion.identity);
-        autoAttackObj.GetComponent<NetworkObject>().Spawn();
-        autoAttackObj.transform.parent = playerObj.transform;
-        autoAttackObj.GetComponent<AutoAttack>().Initialize();
-        //Player player = newPlayer.GetComponent<Player>();
-        //player.SetPlayerID(clientId);
-        //player.SetSpawnPosition();
-    }
+    //public void SpawnPlayer(ulong clientId)
+    //{
+    //    Debug.Log("Spawning Player");
+    //    GameObject newPlayer;
+    //    newPlayer = (GameObject) Instantiate(PlayerPrefab);
+    //    NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
+    //    newPlayer.SetActive(true);
+    //    playerObj.SpawnAsPlayerObject(clientId, true);
+    //    GameObject autoAttackObj = Instantiate(AutoAttackPrefab, Vector3.zero, Quaternion.identity);
+    //    autoAttackObj.GetComponent<NetworkObject>().Spawn();
+    //    autoAttackObj.transform.parent = playerObj.transform;
+    //    autoAttackObj.GetComponent<AutoAttack>().Initialize();
+    //    //Player player = newPlayer.GetComponent<Player>();
+    //    //player.SetPlayerID(clientId);
+    //    //player.SetSpawnPosition();
+    //}
 }

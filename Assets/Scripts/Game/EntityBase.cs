@@ -52,6 +52,17 @@ namespace BossArena.game
             HandleCollision(collision);
         }
         protected abstract void HandleCollision(Collision2D collision);
+
+        public virtual void TakeDamage(float damage)
+        {
+            Debug.Log($"Taking {damage} points of damage");
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void TakeDamageServerRpc(float damage)
+        {
+            TakeDamage(damage);
+        }
     }
 
 }
