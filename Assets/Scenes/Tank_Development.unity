@@ -254,9 +254,11 @@ MonoBehaviour:
   coolDownDelay: 3
   range: 0
   onCoolDown: 0
+  timeStart: 0
   mainCamera: {fileID: 1409084969}
   isSelfTarget: 0
   radius: 0
+  parentPlayer: {fileID: 0}
   ultimatePrefab: {fileID: 0}
 --- !u!4 &550768561 stripped
 Transform:
@@ -274,6 +276,7 @@ GameObject:
   - component: {fileID: 1409084971}
   - component: {fileID: 1409084969}
   - component: {fileID: 1409084970}
+  - component: {fileID: 1409084972}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -347,6 +350,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1409084972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409084968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2151713a612d7bb45be4f22ce1e4ae3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curvature: 3
+  vignette: 70
+  mat: {fileID: 2100000, guid: 9b0567865d197104fb6faab34b8240ba, type: 2}
 --- !u!1001 &1529134891
 PrefabInstance:
   m_ObjectHideFlags: 0

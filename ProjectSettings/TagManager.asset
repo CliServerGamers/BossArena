@@ -7,6 +7,10 @@ TagManager:
   - UI
   - Projectile
   - Terrain
+  - Boss
+  - EOD
+  - shadow
+  - AudioSource
   layers:
   - Default
   - TransparentFX
