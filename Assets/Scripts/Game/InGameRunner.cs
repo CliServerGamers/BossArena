@@ -34,7 +34,7 @@ namespace BossArena.game
         public Dictionary<Archetypes, Archetype> ArchetypeDictionary { get; private set; }
 
         [field: SerializeField]
-        public GameObject LocalPlayer;
+        public GameObject LocalPlayer = null;
         [field: SerializeField]
         public List<GameObject> PlayerList;
 

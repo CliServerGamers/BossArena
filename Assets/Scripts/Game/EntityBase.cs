@@ -14,11 +14,13 @@ namespace BossArena.game
         [SerializeField]
         protected Rigidbody2D rb;
 
-        [field:SerializeField]
-        public NetworkVariable<float> MaxHealth { get; protected set; }
+        [field: SerializeField]
+        public NetworkVariable<float> MaxHealth = new NetworkVariable<float>(default,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [field: SerializeField]
-        public NetworkVariable<float> CurrentHealth = new NetworkVariable<float>();
+        public NetworkVariable<float> CurrentHealth = new NetworkVariable<float>(default,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [field: SerializeField]
         public bool IsAlive { get; protected set; }
@@ -55,6 +57,7 @@ namespace BossArena.game
         protected void SetHealth(float health)
 
         {
+            if(!IsOwner) return;
             MaxHealth.Value = health;
             CurrentHealth.Value = health;
         }

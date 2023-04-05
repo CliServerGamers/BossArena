@@ -24,7 +24,7 @@ namespace BossArena.UI
         {
             base.Start();
             StartCoroutine(InitHealthBar());
-           
+
         }
         IEnumerator InitHealthBar()
         {
@@ -37,8 +37,13 @@ namespace BossArena.UI
         }
         IEnumerator WaitForLocalPlayer()
         {
-            if (InGameRunner.Instance.LocalPlayer == null)
+                Debug.Log($"Waiting");
+            while (InGameRunner.Instance.LocalPlayer == null)
+            {
+                Debug.Log($"YIELD");
                 yield return null;
+            }
+            Debug.Log($"Player null is : {InGameRunner.Instance.LocalPlayer == null}");
             entity = InGameRunner.Instance.LocalPlayer.GetComponent<EntityBase>();
         }
     }

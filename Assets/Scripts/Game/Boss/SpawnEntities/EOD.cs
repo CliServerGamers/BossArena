@@ -78,7 +78,8 @@ namespace Assets.Scripts.Game.Boss
             {
                 Debug.Log("Player should be taking damange by EOD");
                 Player player = (Player)component;
-                player.CurrentHealth.Value -= currentDamage;
+                player.TakeDamageServerRpc(currentDamage);
+                //player.CurrentHealth.Value -= ;
             }
         }
 
