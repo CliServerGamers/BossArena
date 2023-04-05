@@ -44,9 +44,9 @@ namespace BossArena.game
 
 
             // Ignore collisions with the boss shadow
-            Collider2D bossCollider = GetComponent<Collider2D>();
-            Collider2D shadowCollider = shadow.GetComponent<Collider2D>();
-            Physics2D.IgnoreCollision(bossCollider, shadowCollider, true);
+            //Collider2D bossCollider = GetComponent<Collider2D>();
+            //Collider2D shadowCollider = shadow.GetComponent<Collider2D>();
+            //Physics2D.IgnoreCollision(bossCollider, shadowCollider, true);
         }
 
         protected override Node SetupTree()

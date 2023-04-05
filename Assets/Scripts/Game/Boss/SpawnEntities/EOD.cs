@@ -34,7 +34,7 @@ namespace Assets.Scripts.Game.Boss
             Physics2D.IgnoreCollision(currentCollider, colliderToIgnore, true);
 
             // make it behind everything because the unity editor being jank
-            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, 5);
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, 0.1f);
         }
 
         protected override void FixedUpdate()
