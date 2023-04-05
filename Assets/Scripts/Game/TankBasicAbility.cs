@@ -12,6 +12,9 @@ namespace BossArena.game
         //[SerializeField]
         //private GameObject PlayerPrefab;
 
+        [SerializeField]
+        private int TauntIncreaseAmount;
+
         // Need to have reference to Taunt Prefab
         [SerializeField]
         private GameObject TauntPrefab;
@@ -210,11 +213,17 @@ namespace BossArena.game
                 {
                     UnityEngine.Debug.Log("Taunt Bad Man");
                     // Sends Server RPC to taunt the collided entity. Pass in SerializedField 'damage' from AbilityBase
-                    component.GetComponent<EntityBase>().getTauntedServerRPC(damage);
+                    component.GetComponent<EntityBase>().getTauntedServerRPC(damage, 5);
+
+                    // Set Player's Threat Level to highest.
+                    parentPlayer.GetComponent<EntityBase>().ThreatLevel += TauntIncreaseAmount;
+
+
+
                 }
 
             }
-            
+
         }
 
     }

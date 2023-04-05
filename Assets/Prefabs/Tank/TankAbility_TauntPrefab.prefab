@@ -144,6 +144,7 @@ MonoBehaviour:
   isSelfTarget: 0
   radius: 0
   parentPlayer: {fileID: 0}
+  TauntIncreaseAmount: 250
   TauntPrefab: {fileID: 7986055475673144722}
   lengthOfAttackInSec: 0.25
 --- !u!50 &-4924300992687419995

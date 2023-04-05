@@ -174,6 +174,8 @@ namespace BossArena.game
                 psemit.enabled = true;
                 ps.Play();
             }
+
+
         }
 
         [ServerRpc]
@@ -187,6 +189,16 @@ namespace BossArena.game
             //Actually moving the player by changing their rigidbody velocity
             rb.velocity = (new Vector2(horizVelocity * currentMoveSpeed, vertVelocity * currentMoveSpeed));
             timerCheck();
+
+            // Incremental decrease of player's threat level.
+            if (ThreatLevel < 0)
+            {
+                ThreatLevel = 0;
+            } else
+            {
+                // Decrease Threat Level
+                ThreatLevel -= 1;
+            }
         }
 
         protected override void LateUpdate()

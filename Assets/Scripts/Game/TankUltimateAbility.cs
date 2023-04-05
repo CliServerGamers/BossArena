@@ -10,6 +10,9 @@ namespace BossArena.game
     class TankUltimateAbility : TargetedAbilityBase
     {
         [SerializeField]
+        private int UltimateNewHealth;
+        
+        [SerializeField]
         private GameObject ultimatePrefab;
 
         private BoxCollider2D PlayerCollider;
@@ -38,6 +41,11 @@ namespace BossArena.game
             UnityEngine.Debug.Log("Ultimate Ability");
             //PlayerCollider = ultimatePrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
             PlayerCollider.enabled = false;
+
+            // Set Player Health to super low
+            parentPlayer.GetComponent<EntityBase>().CurrentHealth = UltimateNewHealth;
+            UnityEngine.Debug.Log($"Setting Player Health to {parentPlayer.GetComponent<EntityBase>().CurrentHealth}");
+
             StartCoroutine(WaitForAbilityEnd());
         }
 
