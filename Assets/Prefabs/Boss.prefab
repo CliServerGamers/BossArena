@@ -171,6 +171,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68af3a783dd1d5d4998872eaf989e816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  <MaxHealth>k__BackingField: 0
+  <CurrentHealth>k__BackingField: 0
+  <IsAlive>k__BackingField: 0
+  State:
+    m_InternalValue: 0
+  ThreatLevel:
+    m_InternalValue: 0
   baseMoveSpeed: 0
   <threatRadius>k__BackingField: 117.16
   animator: {fileID: 3210797944243916253}
@@ -232,4 +240,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
-  m_Animator: {fileID: 0}
+  m_Animator: {fileID: 3210797944243916253}

@@ -216,7 +216,7 @@ namespace BossArena.game
                     component.GetComponent<EntityBase>().getTauntedServerRPC(damage, 5);
 
                     // Set Player's Threat Level to highest.
-                    parentPlayer.GetComponent<EntityBase>().ThreatLevel += TauntIncreaseAmount;
+                    parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value += TauntIncreaseAmount;
 
 
 

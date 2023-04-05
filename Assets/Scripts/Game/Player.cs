@@ -191,13 +191,13 @@ namespace BossArena.game
             timerCheck();
 
             // Incremental decrease of player's threat level.
-            if (ThreatLevel < 0)
+            if (ThreatLevel.Value < 0)
             {
-                ThreatLevel = 0;
+                ThreatLevel.Value = 0;
             } else
             {
                 // Decrease Threat Level
-                ThreatLevel -= 1;
+                ThreatLevel.Value -= 1;
             }
         }
 

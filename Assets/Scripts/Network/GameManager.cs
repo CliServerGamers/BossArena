@@ -31,6 +31,8 @@ namespace BossArena
     /// </summary>
     public class GameManager : Singleton<GameManager>
     {
+        [SerializeField]
+        string GameScene = "";
         public LocalLobby LocalLobby => m_LocalLobby;
         public Action<GameState> onGameStateChanged;
         //public LocalLobbyList LobbyList { get; private set; } = new LocalLobbyList();
@@ -223,7 +225,7 @@ namespace BossArena
         {
             m_localUser.UserStatus.Value = PlayerStatus.InGame;
             m_LocalLobby.LocalLobbyState.Value = LobbyState.InGame;
-            ProjectSceneManager.Instance.LoadScene("TestScene");
+            ProjectSceneManager.Instance.LoadScene(GameScene);
         }
 
         public void BeginGame()

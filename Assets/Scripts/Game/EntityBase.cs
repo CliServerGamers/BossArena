@@ -70,7 +70,7 @@ namespace BossArena.game
             Debug.Log($"Taunted for {effectDuration} seconds");
 
             // Set State to 'Taunted'
-            State = EntityState.TAUNTED;
+            State.Value = EntityState.TAUNTED;
 
             // Wait duration to return
             yield return new WaitForSeconds(effectDuration);
@@ -78,7 +78,7 @@ namespace BossArena.game
             Debug.Log($"No longer Taunted");
 
             // Reset State after Taunted 
-            State = EntityState.DEFUALT;
+            State.Value = EntityState.DEFUALT;
 
         }
 
