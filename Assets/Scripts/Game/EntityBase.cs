@@ -68,6 +68,7 @@ namespace BossArena.game
         public virtual void TakeDamage(float damage)
         {
             Debug.Log($"Taking {damage} points of damage");
+            CurrentHealth.Value -= damage;
         }
 
         // Helper Function: Setting Taunted State

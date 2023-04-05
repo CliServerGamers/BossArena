@@ -165,9 +165,8 @@ MonoBehaviour:
   windUpDelay: 0
   coolDownDelay: 2
   range: 0.25
-  onCoolDown: 0
   timeStart: 0
-  damage: 0
+  damage: 10
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
