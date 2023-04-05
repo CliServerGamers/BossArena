@@ -26,13 +26,13 @@ namespace BossArena.game
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
-            if (onCoolDown) return;
+            if (onCoolDown.Value) return;
 
             targetPos = mosPos;
 
             if (abilityEndabled)
             {
-                onCoolDown = true;
+                onCoolDown.Value = true;
                 timeStart = Time.time;
                 abilityEndabled = false;
 

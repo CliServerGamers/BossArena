@@ -9,6 +9,14 @@ Shader "Custom/Toxic_Shader"
     }
         SubShader
         {
+            Tags
+            {
+                "Queue" = "Transparent"
+                "IgnoreProjector" = "True"
+                "RenderType" = "Transparent"
+                "PreviewType" = "Plane"
+                "CanUseSpriteAtlas" = "True"
+            }
             // No culling or depth
             Cull Off ZWrite Off ZTest Always
 

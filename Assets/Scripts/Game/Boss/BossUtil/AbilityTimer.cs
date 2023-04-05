@@ -4,35 +4,66 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
+using BossArena.game;
 
 namespace Assets.Scripts.Game.Boss.BossUtil
 {
-    public class AbilityTimer
+    public class AbilityTimer<T, V>
     {
-        public delegate void AbilityTimerCallBack();
-
-        private float startTime;
+        public delegate T AbilityTimerCallBack(V t);
+        private float TimerCount { get; set; }
         private float currentTime;
+        private bool isRunning;
+        private T type;
+        private V argument;
+
         private AbilityTimerCallBack callback;
 
         public AbilityTimer(float time, AbilityTimerCallBack callback) {
-            startTime = time;
-            currentTime = startTime;
+            TimerCount = time;
+            this.currentTime = TimerCount;
             this.callback = callback;
+            this.isRunning = false;
         }
 
-        public void Tick(float delta)
+        public void SetArgument(V v)
         {
-            currentTime -= delta;
-            if (currentTime < 0) {
-                Stop();
+            this.argument = v;
+        }
+
+        public void Restart()
+        {
+            currentTime = TimerCount;
+            isRunning = true;
+        }
+
+        public void Pause()
+        {
+            isRunning = false;
+        }
+
+        public void Run()
+        {
+            isRunning = true;
+        }
+
+        public void Update()
+        {
+            if (isRunning)
+            {
+                currentTime -= Time.deltaTime;
+                if (currentTime < 0)
+                {
+                    callback(argument);
+                    isRunning = false;
+                }
             }
         }
 
-        public void Stop()
+        public float GetCurrentTime()
         {
-            callback();
-            currentTime = startTime; 
+            return currentTime;
         }
 
     }
