@@ -56,8 +56,9 @@ namespace Assets.Scripts.Game.Boss
             }
 
             // lose health
-            SetHealth(CurrentHealth - decay);
-            if (CurrentHealth < 0)
+            SetHealth(CurrentHealth.Value - decay);
+            Debug.Log(CurrentHealth.Value);
+            if (CurrentHealth.Value < 0)
             {
                 Destroy(this.gameObject);
             }
