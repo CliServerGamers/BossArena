@@ -64,7 +64,7 @@ namespace Assets.Scripts.Game.Boss
 
             // maps the opacity to the percentage of health lost from range (50 - 100)%
             Color spriteColor = renderer.color;
-            spriteColor.a = ((CurrentHealth / MAX_HEALTH) / 2) + 0.5f;
+            spriteColor.a = ((CurrentHealth.Value / MAX_HEALTH) / 2) + 0.5f;
             renderer.color = spriteColor;
         }
 
@@ -77,7 +77,7 @@ namespace Assets.Scripts.Game.Boss
             {
                 Debug.Log("Player should be taking damange by EOD");
                 Player player = (Player)component;
-                player.CurrentHealth -= currentDamage;
+                player.CurrentHealth.Value -= currentDamage;
             }
         }
 

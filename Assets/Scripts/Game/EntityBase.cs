@@ -49,8 +49,8 @@ namespace BossArena.game
         protected void SetHealth(float health)
 
         {
-            MaxHealth = health;
-            CurrentHealth = health;
+            MaxHealth.Value = health;
+            CurrentHealth.Value = health;
         }
 
         protected void OnCollisionEnter2D(Collision2D collision)
