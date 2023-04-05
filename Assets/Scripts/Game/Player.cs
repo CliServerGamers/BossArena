@@ -92,29 +92,29 @@ namespace BossArena.game
 
             if (BasicAttack is TargetedAbilityBase)
             {
-                ((TargetedAbilityBase) BasicAttack).SetParent(gameObject);
+                ((TargetedAbilityBase)BasicAttack).SetParent(gameObject);
             }
             if (BasicAbility is TargetedAbilityBase)
             {
-                ((TargetedAbilityBase) BasicAbility).SetParent(gameObject);
+                ((TargetedAbilityBase)BasicAbility).SetParent(gameObject);
             }
             if (UltimateAbility is TargetedAbilityBase)
             {
-                ((TargetedAbilityBase) UltimateAbility).SetParent(gameObject);
+                ((TargetedAbilityBase)UltimateAbility).SetParent(gameObject);
             }
         }
 
         private void spawnAbilities(ulong clientId)
         {
-            GameObject basicAttack = (GameObject) Instantiate(m_Archetype.BasicAttack, transform.position, playerObj.transform.rotation);
+            GameObject basicAttack = (GameObject)Instantiate(m_Archetype.BasicAttack, transform.position, playerObj.transform.rotation);
             basicAttack.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             basicAttack.transform.SetParent(transform, false);
 
-            GameObject basicAbility = (GameObject) Instantiate(m_Archetype.BasicAbility, transform.position, playerObj.transform.rotation);
+            GameObject basicAbility = (GameObject)Instantiate(m_Archetype.BasicAbility, transform.position, playerObj.transform.rotation);
             basicAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             basicAbility.transform.SetParent(transform, false);
 
-            GameObject ultimateAbility = (GameObject) Instantiate(m_Archetype.UltimateAbility, transform.position, playerObj.transform.rotation);
+            GameObject ultimateAbility = (GameObject)Instantiate(m_Archetype.UltimateAbility, transform.position, playerObj.transform.rotation);
             ultimateAbility.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
             ultimateAbility.transform.SetParent(transform, false);
             setAbilitiesClientRPC();
@@ -139,7 +139,7 @@ namespace BossArena.game
 
             if (BasicAttack is IDrawIndicator)
             {
-                ((IDrawIndicator) BasicAttack).DrawAbilityIndicator(Input.mousePosition);
+                ((IDrawIndicator)BasicAttack).DrawAbilityIndicator(Input.mousePosition);
             }
 
             //Ability Section
@@ -150,7 +150,7 @@ namespace BossArena.game
 
             if (BasicAbility is IDrawIndicator && Input.GetButton("Fire2"))
             {
-                ((IDrawIndicator) BasicAbility).DrawAbilityIndicator(Input.mousePosition);
+                ((IDrawIndicator)BasicAbility).DrawAbilityIndicator(Input.mousePosition);
             }
 
             if (Input.GetButtonUp("Fire2"))
@@ -160,7 +160,7 @@ namespace BossArena.game
 
             if (UltimateAbility is IDrawIndicator && Input.GetButton("Fire3"))
             {
-                ((IDrawIndicator) UltimateAbility).DrawAbilityIndicator(Input.mousePosition);
+                ((IDrawIndicator)UltimateAbility).DrawAbilityIndicator(Input.mousePosition);
             }
 
             if (Input.GetButtonUp("Fire3"))
@@ -192,13 +192,14 @@ namespace BossArena.game
             timerCheck();
 
             // Incremental decrease of player's threat level.
-            if (ThreatLevel.Value < 0)
-            {
-                ThreatLevel.Value = 0;
-            } else
+            if (ThreatLevel.Value > 0)
             {
                 // Decrease Threat Level
-                ThreatLevel.Value -= 1;
+                ThreatLevel.Value--;
+            }
+            else
+            {
+                ThreatLevel.Value = 0;
             }
         }
 
@@ -276,9 +277,10 @@ namespace BossArena.game
             // Wait _ seconds before switching back to default material.
             yield return new WaitForSeconds(1);
             playerSpriteRenderer.material = _DefaultMaterial;
+            rend.material.color = m_Archetype.classColor;
         }
 
     }
 
 
-    }
+}
