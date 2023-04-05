@@ -6,6 +6,15 @@ Shader "Custom/Damage_Shader"
     }
     SubShader
     {
+        Tags
+        {
+            "Queue" = "Transparent" 
+            "IgnoreProjector" = "True"
+            "RenderType" = "Transparent"
+            "PreviewType" = "Plane"
+            "CanUseSpriteAtlas" = "True"
+        }
+
         // No culling or depth
         Cull Off ZWrite Off ZTest Always
 
@@ -47,7 +56,9 @@ Shader "Custom/Damage_Shader"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                col.r += 0.5;   
+                col.r += 1;   
+                col.r += 0;
+                col.r += 0;
                 // apply fog
                 /*UNITY_APPLY_FOG(i.fogCoord, col);*/
                 return col;

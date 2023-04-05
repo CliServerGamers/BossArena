@@ -30,7 +30,7 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             HealTargetPrefabSpriteRenderer.enabled = false;
-            if (onCoolDown)
+            if (onCoolDown.Value)
                 return;
             //onCoolDown = true;
             timeStart = Time.time;
@@ -38,7 +38,7 @@ namespace BossArena.game
             HealAreaPrefabCollider.enabled = true;
             HealAreaPrefabCollider.enabled = false;
         }
-
+        
         public override void ApplyEffect()
         {
             // Update MousePosition

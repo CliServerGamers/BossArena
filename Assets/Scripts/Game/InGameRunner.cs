@@ -33,8 +33,9 @@ namespace BossArena.game
         public ArchetypeList ArchetypeList;
         public Dictionary<Archetypes, Archetype> ArchetypeDictionary { get; private set; }
 
-
-[field: SerializeField]
+        [field: SerializeField]
+        public GameObject LocalPlayer = null;
+        [field: SerializeField]
         public List<GameObject> PlayerList;
 
         [field: SerializeField]
@@ -209,7 +210,10 @@ namespace BossArena.game
         public void AddPlayer(GameObject player)
         {
             PlayerList.Add(player);
-
+            if (player.GetComponent<NetworkObject>().IsOwner)
+            {
+                LocalPlayer = player;
+            }
         }
 
         public List<GameObject> getPlayerList()

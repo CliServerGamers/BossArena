@@ -16,8 +16,8 @@ namespace BossArena.game
 
         void FixedUpdate()
         {
-            CurrentHealth--;
-            if (CurrentHealth <= 0)
+            CurrentHealth.Value--;
+            if (CurrentHealth.Value <= 0)
             {
                 Destroy(gameObject);
             }

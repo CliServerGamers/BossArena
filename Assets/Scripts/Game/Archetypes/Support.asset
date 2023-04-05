@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 844974ebe3ee10d40a1abc564fe7d988, type: 3}
   m_Name: Support
   m_EditorClassIdentifier: 
-  BasicAttack: {fileID: 5899021118764256236, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+  BasicAttack: {fileID: 5899021118764256236, guid: f6c3f0fdb7dea3f4cbc1c74f5c493995, type: 3}
   BasicAbility: {fileID: 7986055475673144722, guid: 9fbf04e87243e4e42944f3ac62503737, type: 3}
   UltimateAbility: {fileID: 6919458306558213587, guid: 6512a120fbc826d47b87911d1b88171c, type: 3}
   MaxHealth: 0
