@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BossArena.game 
+namespace BossArena.game
 {
     /// <summary>
     /// This script must be a componenet of "TankPrefab".
     /// </summary>
     class TankUltimateAbility : TargetedAbilityBase
     {
+        [SerializeField]
+        private int UltimateNewHealth;
+        
         [SerializeField]
         private GameObject ultimatePrefab;
 
@@ -21,10 +24,15 @@ namespace BossArena.game
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
+            //ultimateActivated = true;
             if (onCoolDown)
                 return;
             onCoolDown = true;
             timeStart = Time.time;
+
+            // Start rendering the ability
+            spriteRenderer.enabled = true;
+
             ApplyEffect();
         }
 
@@ -33,6 +41,11 @@ namespace BossArena.game
             UnityEngine.Debug.Log("Ultimate Ability");
             //PlayerCollider = ultimatePrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
             PlayerCollider.enabled = false;
+
+            // Set Player Health to super low
+            parentPlayer.GetComponent<EntityBase>().CurrentHealth = UltimateNewHealth;
+            UnityEngine.Debug.Log($"Setting Player Health to {parentPlayer.GetComponent<EntityBase>().CurrentHealth}");
+
             StartCoroutine(WaitForAbilityEnd());
         }
 
@@ -40,6 +53,9 @@ namespace BossArena.game
         {
             yield return new WaitForSeconds(5);
             PlayerCollider.enabled = true;
+
+            // Stop drawing the Ultimate Ability
+            spriteRenderer.enabled = false;
         }
 
         // Start is called before the first frame update
@@ -47,7 +63,15 @@ namespace BossArena.game
         {
             timeStart = Time.time;
             PlayerCollider = parentPlayer.transform.GetComponent<BoxCollider2D>();
-            spriteRenderer = parentPlayer.transform.GetComponent<SpriteRenderer>();
+            spriteRenderer = ultimatePrefab.transform.GetComponent<SpriteRenderer>();
+
+            // Initally false 
+            spriteRenderer.enabled = false;
+
+            // Set scale of AbilityPrefab.
+            ultimatePrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            // Negative Z-Axis Value, "Go closer towards Camera"
+            ultimatePrefab.transform.position = new Vector3(ultimatePrefab.transform.position.x, ultimatePrefab.transform.position.y, -2f);
             //mainCamera=Camera.main;
         }
 
@@ -60,13 +84,15 @@ namespace BossArena.game
 
             checkCooldown();
 
+            //float al = spriteRenderer.color.a;
+            //al -= 0.001f;
+            //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, al);
 
 
             //if (Input.GetKeyDown(KeyCode.E) && onCoolDown == false)
             //{
             //    //UnityEngine.Debug.Log("Ultimate Ability");
             //    ActivateAbility();
-            //}
         }
 
         //public bool checkUltimateCooldown()
@@ -83,5 +109,9 @@ namespace BossArena.game
         //    }
         //}
 
+        public float calcElapsedTime()
+        {
+            return Time.time - timeStart;
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace BossArena
     public enum LobbyState
     {
         Lobby = 1,
-        CountDown = 2,
+        AllReady = 2,
         InGame = 4
     }
 
@@ -76,8 +76,8 @@ namespace BossArena
             Locked.Value = false;
             Private.Value = false;
             //LocalLobbyColor.Value = LobbyRelaySample.LobbyColor.None;
-            AvailableSlots.Value = 4;
-            MaxPlayerCount.Value = 4;
+            AvailableSlots.Value = 6;
+            MaxPlayerCount.Value = 6;
             onUserJoined = null;
             onUserLeft = null;
         }

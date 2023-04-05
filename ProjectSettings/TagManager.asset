@@ -10,6 +10,7 @@ TagManager:
   - Boss
   - EOD
   - shadow
+  - AudioSource
   layers:
   - Default
   - TransparentFX

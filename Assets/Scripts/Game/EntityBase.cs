@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,9 @@ namespace BossArena.game
 {
     abstract class EntityBase : NetworkBehaviour
     {
+        [SerializeField]
+        protected Rigidbody2D rb;
+
         [field:SerializeField]
         public float MaxHealth { get; protected set; }
         [field: SerializeField]
@@ -33,6 +37,7 @@ namespace BossArena.game
             State.Value = EntityState.DEFUALT;
             ThreatLevel.Value = 0;
             currentMoveSpeed = baseMoveSpeed;
+            rb = GetComponent<Rigidbody2D>();
         }
 
         protected virtual void Update() { }
@@ -42,6 +47,7 @@ namespace BossArena.game
         protected virtual void LateUpdate() { }
 
         protected void SetHealth(float health)
+
         {
             MaxHealth = health;
             CurrentHealth = health;
@@ -52,5 +58,48 @@ namespace BossArena.game
             HandleCollision(collision);
         }
         protected abstract void HandleCollision(Collision2D collision);
+
+        public virtual void TakeDamage(float damage)
+        {
+            Debug.Log($"Taking {damage} points of damage");
+        }
+
+        // Helper Function: Setting Taunted State
+        IEnumerator setStateTaunt(float effectDuration)
+        {
+            Debug.Log($"Taunted for {effectDuration} seconds");
+
+            // Set State to 'Taunted'
+            State = EntityState.TAUNTED;
+
+            // Wait duration to return
+            yield return new WaitForSeconds(effectDuration);
+
+            Debug.Log($"No longer Taunted");
+
+            // Reset State after Taunted 
+            State = EntityState.DEFUALT;
+
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void TakeDamageServerRpc(float damage)
+        {
+            TakeDamage(damage);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void getTauntedServerRPC(float damage, float effectDuration)
+        {
+            // Deal Damage
+            TakeDamage(damage);
+            
+            // Apply Taunted State, pass in effectDuration to Coroutine, then Reset State to Default
+            StartCoroutine(setStateTaunt(effectDuration));
+        }
+
+
     }
+
 }
+

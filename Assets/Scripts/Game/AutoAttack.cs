@@ -17,12 +17,19 @@ namespace BossArena.game
         [SerializeField]
         private GameObject AutoAttackPrefab;
 
+        [SerializeField]
+        private Animator anim;
+        [SerializeField]
+        private SpriteRenderer AutoAttackPrefabSpriteRenderer;
+
         // Parent Player Prefab MUST have AutoAttackCollider Prefab\
         [SerializeField]
         private BoxCollider2D AUTOATTACK_COLLIDER;
 
         // Use for checking elapsed time while ulted.
-        private bool autoActivated = false;
+        //private bool autoActivated = false;
+        [SerializeField]
+        private float lengthOfAttackInSec;
 
         Quaternion rot = new Quaternion();
 
@@ -39,12 +46,21 @@ namespace BossArena.game
             //AUTOATTACK_COLLIDER = AutoAttackPrefab.transform.parent.transform.GetChild(0).GetComponent<BoxCollider2D>();
             //AUTOATTACK_COLLIDER.enabled = false;
 
-            //mainCamera = Camera.main;
-
+            //mainCamera = Camera.main
 
             // Get the Prefab holding the BoxCollider2D
             AutoAttackPrefab = gameObject;
-            AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
+
+            // Get SpriteRenderer
+            AutoAttackPrefabSpriteRenderer = AutoAttackPrefab.GetComponent<SpriteRenderer>();
+
+            // Set AutoAttackPrefab Scale
+            //AutoAttackPrefab.transform.localScale = new Vector3(2f, 2f, 2f);
+
+            // Intially Off
+            //AutoAttackPrefabSpriteRenderer.enabled = false;
+
+            //AUTOATTACK_COLLIDER = GetComponent<BoxCollider2D>();
             AUTOATTACK_COLLIDER.enabled = false;
         }
 
@@ -59,8 +75,11 @@ namespace BossArena.game
         protected override void Update()
         {
             // if (!IsOwner) return;
-            
+
             checkCooldown();
+
+
+
 
             //DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
             //if (Input.GetMouseButtonDown(0))
@@ -84,19 +103,43 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             UnityEngine.Debug.Log("Activate AutoAttack");
-            autoActivated = true;
+
+            //autoActivated = true;
+            //AutoAttackPrefabSpriteRenderer.enabled = true;
             //ApplyWindUp
             ApplyEffect();
             //ApplyCooldown
+            StartCoroutine(WaitForAbilityEnd());
+
 
         }
 
+
+        IEnumerator WaitForAbilityEnd()
+        {
+            yield return new WaitForSeconds(.5f);
+            //AutoAttackPrefabSpriteRenderer.enabled = false;
+            anim.ResetTrigger("onAttack");
+        }
         public override void ApplyEffect()
         {
+
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             //Play AutoAttack Animation
-            AUTOATTACK_COLLIDER.enabled = true;
+            anim.SetTrigger("onAttack");
+            //AUTOATTACK_COLLIDER.enabled = true;
+
+            Debug.Log("Collider.enabled = " + AUTOATTACK_COLLIDER.enabled);
             //Delay for length of attack
-            AUTOATTACK_COLLIDER.enabled = false;
+            //AUTOATTACK_COLLIDER.enabled = false;
+            StartCoroutine(WaitToDisableHitbox());
+        }
+
+        IEnumerator WaitToDisableHitbox()
+        {
+            yield return new WaitForSeconds(lengthOfAttackInSec);
+            //AUTOATTACK_COLLIDER.enabled = false;
+            Debug.Log("Collider.enabled = " + AUTOATTACK_COLLIDER.enabled);
         }
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
@@ -109,6 +152,12 @@ namespace BossArena.game
             Vector2 focusCursor = calculateFocusCursor();
 
             AutoAttackPrefab.transform.position = focusCursor;
+
+
+            Vector3 diff = currentMousePosition - parentPlayer.transform.position;
+            float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+
+            AutoAttackPrefab.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
             //UnityEngine.Debug.Log("COLLIDER: " + transform.position);
         }
 
@@ -146,8 +195,8 @@ namespace BossArena.game
 
             //UnityEngine.Debug.Log("Transform Position: " + playerPos);
 
-            float focusX = playerPos.x + Mathf.Cos(angle);
-            float focusY = playerPos.y + Mathf.Sin(angle);
+            float focusX = playerPos.x + (Mathf.Cos(angle) * range);
+            float focusY = playerPos.y + (Mathf.Sin(angle) * range);
 
             Vector3 focusCursorPosition = new Vector3(focusX, focusY, 0f);
             //UnityEngine.Debug.Log(focusCursorPosition);
@@ -165,37 +214,38 @@ namespace BossArena.game
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(calculateFocusCursor(), new Vector3(1, 1, 1));
         }
-        
-         public void checkCooldown()
-        {
-            if (Time.time - timeStart >= coolDownDelay)
-            {
-                // Enough time has passed, set ultimatedActivated as off.
-                autoActivated = false;
-            }
-        }
 
-        private void OnTirggerStay2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collider)
         {
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+            HandleCollision(collider);
             if (IsServer)
             {
-                HandleCollision(collision);
             }
 
-            
+
         }
 
-        protected void HandleCollision(Collider2D collision)
+        protected void HandleCollision(Collider2D collider)
         {
-            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+            if (!IsOwner) return;
+
+            var tempMonoArray = collider.gameObject.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in tempMonoArray)
             {
                 if (monoBehaviour is IFriendly)
                 {
-                    Debug.Log("Hit friendly player");
+                    ((IFriendly)monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
+                }
+                if (monoBehaviour is IHostile)
+                {
+                    Debug.Log("Smack Bad man");
+                    monoBehaviour.GetComponent<EntityBase>().TakeDamageServerRpc(damage);
                 }
             }
         }
+
 
     }
 }

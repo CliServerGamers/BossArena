@@ -31,8 +31,8 @@ namespace BossArena
 
         [SerializeField]
         private GameObject PlayerPrefab;
-        [SerializeField]
-        private GameObject AutoAttackPrefab;
+        //[SerializeField]
+        //private GameObject AutoAttackPrefab;
 
         private void Awake()
         {
@@ -41,7 +41,8 @@ namespace BossArena
 
         public bool SceneIsLoaded
         {
-            get {
+            get
+            {
                 if (m_LoadedScene.IsValid() && m_LoadedScene.isLoaded)
                 {
                     return true;
@@ -52,7 +53,7 @@ namespace BossArena
 
         public override void OnNetworkSpawn()
         {
-            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+            //Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             if (IsServer)
             {
                 NetworkManager.SceneManager.OnSceneEvent += SceneManager_OnSceneEvent;
@@ -84,7 +85,7 @@ namespace BossArena
         /// <param name="sceneEvent">class that has information about the scene event</param>
         private void SceneManager_OnSceneEvent(SceneEvent sceneEvent)
         {
-            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
+            //Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             var clientOrServer = sceneEvent.ClientId == NetworkManager.ServerClientId ? "server" : "client";
             switch (sceneEvent.SceneEventType)
             {
@@ -130,9 +131,15 @@ namespace BossArena
 
         private void processSceneByName(SceneEvent sceneEvent)
         {
+
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
             if (sceneEvent.SceneName == testScene || sceneEvent.SceneName == "BossTestScene")
+
             {
+                if (IsServer)
+                //    NetworkedDataStore.Instance.GetPlayerData(sceneEvent.ClientId, spawnPlayer);
+                //else
+                //    spawnPlayerServerRPC(sceneEvent.ClientId);
                 if (IsServer)
                 {
                     spawnPlayer(sceneEvent.ClientId);
@@ -148,18 +155,15 @@ namespace BossArena
 
         private void spawnPlayer(ulong clientId)
         {
+            //NetworkedDataStore.Instance.GetPlayerData(clientId, spawnPlayer);
             GameObject newPlayer;
             newPlayer = (GameObject)Instantiate(PlayerPrefab);
             NetworkObject playerObj = newPlayer.GetComponent<NetworkObject>();
             newPlayer.SetActive(true);
+            Archetypes type = GameManager.Instance.LocalLobby.GetLocalPlayer((int)clientId).Archetype.Value;
+            newPlayer.GetComponent<Player>().Archetype.Value = type;
             playerObj.SpawnWithOwnership(clientId, true);
-            //GameObject autoAttackObj = Instantiate(AutoAttackPrefab, Vector3.zero, Quaternion.identity);
-            //autoAttackObj.GetComponent<NetworkObject>().Spawn();
-            //autoAttackObj.transform.parent = playerObj.transform;
-            //autoAttackObj.GetComponent<AutoAttack>().Initialize();
-            //Player player = newPlayer.GetComponent<Player>();
-            //player.SetPlayerID(clientId);
-            //player.SetSpawnPosition();
+            //InGameRunner.Instance.PlayerList.Add(newPlayer);
         }
 
         [ServerRpc(RequireOwnership = false)]

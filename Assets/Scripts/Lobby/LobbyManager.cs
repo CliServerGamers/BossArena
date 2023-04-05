@@ -14,7 +14,7 @@ namespace BossArena
     /// </summary>
     ///
     /// Manages one Lobby at a time, Only entry points to a lobby with ID is via JoinAsync, CreateAsync, and QuickJoinAsync
-    public class LobbyManager : MonoBehaviour
+    public class LobbyManager : IDisposable
     {
         const string key_RelayCode = nameof(LocalLobby.RelayCode);
         const string key_LobbyState = nameof(LocalLobby.LocalLobbyState);
@@ -22,7 +22,7 @@ namespace BossArena
 
         const string key_Displayname = nameof(LocalPlayer.DisplayName);
         const string key_Userstatus = nameof(LocalPlayer.UserStatus);
-        //const string key_Emote = nameof(LocalPlayer.Emote);
+        const string key_Archetype = nameof(LocalPlayer.Archetype);
 
         //Once connected to a lobby, cache the local lobby object so we don't query for it for every lobby operation.
         // (This assumes that the game will be actively in just one lobby at a time, though they could be in more on the service side.)
@@ -126,6 +126,7 @@ namespace BossArena
 
         public async Task<Lobby> JoinLobbyAsync(string lobbyId, string lobbyCode, LocalPlayer localUser)
         {
+            Debug.Log($"{m_JoinCooldown.IsCoolingDown} : {lobbyId} : {lobbyCode} : {localUser}");
             if (m_JoinCooldown.IsCoolingDown ||
                 (lobbyId == null && lobbyCode == null))
             {
@@ -270,6 +271,7 @@ namespace BossArena
 
                 void PlayersJoined()
                 {
+                    Debug.Log("Players Joinging");
                     foreach (var playerChanges in changes.PlayerJoined.Value)
                     {
                         Player joinedPlayer = playerChanges.Player;
@@ -355,11 +357,9 @@ namespace BossArena
 
         void ParseCustomPlayerData(LocalPlayer player, string dataKey, string playerDataValue)
         {
-            //if (dataKey == key_Emote)
-            //    player.Emote.Value = (EmoteType)int.Parse(playerDataValue);
-            //else 
-            
-            if (dataKey == key_Userstatus)
+            if (dataKey == key_Archetype)
+                player.Archetype.Value = (game.Archetypes)int.Parse(playerDataValue);
+            else if (dataKey == key_Userstatus)
                 player.UserStatus.Value = (PlayerStatus)int.Parse(playerDataValue);
             else if (dataKey == key_Displayname)
                 player.DisplayName.Value = playerDataValue;

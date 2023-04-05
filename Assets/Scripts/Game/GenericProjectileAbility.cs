@@ -27,35 +27,36 @@ namespace BossArena.game
 
             Vector3 focusCursor = calculateFocusCursor();
 
-            Quaternion rot = new Quaternion();
+            //Quaternion rot = new Quaternion();
 
-            rot.SetFromToRotation(focusCursor - parentPlayer.transform.position, mainCamera.ScreenToWorldPoint(mosPos.Value) - parentPlayer.transform.position);
+            //rot.SetFromToRotation(focusCursor - parentPlayer.transform.position, mainCamera.ScreenToWorldPoint(mosPos.Value) - parentPlayer.transform.position);
 
+            Vector3 diff = mainCamera.ScreenToWorldPoint(mosPos.Value) - transform.position;
+            float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
             // 2. Instantiate Projectile
             if (IsServer)
             {
-
-                spawnProjectile(focusCursor, rot);
+                spawnProjectile(focusCursor, angle);
             }
             else if (IsOwner)
             {
-                spawnProjectileServerRpc(focusCursor, rot);
+                spawnProjectileServerRpc(focusCursor, angle);
             }
 
             //Fetch from pool
 
         }
 
-        private void spawnProjectile(Vector3 focusCursor, Quaternion rot)
+        private void spawnProjectile(Vector3 focusCursor, float angle)
         {
-            GameObject currentProjectile = GameObject.Instantiate(projectilePrefab, focusCursor, rot);
+            GameObject currentProjectile = GameObject.Instantiate(projectilePrefab, focusCursor, Quaternion.Euler(0, 0, angle));
             currentProjectile.GetComponent<NetworkObject>().Spawn();
         }
 
         [ServerRpc]
-        private void spawnProjectileServerRpc(Vector3 focusCursor, Quaternion rot)
+        private void spawnProjectileServerRpc(Vector3 focusCursor, float angle)
         {
-            spawnProjectile(focusCursor, rot);
+            spawnProjectile(focusCursor, angle);
         }
 
         public override void ApplyEffect()
@@ -105,7 +106,7 @@ namespace BossArena.game
 
         protected Vector3 calculateFocusCursor()
         {
-            Vector3 playerPos = parentPlayer.transform.position;
+            Vector3 playerPos = transform.position;
 
             float angle = Mathf.Atan2(currentMousePosition.y - playerPos.y, currentMousePosition.x - playerPos.x);
 

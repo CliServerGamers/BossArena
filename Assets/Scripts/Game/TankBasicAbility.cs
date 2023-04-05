@@ -12,9 +12,17 @@ namespace BossArena.game
         //[SerializeField]
         //private GameObject PlayerPrefab;
 
+        [SerializeField]
+        private int TauntIncreaseAmount;
+
         // Need to have reference to Taunt Prefab
         [SerializeField]
         private GameObject TauntPrefab;
+
+        // Need to know how long this ability lasts for
+        [SerializeField]
+        private float lengthOfAttackInSec;
+
         private CircleCollider2D TauntPrefabCollider;
         private SpriteRenderer TauntPrefabSpriteRenderer;
 
@@ -26,24 +34,41 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             TauntPrefabSpriteRenderer.enabled = false;
+            //TauntPrefabCollider.enabled = true;
             if (onCoolDown)
                 return;
             onCoolDown = true;
             timeStart = Time.time;
+            
+            // Apply Effect
             ApplyEffect();
-            TauntPrefabCollider.enabled = true;
-            TauntPrefabCollider.enabled = false;
+
+            // Start Coroutine for end of Ability.
+            
         }
 
         public override void ApplyEffect()
         {
-            // Get Collider
+            // Activate Prefab
+            TauntPrefabCollider.enabled = true;
 
             // Apply Taunt Debuff for each enemy in collider
+            // Actual Effect here
+
+            StartCoroutine(WaitToDisableHitbox());
+
+        }
+
+        IEnumerator WaitToDisableHitbox()
+        {
+            yield return new WaitForSeconds(lengthOfAttackInSec);
+            TauntPrefabCollider.enabled = false;
         }
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
         {
+            if(onCoolDown) return;
+
             // Update MousePosition
             currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
@@ -108,6 +133,9 @@ namespace BossArena.game
             TauntPrefabCollider.enabled = false;
             TauntPrefabSpriteRenderer.enabled = false;
 
+            // SUPER IMPORTANT, if you want triggers to happen from your static rigibody, set it to never sleep
+            TauntPrefab.GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;
+
             //TauntPrefab.SetActive(false);
         }
 
@@ -156,7 +184,47 @@ namespace BossArena.game
 
         }
 
+        // Automatically called when the prefab's collider collides with another collider.
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
 
+            // Call helper function to handle the current collision.
+            HandleCollision(collider);
+            if (IsServer)
+            {
+            }
+        }
+
+        protected void HandleCollision(Collider2D collider)
+        {
+            // Grab all the components under the collided colliders parent, by calling dot operator on 'gameObject'.
+            var componentArray = collider.gameObject.GetComponents<MonoBehaviour>();
+
+            foreach(var component in componentArray)
+            {
+                // Check if component extends IFriendly (Friendly)
+                if (component is IFriendly)
+                {
+                    // Do nothing to friendies
+                }
+                // Check if component extends IHostile (Hostile)
+                if (component is IHostile)
+                {
+                    UnityEngine.Debug.Log("Taunt Bad Man");
+                    // Sends Server RPC to taunt the collided entity. Pass in SerializedField 'damage' from AbilityBase
+                    component.GetComponent<EntityBase>().getTauntedServerRPC(damage, 5);
+
+                    // Set Player's Threat Level to highest.
+                    parentPlayer.GetComponent<EntityBase>().ThreatLevel += TauntIncreaseAmount;
+
+
+
+                }
+
+            }
+
+        }
 
     }
 }
