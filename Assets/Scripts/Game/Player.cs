@@ -63,6 +63,7 @@ namespace BossArena.game
             rend = GetComponent<Renderer>();
             // Change sprite color to selected color
             rend.material.color = m_Archetype.classColor;
+            playerSpriteRenderer = playerObj.GetComponent<SpriteRenderer>();
 
             AddPlayerToGame();
         }
