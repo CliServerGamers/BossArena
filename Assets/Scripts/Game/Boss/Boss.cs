@@ -53,6 +53,7 @@ namespace BossArena.game
         {
             //new TargetSelectionNode(this.gameObject)
             List<Node> nodes = GetSwirlProjectileSequence();
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             //nodes.AddRange(GetPassiveJumpsSequence());
             //nodes.AddRange(GetSkyDiveSequence());
             //nodes.AddRange(GetPassiveJumpsSequence());

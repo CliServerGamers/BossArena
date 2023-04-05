@@ -10,7 +10,7 @@ namespace BossArena.game
 {
      abstract class Enemy : EntityBase, IHostile
     {
-        [SerializeField]
+        [field: SerializeField]
         public Player CurrentTarget { get; set; }
         [field: SerializeField]
         public float threatRadius { get; private set; }
