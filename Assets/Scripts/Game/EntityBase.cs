@@ -63,6 +63,13 @@ namespace BossArena.game
         {
             TakeDamage(damage);
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void getTauntedServerRPC(float damage)
+        {
+            TakeDamage(damage);
+            // Apply Taunted State
+        }
     }
 
 }

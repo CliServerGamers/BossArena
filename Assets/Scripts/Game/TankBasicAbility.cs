@@ -130,6 +130,9 @@ namespace BossArena.game
             TauntPrefabCollider.enabled = false;
             TauntPrefabSpriteRenderer.enabled = false;
 
+            // SUPER IMPORTANT, if you want triggers to happen from your static rigibody, set it to never sleep
+            TauntPrefab.GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;
+
             //TauntPrefab.SetActive(false);
         }
 
@@ -178,7 +181,41 @@ namespace BossArena.game
 
         }
 
+        // Automatically called when the prefab's collider collides with another collider.
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
 
+            // Call helper function to handle the current collision.
+            HandleCollision(collider);
+            if (IsServer)
+            {
+            }
+        }
+
+        protected void HandleCollision(Collider2D collider)
+        {
+            // Grab all the components under the collided colliders parent, by calling dot operator on 'gameObject'.
+            var componentArray = collider.gameObject.GetComponents<MonoBehaviour>();
+
+            foreach(var component in componentArray)
+            {
+                // Check if component extends IFriendly (Friendly)
+                if (component is IFriendly)
+                {
+                    // Do nothing to friendies
+                }
+                // Check if component extends IHostile (Hostile)
+                if (component is IHostile)
+                {
+                    UnityEngine.Debug.Log("Taunt Bad Man");
+                    // Sends Server RPC to taunt the collided entity. Pass in SerializedField 'damage' from AbilityBase
+                    component.GetComponent<EntityBase>().getTauntedServerRPC(damage);
+                }
+
+            }
+            
+        }
 
     }
 }
