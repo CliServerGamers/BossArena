@@ -12,57 +12,52 @@ namespace BossArena.game
 {
     public class BossExitScreen : Node
     {
-        private AbilityTimer jumpTimer;
+        private AbilityTimer<int, int> jumpTimer;
         private bool isJumping;
         private const float totalJumpTime = 5.0f;
-        private const float shadowOffset = 2.0f;
         private const int maxHeight = 10;
-        private float jumpTime;
-        private bool isShadowEnabled;
-        private float originalJumpY;
+        private const float jumpSpeed = 15f;
 
         // player that is being targeted: TODO: Change this so that it is set in a decorator node and fecthed from that node in this one
         private GameObject player;
 
-        // used to Instantiate and Destroy shadow prefabs
-        private GameObject shadowPrefab;
-
         private GameObject shadow;
-
         private GameObject boss;
 
         public BossExitScreen(GameObject boss, GameObject shadowPrefab)
         {
             this.player = GameObject.Find("PlayerPrefab(Clone)");
             this.boss = boss;
-            this.isShadowEnabled = false;
-            this.shadowPrefab = shadowPrefab;
+            this.shadow = shadowPrefab;
             this.isJumping = false;
-            this.jumpTimer = new AbilityTimer(totalJumpTime, AfterCountDown);
-            this.shadow = null;
+            this.jumpTimer = new AbilityTimer<int, int>(totalJumpTime, AfterCountDown);
         }
 
         public override NodeState Evaluate()
         {
-            // if we are in the ready state, set the node state to running
             if (state == NodeState.READY)
             {
                 state = NodeState.RUNNING;
             }
-            // if we are not in the running state, dont do logic here
+
             if (state != NodeState.RUNNING)
             {
                 return state;
             }
 
+            boss.GetComponent<Animator>().SetBool("isJumping", false);
+            boss.GetComponent<Animator>().SetBool("isAttacking", true);
+
+
             if (!isJumping)
             {
                 SetupJump();
-                isJumping = true;
+                this.jumpTimer.Restart();
+                this.jumpTimer.Run();
             } else
             {
+                this.jumpTimer.Update();
                 MoveBossToJumpHeightLocation();
-                jumpTimer.Tick(Time.deltaTime);
                 MoveShadow();
             }
             return state;
@@ -72,8 +67,8 @@ namespace BossArena.game
         {
             BoxCollider2D bossCollider = boss.transform.GetComponent<BoxCollider2D>();
             bossCollider.enabled = false;
-            jumpTime = totalJumpTime;
-            originalJumpY = boss.transform.position.y;
+            shadow.GetComponent<SpriteRenderer>().enabled = true;
+            isJumping = true;
         }
 
         private void MoveBossToJumpHeightLocation()
@@ -81,28 +76,21 @@ namespace BossArena.game
             float distance = maxHeight - boss.transform.position.y;
             if (distance > 0)
             {
-                float movement = Mathf.Min(Boss.speed * Time.deltaTime, distance);
+                float movement = Mathf.Min(jumpSpeed * Time.deltaTime, distance);
                 boss.transform.Translate(Vector3.up * movement);
             }
         }
 
-        private void AfterCountDown()
+        private int AfterCountDown(int dummy)
         {
-            isShadowEnabled = false;
             isJumping = false;
             state = NodeState.SUCCESS;
+            return dummy;
         }
         
         private void MoveShadow()
         {
-            if (!isShadowEnabled && IsOffScreen())
-            {
-                shadow = Boss.Instantiate(shadowPrefab, player.transform.position, Quaternion.identity);
-                shadow.GetComponent<SpriteRenderer>().enabled = true;
-                isShadowEnabled = true;
-            }
-
-            if (jumpTime >= 0.25f && isShadowEnabled)
+            if (jumpTimer.GetCurrentTime() >= 0.25f)
             {
                 // have shadow target and follow the player
                 const float shadowSpeed = 100;
@@ -113,11 +101,6 @@ namespace BossArena.game
         private void MoveToward(Transform follower, Transform target, float speed)
         {
             follower.position = Vector3.MoveTowards(follower.position, target.position, speed * Time.deltaTime);
-        }
-
-        private bool IsOffScreen()
-        {
-            return originalJumpY + shadowOffset < boss.transform.position.y;
         }
 
     }

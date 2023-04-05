@@ -7,34 +7,26 @@ namespace BossArena.game
 {
     enum PassiveJumpState
     {
-        START, JUMPING, END, AFTER
+        START, JUMPING, END
     }
 
     public class PassiveJump : Node
     {
-        private const float IDLE_TIME = 1.0f;
-
         private PassiveJumpState passiveJumpState;
         private Vector3 initialCoords;
         private Vector3 finalCoords;
         private float jumpSpeed = 15f;
-        private const int AMOUNT_OF_JUMPS = 5;
-        private int currentJumps;
 
         private GameObject boss;
         private GameObject shadow;
         private GameObject player;
-
-        private AbilityTimer idleTimer;
 
         public PassiveJump(GameObject boss, GameObject shadow)
         {
             this.boss = boss;
             this.shadow = shadow;
             this.player = GameObject.Find("PlayerPrefab(Clone)");
-            this.currentJumps = 0;
             passiveJumpState = PassiveJumpState.START;
-            idleTimer = new AbilityTimer(IDLE_TIME, AfterIdleTimer);
         }
 
         public override NodeState Evaluate()
@@ -49,6 +41,8 @@ namespace BossArena.game
             {
                 return state;
             }
+            boss.GetComponent<Animator>().SetBool("isJumping", true);
+            boss.GetComponent<Animator>().SetBool("isAttacking", false);
 
             switch (passiveJumpState)
             {
@@ -58,16 +52,8 @@ namespace BossArena.game
                 case PassiveJumpState.JUMPING:
                     Jump();
                     break;
-                case PassiveJumpState.AFTER:
-                    idleTimer.Tick(Time.deltaTime);
-                    break;
                 case PassiveJumpState.END:
-                    ++currentJumps;
-                    if (currentJumps == AMOUNT_OF_JUMPS)
-                    {
-                        currentJumps = 0;
-                        state = NodeState.SUCCESS;
-                    }
+                    state = NodeState.SUCCESS;
                     passiveJumpState = PassiveJumpState.START;
                     return state;
             }
@@ -89,14 +75,9 @@ namespace BossArena.game
             if (Vector3.Distance(boss.transform.position, finalCoords) < basicallyZero)
             {
                 boss.transform.position = finalCoords;
-                passiveJumpState = PassiveJumpState.AFTER;
+                passiveJumpState = PassiveJumpState.END;
                 boss.GetComponent<BoxCollider2D>().enabled = true;
             }
-        }
-
-        public void AfterIdleTimer()
-        {
-            passiveJumpState = PassiveJumpState.END;
         }
 
     }

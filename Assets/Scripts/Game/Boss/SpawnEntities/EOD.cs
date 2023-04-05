@@ -4,20 +4,20 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.Boss
 {
-    class EOD : EntityBase
+     class EOD : EntityBase
     {
         // set size, decay value, damage tick
 
         [SerializeField]
-        private const float START_DAMAGE = 10;
+        private const float START_DAMAGE = 15;
 
         private float currentDamage;
 
-        private float decay = 0.1f;
+        private float decay = 0.4f;
 
         SpriteRenderer renderer;
 
-        public const float MAX_HEALTH = 1000.0f;
+        public const float MAX_HEALTH = 3000.0f;
 
         protected override void Start()
         {
@@ -32,6 +32,9 @@ namespace Assets.Scripts.Game.Boss
             // Ignore collisions between the current object's collider and all colliders on the specified tag
             Collider2D currentCollider = GetComponent<Collider2D>();
             Physics2D.IgnoreCollision(currentCollider, colliderToIgnore, true);
+
+            // make it behind everything because the unity editor being jank
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, 5);
         }
 
         protected override void FixedUpdate()
@@ -54,7 +57,6 @@ namespace Assets.Scripts.Game.Boss
 
             // lose health
             SetHealth(CurrentHealth - decay);
-            Debug.Log(CurrentHealth);
             if (CurrentHealth < 0)
             {
                 Destroy(this.gameObject);
@@ -66,7 +68,7 @@ namespace Assets.Scripts.Game.Boss
             renderer.color = spriteColor;
         }
 
-        void OnCollisionEnter(Collision collision)
+        protected void OnTriggerEnter2D(Collider2D collision)
         {
             // reduce player health upon collision
             GameObject gameObject = collision.gameObject;
@@ -81,7 +83,6 @@ namespace Assets.Scripts.Game.Boss
 
         protected override void HandleCollision(Collision2D collision)
         {
-            throw new NotImplementedException();
         }
     }
 }
