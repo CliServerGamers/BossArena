@@ -8,12 +8,12 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    abstract class Enemy : EntityBase, IHostile
+     abstract class Enemy : EntityBase, IHostile
     {
         [SerializeField]
         public Player CurrentTarget { get; set; }
-        [SerializeField]
-        float threatRadius;
+        [field: SerializeField]
+        public float threatRadius { get; private set; }
 
         private Node _root = null;
 
@@ -21,12 +21,13 @@ namespace BossArena.game
         {
             _root = SetupTree();
             base.Start();
-            SetHealth(MaxHealth);
+            SetHealth(MaxHealth.Value);
         }
 
         // no object that extends entity should be able to override this method as it takes care of running the tree
         protected override sealed void Update()
         {
+            if(!IsOwner) return;
             _root?.Evaluate();
         }
 
