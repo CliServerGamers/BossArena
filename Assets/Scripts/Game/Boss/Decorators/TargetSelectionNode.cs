@@ -1,10 +1,4 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
-using Assets.Scripts.Game.Boss.BossUtil;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BossArena.game

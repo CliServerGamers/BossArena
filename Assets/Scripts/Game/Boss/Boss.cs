@@ -51,12 +51,16 @@ namespace BossArena.game
 
         protected override Node SetupTree()
         {
-            //new TargetSelectionNode(this.gameObject)
-            List<Node> nodes = GetSwirlProjectileSequence();
-            //nodes.AddRange(GetPassiveJumpsSequence());
-            //nodes.AddRange(GetSkyDiveSequence());
-            //nodes.AddRange(GetPassiveJumpsSequence());
-            //nodes.AddRange(GetProjectileSequence());
+            // turn off the shadow initially
+            shadow.GetComponent<SpriteRenderer>().enabled = false;
+
+            List<Node> nodes = new List<Node>();
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.AddRange(GetSwirlProjectileSequence());
+            nodes.AddRange(GetPassiveJumpsSequence());
+            nodes.AddRange(GetSkyDiveSequence());
+            nodes.AddRange(GetPassiveJumpsSequence());
+            nodes.AddRange(GetProjectileSequence());
             nodes.AddRange(GetSkyDiveSequence());
             nodes.AddRange(GetSkyDiveSequence());
             nodes.AddRange(GetPassiveJumpsSequence());
@@ -73,12 +77,13 @@ namespace BossArena.game
         private List<Node> GetProjectileSequence()
         {
             List<Node> sequence = new List<Node>();
-            sequence.Add(new IdleNode(this.gameObject, 0.5f));
-            sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, 0));
-            sequence.Add(new IdleNode(this.gameObject, 0.5f));
-            sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, 45));
-            sequence.Add(new IdleNode(this.gameObject, 0.5f));
-            sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, 0));
+
+            for (int i = 0; i < 16; i++)
+            {
+                sequence.Add(new IdleNode(this.gameObject, 0.5f));
+                sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, 0, i * 22.5f));
+            }
+
             return sequence;
         }
 
@@ -89,7 +94,7 @@ namespace BossArena.game
             for (int i = 0; i < 10; i++)
             {
                 sequence.Add(new IdleNode(this.gameObject, 0.5f));
-                sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, i * 10 + 10));
+                sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, i * 10 + 10, 0));
             }
 
             return sequence;
