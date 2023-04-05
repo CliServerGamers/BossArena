@@ -35,9 +35,9 @@ namespace BossArena.game
         {
             TauntPrefabSpriteRenderer.enabled = false;
             //TauntPrefabCollider.enabled = true;
-            if (onCoolDown)
+            if (onCoolDown.Value)
                 return;
-            onCoolDown = true;
+            onCoolDown.Value = true;
             timeStart = Time.time;
             
             // Apply Effect
@@ -67,7 +67,7 @@ namespace BossArena.game
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
         {
-            if(onCoolDown) return;
+            if(onCoolDown.Value) return;
 
             // Update MousePosition
             currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);

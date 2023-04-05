@@ -15,17 +15,23 @@ namespace BossArena.game
         protected Rigidbody2D rb;
 
         [field:SerializeField]
-        public float MaxHealth { get; protected set; }
+        public NetworkVariable<float> MaxHealth { get; protected set; }
+
         [field: SerializeField]
-        public float CurrentHealth { get; set; }
+        public NetworkVariable<float> CurrentHealth = new NetworkVariable<float>();
+
         [field: SerializeField]
         public bool IsAlive { get; protected set; }
+
+
         [field: SerializeField]
         public NetworkVariable<EntityState> State = new NetworkVariable<EntityState>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         [field: SerializeField]
         public NetworkVariable<int> ThreatLevel = new NetworkVariable<int>(default,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+
         [SerializeField]
         protected float baseMoveSpeed;
         protected float currentMoveSpeed;
@@ -49,8 +55,8 @@ namespace BossArena.game
         protected void SetHealth(float health)
 
         {
-            MaxHealth = health;
-            CurrentHealth = health;
+            MaxHealth.Value = health;
+            CurrentHealth.Value = health;
         }
 
         protected void OnCollisionEnter2D(Collision2D collision)

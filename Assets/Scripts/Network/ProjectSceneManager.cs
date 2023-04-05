@@ -163,7 +163,7 @@ namespace BossArena
             Archetypes type = GameManager.Instance.LocalLobby.GetLocalPlayer((int)clientId).Archetype.Value;
             newPlayer.GetComponent<Player>().Archetype.Value = type;
             playerObj.SpawnWithOwnership(clientId, true);
-            //InGameRunner.Instance.PlayerList.Add(newPlayer);
+            InGameRunner.Instance.PlayerList.Add(newPlayer);
         }
 
         [ServerRpc(RequireOwnership = false)]

@@ -21,7 +21,7 @@ namespace BossArena.game
         {
             _root = SetupTree();
             base.Start();
-            SetHealth(MaxHealth);
+            SetHealth(MaxHealth.Value);
         }
 
         // no object that extends entity should be able to override this method as it takes care of running the tree
