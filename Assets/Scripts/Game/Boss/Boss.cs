@@ -51,6 +51,7 @@ namespace BossArena.game
 
         protected override Node SetupTree()
         {
+            //new TargetSelectionNode(this.gameObject)
             List<Node> nodes = GetSwirlProjectileSequence();
             //nodes.AddRange(GetPassiveJumpsSequence());
             //nodes.AddRange(GetSkyDiveSequence());

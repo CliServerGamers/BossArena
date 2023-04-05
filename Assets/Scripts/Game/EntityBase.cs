@@ -10,14 +10,18 @@ namespace BossArena.game
 {
     abstract class EntityBase : NetworkBehaviour
     {
-        [SerializeField]
+        [field:SerializeField]
         public float MaxHealth { get; protected set; }
+        [field: SerializeField]
         public float CurrentHealth { get; set; }
+        [field: SerializeField]
         public bool IsAlive { get; protected set; }
-
-        public EntityState State { get; set; }
-        public int ThreatLevel { get; set; }
-
+        [field: SerializeField]
+        public NetworkVariable<EntityState> State = new NetworkVariable<EntityState>(default,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        [field: SerializeField]
+        public NetworkVariable<int> ThreatLevel = new NetworkVariable<int>(default,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         [SerializeField]
         protected float baseMoveSpeed;
         protected float currentMoveSpeed;
@@ -26,8 +30,8 @@ namespace BossArena.game
         {
             SetHealth(100);
             IsAlive = true;
-            State = EntityState.DEFUALT;
-            ThreatLevel = 0;
+            State.Value = EntityState.DEFUALT;
+            ThreatLevel.Value = 0;
             currentMoveSpeed = baseMoveSpeed;
         }
 
