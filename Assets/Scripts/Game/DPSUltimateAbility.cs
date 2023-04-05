@@ -47,6 +47,8 @@ namespace BossArena.game
                 // Start rendering the ability
                 spriteRenderer.enabled = true;
 
+                Transform blastPrefabColliderTransform = BlastPrefabCollider.transform.GetComponent<CircleCollider2D>();
+                blastPrefabColliderTransform.position = mosPos;
                 ApplyEffect();
             }
         }
@@ -56,7 +58,7 @@ namespace BossArena.game
             UnityEngine.Debug.Log("DPS Ultimate Ability");
             player.SetState(EntityState.STUNNED);
 
-            BlastPrefabCollider.transform.GetComponent<CircleCollider2D>();
+
 
             //PlayerCollider = BlastPrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
         }
@@ -100,5 +102,4 @@ namespace BossArena.game
             return Time.time - timeStart;
         }
     }
-
 }
