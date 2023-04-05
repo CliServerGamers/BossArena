@@ -19,16 +19,16 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
         public void Update()
         {
             // lose health
-            SetHealth(CurrentHealth - DAMAGE_TICK);
+            SetHealth(CurrentHealth.Value - DAMAGE_TICK);
 
-            if (CurrentHealth < 0)
+            if (CurrentHealth.Value < 0)
             {
                 Destroy(this.gameObject);
             }
 
             // maps the opacity to the percentage of health lost
             Color spriteColor = renderer.color;
-            spriteColor.a = (CurrentHealth / MAX_HEALTH);
+            spriteColor.a = (CurrentHealth.Value / MAX_HEALTH);
             renderer.color = spriteColor;
         }
 

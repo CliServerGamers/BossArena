@@ -97,7 +97,9 @@ namespace BossArena.game
 
                 if (IsWithinRange(player.transform.position, boss.transform.position, bossRadius))
                 {
-                    player.GetComponent<Player>().CurrentHealth -= smallHitBoxDamage;
+                    //player.GetComponent<Player>().CurrentHealth.Value -= smallHitBoxDamage;
+                    //RPC call
+                    Debug.Log("Blobbbed");
                 }
             }
             //DisplayRadiusAroundPosition(boss.transform.position, bossRadius);
@@ -110,7 +112,9 @@ namespace BossArena.game
             {
                 if (IsWithinRange(player.transform.position, boss.transform.position, largeHitboxRadius))
                 {
-                    player.GetComponent<Player>().CurrentHealth -= largeHitBoxDamage;
+                    //player.GetComponent<Player>().CurrentHealth.Value -= largeHitBoxDamage;
+                    //RPC call
+                    Debug.Log("blorbsted");
                 }
             }
             DisplayRadiusAroundPosition(boss.transform.position, largeHitboxRadius);
