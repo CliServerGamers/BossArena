@@ -1,10 +1,6 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
-using System;
+using Assets.Scripts.Game.Boss.BossAbilities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 
 namespace BossArena.game
@@ -12,6 +8,8 @@ namespace BossArena.game
 
     class Boss : Enemy
     {
+        [SerializeField]
+        public Animator animator;
 
         [SerializeField]
         private GameObject skydiveHitbox;
@@ -53,27 +51,79 @@ namespace BossArena.game
 
         protected override Node SetupTree()
         {
+            List<Node> nodes = GetSwirlProjectileSequence();
+            //nodes.AddRange(GetPassiveJumpsSequence());
+            //nodes.AddRange(GetSkyDiveSequence());
+            //nodes.AddRange(GetPassiveJumpsSequence());
+            //nodes.AddRange(GetProjectileSequence());
+            nodes.AddRange(GetSkyDiveSequence());
+            nodes.AddRange(GetSkyDiveSequence());
+            nodes.AddRange(GetPassiveJumpsSequence());
+            nodes.Add(new TeleportToRandomGoop(this.gameObject));
+
             Node _root = new InOrderSequenceNode(new List<Node>
             {
-                new InOrderSequenceNode(new List<Node>
-                {
-                    new TargetSelectionNode(),
-
-                    new IdleNode(0.5f),
-                    new ProjectileAttackNode(this.gameObject, projectilePrefab),
-                    new IdleNode(0.5f),
-                    new ProjectileAttackNode(this.gameObject, projectilePrefab),
-                    new IdleNode(0.5f),
-                    new ProjectileAttackNode(this.gameObject, projectilePrefab),
-                })
-            });;
+                new InOrderSequenceNode(nodes)
+            });
 
             return _root;
+        }
+
+        private List<Node> GetProjectileSequence()
+        {
+            List<Node> sequence = new List<Node>();
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, 0));
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, 45));
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, 0));
+            return sequence;
+        }
+
+        private List<Node> GetSwirlProjectileSequence()
+        {
+            List<Node> sequence = new List<Node>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                sequence.Add(new IdleNode(this.gameObject, 0.5f));
+                sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, i * 10 + 10));
+            }
+
+            return sequence;
+        }
+
+        private List<Node> GetPassiveJumpsSequence()
+        {
+            List<Node> sequence = new List<Node>();
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new PassiveJump(this.gameObject, projectilePrefab));
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new PassiveJump(this.gameObject, projectilePrefab));
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new PassiveJump(this.gameObject, projectilePrefab));
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new PassiveJump(this.gameObject, projectilePrefab));
+            sequence.Add(new IdleNode(this.gameObject, 0.5f));
+            sequence.Add(new PassiveJump(this.gameObject, projectilePrefab));
+            return sequence;
+        }
+
+        private List<Node> GetSkyDiveSequence()
+        {
+            List<Node> sequence = new List<Node>();
+            sequence.Add(new IdleNode(this.gameObject, 1.0f));
+            sequence.Add(new BossExitScreen(this.gameObject, shadow));
+            sequence.Add(new SkyDive(this.gameObject, eod, shadow, skydiveHitbox));
+            sequence.Add(new IdleNode(this.gameObject, 1.5f));
+            return sequence;
         }
 
         protected override void HandleCollision(Collision2D collision)
         {
             return;
         }
+
     }
 }

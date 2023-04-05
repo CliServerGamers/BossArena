@@ -42,6 +42,9 @@ namespace BossArena.game
                 return state;
             }
 
+            boss.GetComponent<Animator>().SetBool("isJumping", false);
+            boss.GetComponent<Animator>().SetBool("isAttacking", true);
+
             if (isDiving)
             {
                 MoveToward(boss.transform, shadow.transform, diveSpeed);

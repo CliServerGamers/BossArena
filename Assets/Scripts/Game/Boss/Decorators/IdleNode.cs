@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace BossArena.game
 {
@@ -13,11 +14,13 @@ namespace BossArena.game
     {
 
         private float idleTime;
-        AbilityTimer<int, int> idleTimer;
+        private AbilityTimer<int, int> idleTimer;
+        private GameObject boss;
 
-        public IdleNode(float idleTime) {
+        public IdleNode(GameObject boss, float idleTime) {
             this.idleTimer = new AbilityTimer<int, int>(idleTime, AfterTimer);
             this.idleTime= idleTime;
+            this.boss = boss;
         }
 
         public override NodeState Evaluate()
@@ -26,6 +29,8 @@ namespace BossArena.game
             {
                 idleTimer.Restart();
                 state = NodeState.RUNNING;
+                boss.GetComponent<Animator>().SetBool("isJumping", false);
+                boss.GetComponent<Animator>().SetBool("isAttacking", false);
             }
 
             if (state != NodeState.RUNNING)
