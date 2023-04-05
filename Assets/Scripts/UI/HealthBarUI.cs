@@ -32,6 +32,7 @@ namespace BossArena.UI
             {
                 yield return StartCoroutine(WaitForLocalPlayer());
             }
+            HealthChanged(0f, entity.CurrentHealth.Value);
             entity.CurrentHealth.OnValueChanged += HealthChanged;
         }
         IEnumerator WaitForLocalPlayer()
