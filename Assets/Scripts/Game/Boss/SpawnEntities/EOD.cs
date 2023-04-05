@@ -17,7 +17,7 @@ namespace Assets.Scripts.Game.Boss
 
         SpriteRenderer renderer;
 
-        public const float MAX_HEALTH = 500.0f;
+        public const float MAX_HEALTH = 3000.0f;
 
         protected override void Start()
         {
@@ -57,7 +57,6 @@ namespace Assets.Scripts.Game.Boss
 
             // lose health
             SetHealth(CurrentHealth - decay);
-            Debug.Log(CurrentHealth);
             if (CurrentHealth < 0)
             {
                 Destroy(this.gameObject);

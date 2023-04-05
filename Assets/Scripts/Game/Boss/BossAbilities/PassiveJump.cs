@@ -41,6 +41,8 @@ namespace BossArena.game
             {
                 return state;
             }
+            boss.GetComponent<Animator>().SetBool("isJumping", true);
+            boss.GetComponent<Animator>().SetBool("isAttacking", false);
 
             switch (passiveJumpState)
             {
