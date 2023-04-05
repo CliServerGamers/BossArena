@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9186543577531126543}
-  - component: {fileID: 4577363400728431482}
+  - component: {fileID: -6829029229206050573}
   - component: {fileID: 7084433405646226918}
   - component: {fileID: -5659649267663850706}
   - component: {fileID: 3988632707642454474}
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4577363400728431482
+--- !u!114 &-6829029229206050573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,19 +44,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3122235894270474046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9591af6995416444a66d88114a3a089, type: 3}
+  m_Script: {fileID: 11500000, guid: 73b3411614ed23c46b0e10df10a07189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
   coolDownDelay: 0
   range: 0
-  onCoolDown: 0
   timeStart: 0
+  damage: 0
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
   parentPlayer: {fileID: 0}
-  BlinkPrefab: {fileID: 0}
+  BlastPrefab: {fileID: 3122235894270474046}
+  playerObj: {fileID: 0}
 --- !u!114 &7084433405646226918
 MonoBehaviour:
   m_ObjectHideFlags: 0

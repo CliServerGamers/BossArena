@@ -10,6 +10,8 @@ namespace BossArena.game
     public enum Archetypes
     {
         Tank = 0,
+        DPS,
+        Healer,
         Test
     }
 

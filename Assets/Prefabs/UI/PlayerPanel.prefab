@@ -959,7 +959,5 @@ MonoBehaviour:
   m_DisplayNameText: {fileID: 4127139625554966764}
   m_StatusText: {fileID: 7167531285205094877}
   m_ArchetypeIcon: {fileID: 828025270579471625}
-  m_Archetypes:
-  - {fileID: 11400000, guid: 8a4c032443357984c83e5944a7a6b6cf, type: 2}
-  - {fileID: 11400000, guid: 1ad52b70ac0b6e544a389338170f1d2f, type: 2}
+  m_Archetypes: {fileID: 11400000, guid: 71994d617e0ffd640997e5528d2dc3a6, type: 2}
   classSelection: {fileID: 7210355042864994878}

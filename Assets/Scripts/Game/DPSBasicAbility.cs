@@ -31,9 +31,9 @@ namespace BossArena.game
         public override void ActivateAbility(Vector3? mousepos = null)
         {
             BlinkPrefabSpriteRenderer.enabled = false;
-            if (onCoolDown)
+            if (onCoolDown.Value)
                 return;
-            onCoolDown = true;
+            onCoolDown.Value = true;
             timeStart = Time.time;
             ApplyEffect();
             BlinkPrefabCollider.enabled = true;

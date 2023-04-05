@@ -22,7 +22,7 @@ namespace BossArena.UI
         Image m_ArchetypeIcon;
 
         [SerializeField]
-        Archetype[] m_Archetypes;
+        ArchetypeList m_Archetypes;
 
         [SerializeField]
         ClassSelectionUI classSelection;
@@ -112,7 +112,7 @@ namespace BossArena.UI
         void ArchetypeIcon(Archetypes type)
         {
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}: Changing to archetype ${type}");
-            m_ArchetypeIcon.GetComponent<Image>().color = m_Archetypes[(int)type].classColor;
+            m_ArchetypeIcon.GetComponent<Image>().color = m_Archetypes.archetypeList[(int)type].value.classColor;
             //switch (type)
             //{
             //    case Archetypes.Tank:
