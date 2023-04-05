@@ -367,6 +367,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6582680812433896484, guid: 3614f6dbc4124544d88d2a468145ebec, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7590475207773244452, guid: 3614f6dbc4124544d88d2a468145ebec, type: 3}
       propertyPath: m_Name
       value: BossHealth

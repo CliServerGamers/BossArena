@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -144.63484, y: 0}
-  m_SizeDelta: {x: 475.3003, y: 18}
+  m_AnchoredPosition: {x: -145, y: 0}
+  m_SizeDelta: {x: 465, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6639049591708780754
 MonoBehaviour:
@@ -206,8 +206,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -143.14285, y: 0}
-  m_SizeDelta: {x: 478.2857, y: 24}
+  m_AnchoredPosition: {x: -145, y: 0}
+  m_SizeDelta: {x: 480, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &489867858175580970
 CanvasRenderer:
@@ -283,8 +283,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.6254, y: 0}
-  m_SizeDelta: {x: 465.5588, y: 18}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 464, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &881405200400696963
 CanvasRenderer:
@@ -476,5 +476,6 @@ MonoBehaviour:
   m_onVisibilityChange:
     m_PersistentCalls:
       m_Calls: []
+  entity: {fileID: 0}
   currentHealthBar: {fileID: 4488221895079934456}
   healthText: {fileID: 6061826452949681618}
