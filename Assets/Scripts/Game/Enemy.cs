@@ -12,8 +12,8 @@ namespace BossArena.game
     {
         [SerializeField]
         public Player CurrentTarget { get; set; }
-        [SerializeField]
-        float threatRadius;
+        [field: SerializeField]
+        public float threatRadius { get; private set; }
 
         private Node _root = null;
 
@@ -27,6 +27,7 @@ namespace BossArena.game
         // no object that extends entity should be able to override this method as it takes care of running the tree
         protected override sealed void Update()
         {
+            if(!IsOwner) return;
             _root?.Evaluate();
         }
 

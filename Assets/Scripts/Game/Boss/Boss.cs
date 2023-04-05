@@ -57,7 +57,7 @@ namespace BossArena.game
             {
                 new InOrderSequenceNode(new List<Node>
                 {
-                    new TargetSelectionNode(),
+                    new TargetSelectionNode(this.gameObject),
 
                     new IdleNode(0.5f),
                     new ProjectileAttackNode(this.gameObject, projectilePrefab),

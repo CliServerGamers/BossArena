@@ -170,7 +170,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMoveSpeed: 0
-  threatRadius: 0
+  <threatRadius>k__BackingField: 117.16
+  skydiveHitbox: {fileID: 0}
   projectilePrefab: {fileID: 7415989197876364571, guid: 3d938dd6f3c7eda47a2068e5339de52d, type: 3}
   shadow: {fileID: 0}
   eod: {fileID: 3461932505033755877, guid: f1c873da26737b14489b2808409d7a8d, type: 3}
