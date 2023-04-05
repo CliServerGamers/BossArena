@@ -41,6 +41,7 @@ namespace BossArena.game
             /// Create collision box with threatRadius
             /// Get players overlapped with collision
             Collider2D[] hitCol = Physics2D.OverlapCircleAll((Vector2)thieEnemy.transform.position, thieEnemy.threatRadius);
+            Debug.Log($"Found {hitCol.Length}");
             foreach (Collider2D col in hitCol)
             {
                 if (col.gameObject.TryGetComponent(out Player player))
