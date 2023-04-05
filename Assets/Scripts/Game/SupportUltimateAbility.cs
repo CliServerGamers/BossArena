@@ -35,7 +35,16 @@ namespace BossArena.game
 
         public override void ApplyEffect()
         {
-            UnityEngine.Debug.Log("Ultimate Ability");
+            Debug.Log("Ultimate Ability");
+            InGameRunner igr = GameObject.Find("InGameRunner").GetComponent<InGameRunner>();
+            List<GameObject> targets = igr.getPlayerList();
+            foreach (GameObject target in targets)
+            {
+                if (target != null)
+                {
+                    
+                }
+            }
             //At this point, get all the players in the game and teleport them to your location
             StartCoroutine(WaitForAbilityEnd());
         }

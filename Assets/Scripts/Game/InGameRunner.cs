@@ -211,5 +211,10 @@ namespace BossArena.game
             PlayerList.Add(player);
 
         }
+
+        public List<GameObject> getPlayerList()
+        {
+            return PlayerList;
+        }
     }
 }
