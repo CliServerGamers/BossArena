@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BossArena.game
@@ -36,18 +37,31 @@ namespace BossArena.game
         public override void ApplyEffect()
         {
             Debug.Log("Ultimate Ability");
+            ServerMovingCall_ServerRpc(parentPlayer.transform.position);
+            //At this point, get all the players in the game and teleport them to your location
+            StartCoroutine(WaitForAbilityEnd());
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void ServerMovingCall_ServerRpc(Vector3 pos)
+        {
+            teleportPlayers_ClientRpc(pos);
+        }
+        
+        [ClientRpc]
+        private void teleportPlayers_ClientRpc(Vector3 pos)
+        {
             InGameRunner igr = GameObject.Find("InGameRunner").GetComponent<InGameRunner>();
             List<GameObject> targets = igr.getPlayerList();
             foreach (GameObject target in targets)
             {
                 if (target != null)
                 {
-                    
+                    target.GetComponent<Player>().setPosition(pos);
                 }
             }
-            //At this point, get all the players in the game and teleport them to your location
-            StartCoroutine(WaitForAbilityEnd());
         }
+        
 
         IEnumerator WaitForAbilityEnd()
         {

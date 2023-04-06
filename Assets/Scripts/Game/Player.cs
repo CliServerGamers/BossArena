@@ -179,6 +179,22 @@ namespace BossArena.game
 
         }
 
+        public void setPosition(Vector3 pos){
+            if(!IsOwner)
+                return;
+            playerObj.transform.position = pos;
+        }
+
+        public void cleanse()
+        {
+            if (!IsOwner)
+                return;
+            if (State.Value != EntityState.DEAD)
+            {
+                State.Value = EntityState.DEFUALT;
+            }
+        }
+
         [ServerRpc]
         private void SendClientInputServerRpc()
         {

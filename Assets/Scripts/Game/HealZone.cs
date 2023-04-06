@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -7,7 +8,14 @@ namespace BossArena.game
 {
     class HealZone : EntityBase
     {
-
+        public int lifetime;
+        public float healAmount;
+        protected override void Start()
+        {
+            base.Start();
+            SetHealth(lifetime);
+        }
+        
         // Update is called once per frame
         void Update()
         {
@@ -19,16 +27,28 @@ namespace BossArena.game
             CurrentHealth.Value--;
             if (CurrentHealth.Value <= 0)
             {
-                Destroy(gameObject);
+                despawn();
             }
         }
-        
-        protected override void HandleCollision(Collision2D collision)
+
+        protected override void HandleTrigger(Collider2D collision)
         {
-            if(collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag == "Player")
             {
+                if (IsServer)
+                {
+                    collision.gameObject.GetComponent<Player>().TakeDamageClientRpc(-healAmount);
+                }
+                despawn(); 
+            }
+        }
+
+        private void despawn()
+        {
+            if (IsServer)
+            {
+                gameObject.GetComponent<NetworkObject>().Despawn();
                 Destroy(gameObject);
-                //collision.gameObject.GetComponent<Player>().CurrentHealth += 10;
             }
         }
     }

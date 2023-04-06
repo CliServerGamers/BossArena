@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace BossArena.game
@@ -55,13 +54,42 @@ namespace BossArena.game
             }
             if (HealArea != null)
             {
+                DestroyHealZone_ServerRpc();
+            }
+            CreateHealZone_ServerRpc(calculateBasicAbilityCursor());
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void CreateHealZone_ServerRpc(Vector3 pos)
+        {
+            CreateHealZone(pos);
+        }
+        
+        private void CreateHealZone(Vector3 pos)
+        {
+            if (IsServer)
+            {
+                HealArea = Instantiate(HealAreaPrefab, pos, Quaternion.identity);
+                HealArea.GetComponent<NetworkObject>().Spawn();
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DestroyHealZone_ServerRpc()
+        {
+            DestroyHealZone();
+        }
+
+        private void DestroyHealZone()
+        {
+            if (IsServer)
+            {
                 HealArea.GetComponent<NetworkObject>().Despawn();
                 Destroy(HealArea);
             }
-            HealArea = Instantiate(HealAreaPrefab, calculateBasicAbilityCursor(), Quaternion.identity);
-            HealArea.GetComponent<NetworkObject>().Spawn();
-            
         }
+
+
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
         {
