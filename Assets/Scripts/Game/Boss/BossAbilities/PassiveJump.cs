@@ -43,7 +43,7 @@ namespace BossArena.game
             }
             boss.GetComponent<Animator>().SetBool("isJumping", true);
             boss.GetComponent<Animator>().SetBool("isAttacking", false);
-            boss.PlaySound("vine-boom", 5.0f, 10.0f);
+            boss.PlaySound("boss-passive-jump", 2.0f, 2.0f);
 
             switch (passiveJumpState)
             {
