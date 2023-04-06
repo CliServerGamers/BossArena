@@ -34,7 +34,6 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
             playerObjects[randomIndex].TryGetComponent<Player>(out targetedPlayer);
             if (targetedPlayer != null)
             {
-                Debug.Log("WALTUH");
                 Vector2 targetPosition = targetedPlayer.transform.position; // get the target object's position
                 Vector2 currentPosition = transform.position; // get the current object's position
 
@@ -65,11 +64,9 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
 
                 // apply the impulse force in the direction away from the target
                 GetComponent<Rigidbody2D>().AddForce(-(targetRigidBody.position.normalized) * HIT_IMPULSE, ForceMode2D.Impulse);
-                Debug.Log("EPIC");
-            } else
-            {
-                Debug.Log("CRINGE");
+
             }
+
         }
     }
 }
