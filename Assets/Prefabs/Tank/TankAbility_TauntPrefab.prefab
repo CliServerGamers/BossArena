@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 8863836404236359746}
   - component: {fileID: 4312382434637248667}
   - component: {fileID: -4924300992687419995}
-  - component: {fileID: -1264893939420571917}
-  - component: {fileID: 8605036340763514543}
+  - component: {fileID: -6735077719700485654}
+  - component: {fileID: -4267203947573195771}
+  - component: {fileID: 3958913625227084975}
   m_Layer: 0
   m_Name: TankAbility_TauntPrefab
   m_TagString: Untagged
@@ -137,7 +138,6 @@ MonoBehaviour:
   windUpDelay: 0
   coolDownDelay: 2
   range: 3
-  onCoolDown: 0
   timeStart: 0
   damage: 1
   mainCamera: {fileID: 0}
@@ -168,7 +168,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-1264893939420571917
+--- !u!95 &-6735077719700485654
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7986055475673144722}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &-4267203947573195771
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +197,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7986055475673144722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -194,7 +214,7 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
---- !u!114 &8605036340763514543
+--- !u!114 &3958913625227084975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

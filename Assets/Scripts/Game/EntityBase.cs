@@ -88,7 +88,7 @@ namespace BossArena.game
         }
 
         // Helper Function: Setting Taunted State
-        IEnumerator setStateTaunt(float effectDuration)
+        protected IEnumerator setStateTaunt(float effectDuration)
         {
             Debug.Log($"Taunted for {effectDuration} seconds");
 
@@ -113,18 +113,9 @@ namespace BossArena.game
 
         [ClientRpc]
         public void TakeDamageClientRpc(float damage)
-        {
-            TakeDamage(damage);
-        }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void getTauntedServerRPC(float damage, float effectDuration)
         {
-            // Deal Damage
             TakeDamage(damage);
-            
-            // Apply Taunted State, pass in effectDuration to Coroutine, then Reset State to Default
-            StartCoroutine(setStateTaunt(effectDuration));
         }
 
 

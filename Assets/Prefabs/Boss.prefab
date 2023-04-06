@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  <MaxHealth>k__BackingField:
+  MaxHealth:
     m_InternalValue: 0
   CurrentHealth:
     m_InternalValue: 0
