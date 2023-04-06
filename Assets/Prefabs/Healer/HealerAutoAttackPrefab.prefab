@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windUpDelay: 0
   coolDownDelay: 2
-  range: 0.25
+  range: 0.5
   timeStart: 0
   damage: 5
   mainCamera: {fileID: 0}
@@ -208,6 +208,7 @@ MonoBehaviour:
   AutoAttackPrefabSpriteRenderer: {fileID: 5453550907434573238}
   AUTOATTACK_COLLIDER: {fileID: 8907060087397363513}
   lengthOfAttackInSec: 2
+  AutoAttack_ThreatGen: 0
 --- !u!95 &7795083455613158231
 Animator:
   serializedVersion: 5
