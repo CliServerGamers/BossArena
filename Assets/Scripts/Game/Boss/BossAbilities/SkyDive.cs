@@ -72,6 +72,7 @@ namespace BossArena.game
             BoxCollider2D bossCollider = boss.transform.GetComponent<BoxCollider2D>();
             bossCollider.enabled = true;
             shadow.GetComponent<SpriteRenderer>().enabled = false;
+            boss.skydiveSFX.Play();
         }
 
         private void SpawnEOD()

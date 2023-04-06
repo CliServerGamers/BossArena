@@ -13,6 +13,8 @@ namespace BossArena.game
 
         [SerializeField]
         public Animator animator;
+        [SerializeField]
+        public AudioSource skydiveSFX;
 
         [SerializeField]
         private GameObject skydiveHitbox;
@@ -49,6 +51,7 @@ namespace BossArena.game
         protected override void Start()
         {
             base.Start();
+            SetHealth(500);
             shadow.gameObject.transform.position = new Vector3(shadow.transform.position.x, shadow.transform.position.y, 3);
             SetHealth(BOSSMAXHEALTH);
 
