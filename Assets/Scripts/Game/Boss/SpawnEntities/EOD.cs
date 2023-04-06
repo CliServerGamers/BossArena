@@ -15,15 +15,14 @@ namespace BossArena.game
 
         private float decay = 0.4f;
 
-        SpriteRenderer renderer;
+        SpriteRenderer rend;
 
-        public const float MAX_HEALTH = 1000.0f;
+        public const float MAX_HEALTH = 500.0f;
 
         protected override void Start()
         {
-            Debug.Log("I am in the start method for EOD");
             SetHealth(MAX_HEALTH);
-            renderer = GetComponent<SpriteRenderer>();
+            rend = GetComponent<SpriteRenderer>();
             currentDamage = START_DAMAGE;
 
             // Get all colliders on objects with the specified tag
@@ -35,16 +34,6 @@ namespace BossArena.game
 
             // make it behind everything because the unity editor being jank
             gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, 0.1f);
-        }
-
-        protected override void FixedUpdate()
-        {
-            return;
-        }
-
-        protected override void LateUpdate()
-        {
-            return;
         }
 
         protected override void Update()
@@ -68,29 +57,22 @@ namespace BossArena.game
             }
 
             // maps the opacity to the percentage of health lost from range (50 - 100)%
-            Color spriteColor = renderer.color;
+            Color spriteColor = rend.color;
             spriteColor.a = ((CurrentHealth.Value / MAX_HEALTH) / 2) + 0.5f;
-            renderer.color = spriteColor;
+            rend.color = spriteColor;
         }
 
         protected override void HandleTrigger(Collider2D collision)
         {
-            Debug.Log("-----Getting trigger-----");
             if (!IsServer) return;
             // reduce player health upon collision
             GameObject gameObject = collision.gameObject;
             Component component = gameObject.GetComponent<EntityBase>();
             if (component != null && component is Player)
             {
-                Debug.Log("Player should be taking damange by EOD");
                 Player player = (Player)component;
                 player.TakeDamageClientRpc(currentDamage);
-                //player.CurrentHealth.Value -= ;
             }
-        }
-
-        protected override void HandleCollision(Collision2D collision)
-        {
         }
     }
 }
