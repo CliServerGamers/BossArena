@@ -452,7 +452,12 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Daniel Persaud-Barranco
 
-    Liam Northcott'
+    Liam Northcott
+
+    Clayton Hunter
+
+    Alexander
+    Farlinger'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
   m_sharedMaterial: {fileID: 4704314613022359344, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
@@ -1076,7 +1081,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Other Credits
+  m_text: Special Thanks
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
   m_sharedMaterial: {fileID: 4704314613022359344, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
@@ -2973,6 +2978,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LobbyUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2861373303661612272, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2861373303661612275, guid: bae7c38a188ead6488f1a369112dc66a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3431,7 +3440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 22.084904, y: 0}
+  m_AnchoredPosition: {x: 22.0849, y: 0}
   m_SizeDelta: {x: 44.170193, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &982849406
@@ -5498,7 +5507,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Music
+  m_text: Music/SFX
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
   m_sharedMaterial: {fileID: 4704314613022359344, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
@@ -6487,7 +6496,9 @@ MonoBehaviour:
 
     Clayton Hunter
 
-    Will Whitfield'
+    Will Whitfield
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
   m_sharedMaterial: {fileID: 4704314613022359344, guid: e99fc56de43fe6c4c91de0de776bfeb3, type: 2}
