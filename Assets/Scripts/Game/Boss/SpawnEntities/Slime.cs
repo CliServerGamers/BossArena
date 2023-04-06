@@ -1,10 +1,11 @@
-﻿using BossArena.game;
+﻿using Assets.Scripts.Game.BehaviorTree;
+using BossArena.game;
 using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Game.Boss.SpawnEntities
 {
-    class Slime : EntityBase, IHostile
+    class Slime : Enemy, IHostile
     {
 
         [SerializeField]
@@ -43,7 +44,7 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
                 float distanceToTarget = directionToTarget.magnitude;
 
                 // if we're close enough to the target, stop moving
-                if (distanceToTarget <= 0.1f)
+                if (distanceToTarget <= 0.5f)
                 {
                     return;
                 }
@@ -61,15 +62,24 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
             collision.gameObject.TryGetComponent<Player>(out Player p);
             if (p != null)
             {
-                Rigidbody2D targetRigidBody = collision.gameObject.GetComponent<Rigidbody2D>();
+                //Rigidbody2D targetRigidBody = collision.gameObject.GetComponent<Rigidbody2D>();
 
-                // apply the impulse force in the direction away from the target
-                GetComponent<Rigidbody2D>().AddForce(-(targetRigidBody.position.normalized) * HIT_IMPULSE, ForceMode2D.Impulse);
+                //// apply the impulse force in the direction away from the target
+                //GetComponent<Rigidbody2D>().AddForce(-(targetRigidBody.position.normalized) * HIT_IMPULSE, ForceMode2D.Impulse);
+
+                p.TakeDamageClientRpc(DamageToPlayer);
+
                 Debug.Log("EPIC");
             } else
             {
                 Debug.Log("CRINGE");
             }
+        }
+
+        protected override Node SetupTree()
+        {
+            return null;
+            //throw new NotImplementedException();
         }
     }
 }

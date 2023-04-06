@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-     class EOD : EntityBase
+     class EOD : EntityBase, IGoop
     {
         // set size, decay value, damage tick
 

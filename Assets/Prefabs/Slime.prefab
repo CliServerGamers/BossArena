@@ -204,4 +204,7 @@ MonoBehaviour:
   ThreatLevel:
     m_InternalValue: 0
   baseMoveSpeed: 0
+  <CurrentTarget>k__BackingField: {fileID: 0}
+  <threatRadius>k__BackingField: 0
+  DamageToPlayer: 2
   speed: 2
