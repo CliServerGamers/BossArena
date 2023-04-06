@@ -138,7 +138,7 @@ namespace BossArena.game
         }
 
 
-        protected override void HandleTrigger(Collider2D collision)
+        protected override void HandleCollision(Collision2D collision)
         {
             this.GetComponent<Collider2D>().enabled = false;
             var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
