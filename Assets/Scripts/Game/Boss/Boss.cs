@@ -73,7 +73,7 @@ namespace BossArena.game
             //nodes.AddRange(GetSkyDiveSequence());
             //nodes.AddRange(GetPassiveJumpsSequence());
             //nodes.AddRange(GetProjectileSequence());
-            //nodes.AddRange(GetSkyDiveSequence());
+            nodes.AddRange(GetSkyDiveSequence());
             //nodes.AddRange(GetSkyDiveSequence());
             nodes.AddRange(GetPassiveJumpsSequence());
             nodes.Add(new TeleportToRandomGoop(this.gameObject));
@@ -152,18 +152,27 @@ namespace BossArena.game
             return;
         }
 
-        public void PlaySound(string clipName, float volume, float pitch)
+        public void PlaySound(string clipName, float volume, float pitch, bool loop = false)
         {
             AudioClip clip = sounds.Find(sound => sound.name == clipName);
             if (clip != null)
             {
                 audioSrc.clip = clip;
-                audioSrc.Play();
                 audioSrc.volume = volume;
                 audioSrc.pitch = pitch;
+                audioSrc.Play();
+                if (loop)
+                {
+                    audioSrc.loop = true;
+                }
                 return;
             }
             throw new KeyNotFoundException("Sound with the following name " + clipName + "Does not exist!");
+        }
+
+        public void StopClip()
+        {
+            audioSrc.Stop();
         }
 
     }

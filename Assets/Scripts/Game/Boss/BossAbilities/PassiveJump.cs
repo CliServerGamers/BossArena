@@ -43,11 +43,11 @@ namespace BossArena.game
             }
             boss.GetComponent<Animator>().SetBool("isJumping", true);
             boss.GetComponent<Animator>().SetBool("isAttacking", false);
-            boss.PlaySound("boss-passive-jump", 2.0f, 2.0f);
 
             switch (passiveJumpState)
             {
                 case PassiveJumpState.START:
+                    boss.PlaySound("boss-passive-jump", 2.0f, 5.0f, true);
                     InitializeTrajectory();
                     break;
                 case PassiveJumpState.JUMPING:
@@ -55,6 +55,7 @@ namespace BossArena.game
                     break;
                 case PassiveJumpState.END:
                     state = NodeState.SUCCESS;
+                    boss.StopClip();
                     passiveJumpState = PassiveJumpState.START;
                     return state;
             }

@@ -54,7 +54,7 @@ namespace BossArena.game
                 SetupJump();
                 this.jumpTimer.Restart();
                 this.jumpTimer.Run();
-                boss.GetComponent<Boss>().PlaySound("boss-exit-screen", 2.0f, 0.5f);
+                boss.GetComponent<Boss>().PlaySound("boss-exit-screen", 5.0f, 0.5f);
             } else
             {
                 this.jumpTimer.Update();

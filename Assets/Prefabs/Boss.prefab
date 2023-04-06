@@ -324,8 +324,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a3867932b8491ff4dbbe00a11432f58d, type: 3}
   - {fileID: 8300000, guid: 0cd6a2d6e26561b458e14fe9e5b2c0bb, type: 3}
   skydiveHitbox: {fileID: 2701250385777424224, guid: 2cad5f9f98615794db8ee76938b011c9, type: 3}
-  <skydiveSmallHitBoxDamage>k__BackingField: 100
-  <skydiveLargeHitBoxDamage>k__BackingField: 50
+  <skydiveSmallHitBoxDamage>k__BackingField: 5
+  <skydiveLargeHitBoxDamage>k__BackingField: 10
   projectilePrefab: {fileID: 7415989197876364571, guid: 3d938dd6f3c7eda47a2068e5339de52d, type: 3}
   shadow: {fileID: 469512295725770410, guid: 93c8ea175255f094398260d91125dbc0, type: 3}
   eod: {fileID: 3461932505033755877, guid: f1c873da26737b14489b2808409d7a8d, type: 3}

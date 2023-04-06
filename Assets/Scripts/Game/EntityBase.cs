@@ -158,6 +158,7 @@ namespace BossArena.game
             this.GetComponent<NetworkObject>().Despawn();
 
         }
+
     }
 
 }
