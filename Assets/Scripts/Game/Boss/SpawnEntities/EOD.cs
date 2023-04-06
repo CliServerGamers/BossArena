@@ -13,11 +13,11 @@ namespace BossArena.game
 
         private float currentDamage;
 
-        private float decay = 0.4f;
+        private float decay = 0.2f;
 
         SpriteRenderer rend;
 
-        public const float MAX_HEALTH = 500.0f;
+        public const float MAX_HEALTH = 750.0f;
 
         protected override void Start()
         {

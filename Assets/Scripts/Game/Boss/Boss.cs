@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
-using Assets.Scripts.Game.Boss.BossAbilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +15,8 @@ namespace BossArena.game
         public Animator animator;
         [SerializeField]
         public AudioSource audioSrc;
+        [SerializeField]
+        public SpriteRenderer rend;
 
         [SerializeField]
         public List<AudioClip> sounds;
@@ -74,9 +76,10 @@ namespace BossArena.game
             //nodes.AddRange(GetPassiveJumpsSequence());
             //nodes.AddRange(GetProjectileSequence());
             nodes.AddRange(GetSkyDiveSequence());
-            //nodes.AddRange(GetSkyDiveSequence());
+            nodes.AddRange(GetSkyDiveSequence());
             nodes.AddRange(GetPassiveJumpsSequence());
             nodes.Add(new TeleportToRandomGoop(this.gameObject));
+            nodes.Add(new IdleNode(this.gameObject, 1f));
 
             Node _root = new InOrderSequenceNode(new List<Node>
             {
@@ -135,6 +138,36 @@ namespace BossArena.game
             sequence.Add(new SkyDive(this.gameObject, eod, shadow, skydiveHitbox));
             sequence.Add(new IdleNode(this.gameObject, 1.5f));
             return sequence;
+        }
+
+        public void Teleport()
+        {
+            StartCoroutine(TeleportSequence());
+            // teleport to random eod in the scene if any
+            
+        }
+
+        IEnumerator TeleportSequence()
+        {
+            GameObject[] eods = GameObject.FindGameObjectsWithTag("EOD");
+            if (eods != null && eods.Length > 0)
+            {
+                yield return StartCoroutine(FadeTo(0.0f, 0.5f));
+                int randomIndex = UnityEngine.Random.Range(0, eods.Length);
+                transform.position = eods[randomIndex].transform.position;
+                yield return StartCoroutine(FadeTo(1.0f, 0.5f));
+            }
+        }
+
+        IEnumerator FadeTo(float aValue, float aTime)
+        {
+            float alpha = transform.GetComponent<SpriteRenderer>().material.color.a;
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+            {
+                Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, aValue, t));
+                transform.GetComponent<SpriteRenderer>().material.color = newColor;
+                yield return null;
+            }
         }
 
 
