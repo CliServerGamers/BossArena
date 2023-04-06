@@ -1,9 +1,10 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
 using BossArena.game;
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.Boss.SpawnEntities
+namespace BossArena.game
 {
     class Slime : Enemy, IHostile
     {
@@ -24,19 +25,20 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
 
         protected override void Start()
         {
+            base.Start();
             SetHealth(MAX_HEALTH);
             Debug.Log(targetedPlayer);
         }
 
         protected override void FixedUpdate()
         {
-            GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-            int randomIndex = UnityEngine.Random.Range(0, playerObjects.Length);
-            playerObjects[randomIndex].TryGetComponent<Player>(out targetedPlayer);
-            if (targetedPlayer != null)
+            //GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+            //int randomIndex = UnityEngine.Random.Range(0, playerObjects.Length);
+            //playerObjects[randomIndex].TryGetComponent<Player>(out targetedPlayer);
+            if (CurrentTarget != null)
             {
                 Debug.Log("WALTUH");
-                Vector2 targetPosition = targetedPlayer.transform.position; // get the target object's position
+                Vector2 targetPosition = CurrentTarget.transform.position; // get the target object's position
                 Vector2 currentPosition = transform.position; // get the current object's position
 
                 // calculate the direction and distance to the target object
@@ -70,7 +72,8 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
                 p.TakeDamageClientRpc(DamageToPlayer);
 
                 Debug.Log("EPIC");
-            } else
+            }
+            else
             {
                 Debug.Log("CRINGE");
             }
@@ -78,8 +81,13 @@ namespace Assets.Scripts.Game.Boss.SpawnEntities
 
         protected override Node SetupTree()
         {
-            return null;
+            Node _root = new InOrderSequenceNode(new List<Node>
+            {
+                new InOrderSequenceNode(new List<Node>{new TargetSelectionNode(this.gameObject) })
+            });
+            return _root;
             //throw new NotImplementedException();
         }
+
     }
 }
