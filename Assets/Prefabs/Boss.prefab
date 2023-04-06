@@ -315,7 +315,7 @@ MonoBehaviour:
   <CurrentTarget>k__BackingField: {fileID: 0}
   <threatRadius>k__BackingField: 117.16
   DamageToPlayer: 10
-  BOSSMAXHEALTH: 1500
+  BOSSMAXHEALTH: 250
   animator: {fileID: 3210797944243916253}
   audioSrc: {fileID: 4987298959711946424}
   sounds:
