@@ -163,10 +163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 2
+  coolDownDelay: 3
   range: 0.5
   timeStart: 0
-  damage: 10
+  damage: 2
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
   - Layer: 0
     OriginatingState: 2081823275
     DestinationState: 1080829965
-    TransitionDuration: 0.97845435
+    TransitionDuration: 0.035865072
     TriggerNameHash: 1187959656
     TransitionIndex: 0
   m_Animator: {fileID: 7795083455613158231}

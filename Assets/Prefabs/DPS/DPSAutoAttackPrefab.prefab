@@ -198,7 +198,7 @@ MonoBehaviour:
   coolDownDelay: 2
   range: 0.25
   timeStart: 0
-  damage: 10
+  damage: 4
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
