@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 10
+  coolDownDelay: 15
   range: 0
   timeStart: 0
   damage: 10
