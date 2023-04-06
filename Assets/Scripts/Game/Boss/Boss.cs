@@ -68,18 +68,59 @@ namespace BossArena.game
 
         protected override Node SetupTree()
         {
-            //new TargetSelectionNode(this.gameObject)
-            List<Node> nodes = GetSwirlProjectileSequence();
+            List<Node> nodes = new List<Node>();
             nodes.Add(new TargetSelectionNode(this.gameObject));
-            //nodes.AddRange(GetPassiveJumpsSequence());
-            //nodes.AddRange(GetSkyDiveSequence());
-            //nodes.AddRange(GetPassiveJumpsSequence());
-            //nodes.AddRange(GetProjectileSequence());
+            nodes.Add(new IdleNode(this.gameObject, 1.0f));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.Add(new IdleNode(this.gameObject, 1.0f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.AddRange(GetSwirlProjectileSequence(2));
+            nodes.Add(new IdleNode(this.gameObject, 1.0f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.AddRange(GetSkyDiveSequence());
+            nodes.Add(new IdleNode(this.gameObject, 2.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.Add(new IdleNode(this.gameObject, 1.0f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.AddRange(GetSwirlProjectileSequence(1));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.AddRange(GetSwirlProjectileSequence(1));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.AddRange(GetSwirlProjectileSequence(1));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+
+            nodes.Add(new IdleNode(this.gameObject, 2.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.AddRange(GetSkyDiveSequence());
-            nodes.AddRange(GetPassiveJumpsSequence());
+            nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.AddRange(GetSkyDiveSequence());
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
+            nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new TeleportToRandomGoop(this.gameObject));
-            nodes.Add(new IdleNode(this.gameObject, 1f));
+            nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.AddRange(GetSwirlProjectileSequence(10));
+            nodes.Add(new IdleNode(this.gameObject, 3.0f));
 
             Node _root = new InOrderSequenceNode(new List<Node>
             {
@@ -101,11 +142,11 @@ namespace BossArena.game
             return sequence;
         }
 
-        private List<Node> GetSwirlProjectileSequence()
+        private List<Node> GetSwirlProjectileSequence(int count)
         {
             List<Node> sequence = new List<Node>();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < count; i++)
             {
                 sequence.Add(new IdleNode(this.gameObject, 0.5f));
                 sequence.Add(new ProjectileAttackNode(this.gameObject, projectilePrefab, 8, i * 10 + 10));
