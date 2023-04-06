@@ -17,7 +17,7 @@ namespace Assets.Scripts.Game.Boss
 
         SpriteRenderer renderer;
 
-        public const float MAX_HEALTH = 3000.0f;
+        public const float MAX_HEALTH = 1000.0f;
 
         protected override void Start()
         {
@@ -60,7 +60,11 @@ namespace Assets.Scripts.Game.Boss
             //Debug.Log(CurrentHealth.Value);
             if (CurrentHealth.Value < 0)
             {
-                Destroy(this.gameObject);
+                // only destroy objects on server
+                if (IsServer)
+                {
+                    Destroy(this.gameObject);
+                }
             }
 
             // maps the opacity to the percentage of health lost from range (50 - 100)%

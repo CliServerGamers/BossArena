@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
+using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
@@ -77,7 +78,14 @@ namespace BossArena.game
 
         private void SpawnEOD()
         {
-            Boss.Instantiate(eodPrefab, boss.transform.position, Quaternion.identity);
+            // Dont spawn if not on server 
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                return;
+            }
+
+            GameObject eod = Boss.Instantiate(eodPrefab, boss.transform.position, Quaternion.identity);
+            eod.GetComponent<NetworkObject>().Spawn();
         }
 
         private void MoveToward(Transform follower, Transform target, float speed)
@@ -99,6 +107,7 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= smallHitBoxDamage;
                     //RPC call
+                    //player.GetComponent<Player>().TakeDamageClientRpc(smallHitBoxDamage);
                     Debug.Log("Blobbbed");
                 }
             }
@@ -114,6 +123,7 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= largeHitBoxDamage;
                     //RPC call
+                    //player.GetComponent<Player>().TakeDamageClientRpc(lareHitBoxDamage);
                     Debug.Log("blorbsted");
                 }
             }

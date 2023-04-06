@@ -37,10 +37,12 @@ namespace Assets.Scripts.Game.Boss.BossAbilities
 
         private void Teleport()
         {
-            GameObject eod = GameObject.FindGameObjectWithTag("EOD");
-            if (eod != null)
+            // teleport to random eod in the scene if any
+            GameObject[] eods = GameObject.FindGameObjectsWithTag("EOD");
+            if (eods != null && eods.Length > 0)
             {
-                boss.transform.position = eod.transform.position;
+                int randomIndex = UnityEngine.Random.Range(0, eods.Length);
+                boss.transform.position = eods[randomIndex].transform.position;
             }
         }
 

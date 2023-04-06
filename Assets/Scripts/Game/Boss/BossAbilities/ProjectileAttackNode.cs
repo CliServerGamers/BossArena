@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Game.BehaviorTree;
 using Assets.Scripts.Game.Boss.BossUtil;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BossArena.game
@@ -36,9 +37,16 @@ namespace BossArena.game
 
         private void SpawnProjectilesAroundBoss()
         {
+            // only do spawning logic on server
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                return;
+            }
+
             SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
             float radius = Mathf.Sqrt(renderer.bounds.size.x * renderer.bounds.size.x + renderer.bounds.size.y * renderer.bounds.size.y);
             float angleStep = Mathf.PI * 2 / amount;
+
             for (int i = 0; i < amount; i++)
             {
                 float angle = i * angleStep;
@@ -46,7 +54,8 @@ namespace BossArena.game
                 float y = Mathf.Sin(angle + angleOffset) * radius;
                 Vector3 spawnPosition = boss.transform.position + new Vector3(x, y, 0);
                 Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * angle);
-                Boss.Instantiate(projectilePrefab, spawnPosition, rotation);
+                GameObject projectile = Boss.Instantiate(projectilePrefab, spawnPosition, rotation);
+                projectile.GetComponent<NetworkObject>().Spawn();
             }
         }
 
