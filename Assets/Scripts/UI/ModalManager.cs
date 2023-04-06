@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BossArena.UI
 {
@@ -18,12 +19,20 @@ namespace BossArena.UI
         [SerializeField]
         private TextMeshProUGUI ErrorMessage;
 
+        //[SerializeField]
+        //private Button OKButton;
+        public void LeaveArena()
+        {
+            GameManager.Instance.UIChangeMenuState(GameState.JoinMenu);
+        }
+
         public void DisplayModal(string message1, string message2)
         {
             Debug.Log("something happened");
             Show();
             Error.text = message1;
             ErrorMessage.text = message2;
+
         }
 
         public void IsPlayerDeath(float old, float newhealth)
