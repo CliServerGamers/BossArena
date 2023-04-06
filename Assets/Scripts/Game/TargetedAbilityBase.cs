@@ -30,7 +30,6 @@ namespace BossArena.game
             base.Start();
             getCamera();
         }
-        //public abstract void DrawAbilityIndicator(Vector3 targetLocation);
 
         protected void getCamera()
         {
