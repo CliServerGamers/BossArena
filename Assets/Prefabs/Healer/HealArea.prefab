@@ -4953,7 +4953,7 @@ MonoBehaviour:
     m_InternalValue: 0
   baseMoveSpeed: 0
   lifetime: 480
-  healAmount: 10
+  healAmount: 25
 --- !u!50 &7164576036949193639
 Rigidbody2D:
   serializedVersion: 4

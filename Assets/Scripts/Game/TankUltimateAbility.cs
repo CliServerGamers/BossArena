@@ -43,7 +43,10 @@ namespace BossArena.game
             PlayerCollider.enabled = false;
 
             // Set Player Health to super low
-            parentPlayer.GetComponent<EntityBase>().CurrentHealth.Value = UltimateNewHealth;
+            if(parentPlayer.GetComponent<EntityBase>().CurrentHealth.Value >= UltimateNewHealth)
+            {
+                parentPlayer.GetComponent<EntityBase>().CurrentHealth.Value = UltimateNewHealth;
+            }
             UnityEngine.Debug.Log($"Setting Player Health to {parentPlayer.GetComponent<EntityBase>().CurrentHealth}");
 
             StartCoroutine(WaitForAbilityEnd());
