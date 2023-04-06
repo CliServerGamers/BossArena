@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.Boss
+namespace BossArena.game
 {
     class BossProjectile : EntityBase, IHostile
     {
@@ -22,10 +22,14 @@ namespace Assets.Scripts.Game.Boss
         [SerializeField]
         private GameObject slimePrefab;
 
-        protected override void HandleTrigger(Collider2D collision)
+        protected override void HandleCollision(Collision2D collision)
         {
             IsAlive = false;
             this.GetComponent<Collider2D>().enabled = false;
+            if (collision.gameObject.TryGetComponent(out IHostile hostile))
+            {
+                return;
+            }
             var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in tempMonoArray)
             {
@@ -36,33 +40,37 @@ namespace Assets.Scripts.Game.Boss
                 }
                 if (monoBehaviour is Player)
                 {
-                    ((Player)monoBehaviour).TakeDamageClientRpc(HIT_DAMAGE);
+                    ((Player) monoBehaviour).TakeDamageClientRpc(HIT_DAMAGE);
                 }
-                Despawn();
+                DespawnAndSpawn();
             }
 
         }
 
-    protected override void Update()
+        protected override void Update()
         {
             timeToLive -= Time.deltaTime;
             if (timeToLive < 0)
             {
                 if (IsServer)
                 {
-                    // 1 in 10 chance 
-                    if (UnityEngine.Random.Range(0, 10) == 0)
-                    {
-                        GameObject slime = Instantiate(slimePrefab, this.transform.position, Quaternion.identity);
-                        slime.GetComponent<NetworkObject>().Spawn();
-                    }
-
-                    Destroy(this.gameObject);
+                    DespawnAndSpawn();
                 }
                 return;
             }
             transform.position += transform.right * projectileSpeed * Time.deltaTime;
             //transform.Translate(Vector3.forward * Time.deltaTime * projectileSpeed);
+        }
+        private void DespawnAndSpawn()
+        {
+            // 1 in 10 chance 
+            if (UnityEngine.Random.Range(0, 10) == 0)
+            {
+                GameObject slime = Instantiate(slimePrefab, this.transform.position, Quaternion.identity);
+                slime.GetComponent<NetworkObject>().Spawn();
+            }
+
+            Despawn();
         }
     }
 }
