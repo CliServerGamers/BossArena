@@ -1,0 +1,12 @@
+diff a/Assets/Scenes/AbilityDevScene.unity b/Assets/Scenes/AbilityDevScene.unity	(rejected hunks)
+@@ -527,6 +527,10 @@
+       propertyPath: m_LocalEulerAnglesHint.z
+       value: 0
+       objectReference: {fileID: 0}
++    - target: {fileID: 7924785327155877634, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
++      propertyPath: GlobalObjectIdHash
++      value: 2374308861
++      objectReference: {fileID: 0}
+     - target: {fileID: 8653697211529025735, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+       propertyPath: m_Enabled
+       value: 1

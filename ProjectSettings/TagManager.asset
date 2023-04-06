@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - UI
+  - Projectile
+  - Terrain
+  - Boss
+  - EOD
+  - shadow
+  - AudioSource
   layers:
   - Default
   - TransparentFX
