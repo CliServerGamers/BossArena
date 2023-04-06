@@ -107,8 +107,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 3819106736952998504}
-  <MaxHealth>k__BackingField: 0
-  <CurrentHealth>k__BackingField: 0
+  MaxHealth:
+    m_InternalValue: 0
+  CurrentHealth:
+    m_InternalValue: 0
   <IsAlive>k__BackingField: 0
   State:
     m_InternalValue: 0
@@ -5083,7 +5085,7 @@ Animator:
   m_GameObject: {fileID: 3819106736952998509}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 06caebd9a357e8f46b83e738cc19c53c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
