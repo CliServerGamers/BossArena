@@ -15,15 +15,15 @@ namespace BossArena.game
         private PassiveJumpState passiveJumpState;
         private Vector3 initialCoords;
         private Vector3 finalCoords;
-        private float jumpSpeed = 15f;
+        
 
-        private GameObject boss;
+        private Boss boss;
         private GameObject shadow;
         private GameObject player;
 
         public PassiveJump(GameObject boss, GameObject shadow)
         {
-            this.boss = boss;
+            this.boss = boss.GetComponent<Boss>();
             this.shadow = shadow;
             this.player = GameObject.Find("PlayerPrefab(Clone)");
             passiveJumpState = PassiveJumpState.START;
@@ -70,7 +70,7 @@ namespace BossArena.game
 
         private void Jump()
         {
-            boss.transform.position = Vector3.MoveTowards(boss.transform.position, finalCoords, jumpSpeed * Time.deltaTime);
+            boss.transform.position = Vector3.MoveTowards(boss.transform.position, finalCoords, boss.jumpSpeed * Time.deltaTime);
             const float basicallyZero = 0.01f;
             if (Vector3.Distance(boss.transform.position, finalCoords) < basicallyZero)
             {

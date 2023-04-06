@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windUpDelay: 0
   coolDownDelay: 2
-  range: 0.5
+  range: 0.25
   timeStart: 0
   damage: 10
   mainCamera: {fileID: 0}

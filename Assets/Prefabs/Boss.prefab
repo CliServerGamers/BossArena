@@ -189,6 +189,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7415989197876364571, guid: 3d938dd6f3c7eda47a2068e5339de52d, type: 3}
   shadow: {fileID: 469512295725770410, guid: 93c8ea175255f094398260d91125dbc0, type: 3}
   eod: {fileID: 3461932505033755877, guid: f1c873da26737b14489b2808409d7a8d, type: 3}
+  <jumpSpeed>k__BackingField: 3
 --- !u!95 &3210797944243916253
 Animator:
   serializedVersion: 5

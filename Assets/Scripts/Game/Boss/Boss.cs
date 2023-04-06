@@ -23,7 +23,9 @@ namespace BossArena.game
         [SerializeField]
         private GameObject eod;
 
-        public static float speed = 5f;
+        [field: SerializeField]
+        public float jumpSpeed { get; private set; }
+        //public static float speed = 5f;
 
         private Node _root = null;
 
