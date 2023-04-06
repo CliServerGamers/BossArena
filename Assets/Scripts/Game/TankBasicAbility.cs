@@ -23,6 +23,9 @@ namespace BossArena.game
         [SerializeField]
         private float lengthOfAttackInSec;
 
+        [SerializeField]
+        private float TauntDuration;
+
         private CircleCollider2D TauntPrefabCollider;
         private SpriteRenderer TauntPrefabSpriteRenderer;
 
@@ -220,12 +223,22 @@ namespace BossArena.game
                     // Sends Server RPC to taunt the collided entity. Pass in SerializedField 'damage' from AbilityBase
                     component.GetComponent<Enemy>().getTauntedServerRPC(damage, 5);
 
-
+                    StartCoroutine(ResetThreatAfterTaunt(TauntDuration));
 
                 }
 
             }
 
+        }
+
+        IEnumerator ResetThreatAfterTaunt(float TauntDuration)
+        {
+            yield return new WaitForSeconds(TauntDuration);
+            parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value -= TauntIncreaseAmount;
+            if (parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value < 0)
+            {
+                parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value = 0;
+            }
         }
 
     }

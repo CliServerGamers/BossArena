@@ -147,6 +147,7 @@ MonoBehaviour:
   TauntIncreaseAmount: 250
   TauntPrefab: {fileID: 7986055475673144722}
   lengthOfAttackInSec: 0.25
+  TauntDuration: 5
 --- !u!50 &-4924300992687419995
 Rigidbody2D:
   serializedVersion: 4
