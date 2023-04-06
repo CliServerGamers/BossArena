@@ -47,8 +47,8 @@ namespace BossArena.game
                 // Start rendering the ability
                 spriteRenderer.enabled = true;
 
-                Transform blastPrefabColliderTransform = BlastPrefabCollider.transform.GetComponent<CircleCollider2D>();
-                blastPrefabColliderTransform.position = mosPos;
+                Transform blastPrefabColliderTransform = BlastPrefabCollider.transform;
+                blastPrefabColliderTransform.position = mosPos.Value;
                 ApplyEffect();
             }
         }
