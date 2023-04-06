@@ -356,10 +356,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7793495801854592132, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1117204647
+      objectReference: {fileID: 0}
     - target: {fileID: 1314771626158524276, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1844823283}
+    - target: {fileID: 3819106736952998505, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
+      propertyPath: Archetype
+      value: 
+      objectReference: {fileID: 11400000, guid: bd87c74ac27359a47990373f222a7ff6, type: 2}
     - target: {fileID: 3819106736952998509, guid: c89c361d2b5507c43b130761a81483f6, type: 3}
       propertyPath: m_Name
       value: PlaceholderPlayer

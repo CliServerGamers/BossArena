@@ -215,5 +215,10 @@ namespace BossArena.game
                 LocalPlayer = player;
             }
         }
+
+        public List<GameObject> getPlayerList()
+        {
+            return PlayerList;
+        }
     }
 }

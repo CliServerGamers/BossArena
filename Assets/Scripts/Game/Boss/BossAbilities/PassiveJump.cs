@@ -63,7 +63,7 @@ namespace BossArena.game
         private void InitializeTrajectory()
         {
             initialCoords = boss.transform.position;
-            finalCoords = player.transform.position;
+            finalCoords = boss.GetComponent<Enemy>().CurrentTarget.transform.position;
             boss.GetComponent<BoxCollider2D>().enabled = false;
             passiveJumpState = PassiveJumpState.JUMPING;
         }

@@ -73,16 +73,29 @@ namespace BossArena.game
         {
             HandleCollision(collision);
         }
-        protected abstract void HandleCollision(Collision2D collision);
+
+        protected void OnTriggerEnter2D(Collider2D collision)
+        {
+            HandleTrigger(collision);
+        }
+        protected virtual void HandleCollision(Collision2D collision) { }
+        protected virtual void HandleTrigger(Collider2D collision) { }
 
         public virtual void TakeDamage(float damage)
         {
-            Debug.Log($"Taking {damage} points of damage");
-            CurrentHealth.Value -= damage;
+            if (!IsOwner) return;
+            if (CurrentHealth.Value - damage >= MaxHealth.Value)
+            {
+                CurrentHealth.Value = MaxHealth.Value;
+            }
+            else
+            {
+                CurrentHealth.Value -= damage;
+            }
         }
 
         // Helper Function: Setting Taunted State
-        IEnumerator setStateTaunt(float effectDuration)
+        protected IEnumerator setStateTaunt(float effectDuration)
         {
             Debug.Log($"Taunted for {effectDuration} seconds");
 
@@ -105,14 +118,11 @@ namespace BossArena.game
             TakeDamage(damage);
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void getTauntedServerRPC(float damage, float effectDuration)
+        [ClientRpc]
+        public void TakeDamageClientRpc(float damage)
+
         {
-            // Deal Damage
             TakeDamage(damage);
-            
-            // Apply Taunted State, pass in effectDuration to Coroutine, then Reset State to Default
-            StartCoroutine(setStateTaunt(effectDuration));
         }
 
 

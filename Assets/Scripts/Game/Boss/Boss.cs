@@ -53,6 +53,7 @@ namespace BossArena.game
         {
             //new TargetSelectionNode(this.gameObject)
             List<Node> nodes = GetSwirlProjectileSequence();
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             //nodes.AddRange(GetPassiveJumpsSequence());
             //nodes.AddRange(GetSkyDiveSequence());
             //nodes.AddRange(GetPassiveJumpsSequence());
@@ -120,6 +121,7 @@ namespace BossArena.game
             sequence.Add(new IdleNode(this.gameObject, 1.5f));
             return sequence;
         }
+
 
         protected override void HandleCollision(Collision2D collision)
         {

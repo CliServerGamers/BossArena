@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.Boss
+namespace BossArena.game
 {
-     class EOD : EntityBase
+     class EOD : EntityBase, IGoop
     {
         // set size, decay value, damage tick
 
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Game.Boss
 
         SpriteRenderer renderer;
 
-        public const float MAX_HEALTH = 3000.0f;
+        public const float MAX_HEALTH = 1000.0f;
 
         protected override void Start()
         {
@@ -60,7 +60,11 @@ namespace Assets.Scripts.Game.Boss
             //Debug.Log(CurrentHealth.Value);
             if (CurrentHealth.Value < 0)
             {
-                Destroy(this.gameObject);
+                // only destroy objects on server
+                if (IsServer)
+                {
+                    Destroy(this.gameObject);
+                }
             }
 
             // maps the opacity to the percentage of health lost from range (50 - 100)%
@@ -69,8 +73,10 @@ namespace Assets.Scripts.Game.Boss
             renderer.color = spriteColor;
         }
 
-        protected void OnTriggerEnter2D(Collider2D collision)
+        protected override void HandleTrigger(Collider2D collision)
         {
+            Debug.Log("-----Getting trigger-----");
+            if (!IsServer) return;
             // reduce player health upon collision
             GameObject gameObject = collision.gameObject;
             Component component = gameObject.GetComponent<EntityBase>();
@@ -78,7 +84,7 @@ namespace Assets.Scripts.Game.Boss
             {
                 Debug.Log("Player should be taking damange by EOD");
                 Player player = (Player)component;
-                player.TakeDamageServerRpc(currentDamage);
+                player.TakeDamageClientRpc(currentDamage);
                 //player.CurrentHealth.Value -= ;
             }
         }

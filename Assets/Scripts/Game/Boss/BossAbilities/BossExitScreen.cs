@@ -94,7 +94,7 @@ namespace BossArena.game
             {
                 // have shadow target and follow the player
                 const float shadowSpeed = 100;
-                MoveToward(shadow.transform, player.transform, shadowSpeed);
+                MoveToward(shadow.transform, boss.GetComponent<Enemy>().CurrentTarget.transform, shadowSpeed);
             }
         }
 

@@ -15,5 +15,7 @@ namespace BossArena.game
     {
         [field: SerializeField]
         public List<ArchetypeItem> archetypeList { get; private set; }
+
+
     }
 }
