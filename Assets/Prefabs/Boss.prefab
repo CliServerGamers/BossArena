@@ -186,8 +186,11 @@ MonoBehaviour:
   <CurrentTarget>k__BackingField: {fileID: 0}
   <threatRadius>k__BackingField: 117.16
   DamageToPlayer: 10
+  BOSSMAXHEALTH: 1500
   animator: {fileID: 3210797944243916253}
   skydiveHitbox: {fileID: 2701250385777424224, guid: 2cad5f9f98615794db8ee76938b011c9, type: 3}
+  <skydiveSmallHitBoxDamage>k__BackingField: 100
+  <skydiveLargeHitBoxDamage>k__BackingField: 50
   projectilePrefab: {fileID: 7415989197876364571, guid: 3d938dd6f3c7eda47a2068e5339de52d, type: 3}
   shadow: {fileID: 469512295725770410, guid: 93c8ea175255f094398260d91125dbc0, type: 3}
   eod: {fileID: 3461932505033755877, guid: f1c873da26737b14489b2808409d7a8d, type: 3}

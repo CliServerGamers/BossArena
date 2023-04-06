@@ -14,16 +14,14 @@ namespace BossArena.game
 
         private GameObject eodPrefab;
         private GameObject shadow;
-        private GameObject boss;
+        private Boss boss;
         private GameObject attackOutline;
 
         private const float largeHitboxRadius = 5.0f;
-        private const float smallHitBoxDamage = 100.0f;
-        private const float largeHitBoxDamage = 50.0f;
 
         public SkyDive(GameObject boss, GameObject eodPrefab, GameObject shadowPrefab, GameObject attackOutline)
         {
-            this.boss = boss;
+            this.boss = boss.GetComponent<Boss>();
             this.eodPrefab = eodPrefab;
             this.isDiving = true;
             this.shadow = shadowPrefab;
@@ -108,7 +106,7 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= smallHitBoxDamage;
                     //RPC call
-                    player.GetComponent<Player>().TakeDamageClientRpc(smallHitBoxDamage);
+                    player.GetComponent<Player>().TakeDamageClientRpc(boss.skydiveSmallHitBoxDamage);
                     Debug.Log("Blobbbed");
                 }
             }
@@ -124,7 +122,7 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= largeHitBoxDamage;
                     //RPC call
-                    player.GetComponent<Player>().TakeDamageClientRpc(largeHitBoxDamage);
+                    player.GetComponent<Player>().TakeDamageClientRpc(boss.skydiveLargeHitBoxDamage);
                     Debug.Log("blorbsted");
                 }
             }

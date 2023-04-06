@@ -9,10 +9,17 @@ namespace BossArena.game
     class Boss : Enemy
     {
         [SerializeField]
+        public float BOSSMAXHEALTH;
+
+        [SerializeField]
         public Animator animator;
 
         [SerializeField]
         private GameObject skydiveHitbox;
+        [field: SerializeField]
+        public float skydiveSmallHitBoxDamage { get; private set; }
+        [field: SerializeField]
+        public float skydiveLargeHitBoxDamage { get; private set; }
 
         [SerializeField]
         private GameObject projectilePrefab;
@@ -43,7 +50,7 @@ namespace BossArena.game
         {
             base.Start();
             shadow.gameObject.transform.position = new Vector3(shadow.transform.position.x, shadow.transform.position.y, 3);
-
+            SetHealth(BOSSMAXHEALTH);
 
             // Ignore collisions with the boss shadow
             //Collider2D bossCollider = GetComponent<Collider2D>();

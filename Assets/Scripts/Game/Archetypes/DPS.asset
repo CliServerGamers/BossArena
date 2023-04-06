@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 844974ebe3ee10d40a1abc564fe7d988, type: 3}
   m_Name: DPS
   m_EditorClassIdentifier: 
-  BasicAttack: {fileID: 5899021118764256236, guid: 6a1ccda8f3cc3af45bf0c2518914800f, type: 3}
+  BasicAttack: {fileID: 5899021118764256236, guid: a1c98cfb0464af447a6265588d4d3914, type: 3}
   BasicAbility: {fileID: 7555012252353607262, guid: 2c77151701e292a459de337a1673916f, type: 3}
   UltimateAbility: {fileID: 3122235894270474046, guid: db6f6daf5924f1a4abbfd88bc02d74e6, type: 3}
-  MaxHealth: 0
-  Type: 0
+  MaxHealth: 100
+  Type: 3
   classColor: {r: 0, g: 0.9014342, b: 1, a: 1}
