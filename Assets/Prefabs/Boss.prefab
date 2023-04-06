@@ -181,7 +181,9 @@ MonoBehaviour:
   ThreatLevel:
     m_InternalValue: 0
   baseMoveSpeed: 0
+  <CurrentTarget>k__BackingField: {fileID: 0}
   <threatRadius>k__BackingField: 117.16
+  DamageToPlayer: 10
   animator: {fileID: 3210797944243916253}
   skydiveHitbox: {fileID: 2701250385777424224, guid: 2cad5f9f98615794db8ee76938b011c9, type: 3}
   projectilePrefab: {fileID: 7415989197876364571, guid: 3d938dd6f3c7eda47a2068e5339de52d, type: 3}

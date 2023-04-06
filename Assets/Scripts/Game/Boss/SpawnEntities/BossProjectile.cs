@@ -20,9 +20,8 @@ namespace Assets.Scripts.Game.Boss
         [SerializeField]
         private GameObject slimePrefab;
 
-        protected override void HandleCollision(Collision2D collision)
+        protected override void HandleTrigger(Collider2D collision)
         {
-            Debug.Log($"{OwnerClientId}: Hit");
             IsAlive = false;
             this.GetComponent<Collider2D>().enabled = false;
             var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
@@ -35,8 +34,7 @@ namespace Assets.Scripts.Game.Boss
                 }
                 if (monoBehaviour is Player)
                 {
-                    Debug.Log("Bullet hit player");
-                    //((Player)monoBehaviour).TakeDamageClientRPC(HIT_DAMAGE);
+                    ((Player)monoBehaviour).TakeDamageClientRpc(HIT_DAMAGE);
                 }
                 Despawn();
             }
