@@ -4261,17 +4261,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1262167265 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 300102072848694234, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-  m_PrefabInstance: {fileID: 1342905920}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1277611325
 GameObject:
   m_ObjectHideFlags: 0
@@ -4472,46 +4461,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkTransport
-      value: 
-      objectReference: {fileID: 1262167265}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.size
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[0].Prefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[6].Prefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[20].Prefab
-      value: 
-      objectReference: {fileID: 7986055475673144722, guid: 9fbf04e87243e4e42944f3ac62503737, type: 3}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[21].Prefab
-      value: 
-      objectReference: {fileID: 6919458306558213587, guid: 6512a120fbc826d47b87911d1b88171c, type: 3}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[22].Prefab
-      value: 
-      objectReference: {fileID: 7986055475673144722, guid: 99c9268ce5ebcbb48a78700d979cdf7d, type: 3}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[23].Prefab
-      value: 
-      objectReference: {fileID: 5899021118764256236, guid: 98b0f36a5dc9b8f45bdd257f7c00c416, type: 3}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[24].Prefab
-      value: 
-      objectReference: {fileID: 7986055475673144722, guid: 2d5f750354d5a6b42a8f91e1e8b17a50, type: 3}
-    - target: {fileID: -805909215721821212, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
-      propertyPath: NetworkConfig.NetworkPrefabs.Array.data[25].Prefab
-      value: 
-      objectReference: {fileID: 6919458306558213587, guid: f1e5e2f48cff37e4eb23265d5a49441b, type: 3}
     - target: {fileID: 6965654146592520248, guid: dc7c1cdd021632f4f8623f9a78879341, type: 3}
       propertyPath: m_Name
       value: NetworkManager
