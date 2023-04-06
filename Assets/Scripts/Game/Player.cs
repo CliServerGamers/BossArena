@@ -300,6 +300,10 @@ namespace BossArena.game
             rend.material.color = m_Archetype.classColor;
         }
 
+        public static explicit operator Player(GameObject v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
