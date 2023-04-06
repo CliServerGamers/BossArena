@@ -10,6 +10,7 @@ namespace BossArena.game
     {
         DEFUALT = 0,
         STUNNED,
-        TAUNTED
+        TAUNTED,
+        DEAD
     }
 }

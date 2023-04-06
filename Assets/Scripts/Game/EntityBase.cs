@@ -66,12 +66,25 @@ namespace BossArena.game
         {
             HandleCollision(collision);
         }
-        protected abstract void HandleCollision(Collision2D collision);
+
+        protected void OnTriggerEnter2D(Collider2D collision)
+        {
+            HandleTrigger(collision);
+        }
+        protected virtual void HandleCollision(Collision2D collision) { }
+        protected virtual void HandleTrigger(Collider2D collision) { }
 
         public virtual void TakeDamage(float damage)
         {
-            Debug.Log($"Taking {damage} points of damage");
-            CurrentHealth.Value -= damage;
+            if (!IsOwner) return;
+            if (CurrentHealth.Value - damage >= MaxHealth.Value)
+            {
+                CurrentHealth.Value = MaxHealth.Value;
+            }
+            else
+            {
+                CurrentHealth.Value -= damage;
+            }
         }
 
         // Helper Function: Setting Taunted State
@@ -98,9 +111,9 @@ namespace BossArena.game
             TakeDamage(damage);
         }
 
-
         [ClientRpc]
         public void TakeDamageClientRpc(float damage)
+
         {
             TakeDamage(damage);
         }
