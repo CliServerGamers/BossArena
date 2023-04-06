@@ -71,12 +71,20 @@ namespace BossArena.game
         {
             UnityEngine.Debug.Log("Activate AutoAttack");
 
+            if (onCoolDown.Value == false)
+            {
+                timeStart = Time.time;
+                onCoolDown.Value = true;
+                ApplyEffect();
+                StartCoroutine(WaitForAbilityEnd());
+            }
+
             //autoActivated = true;
             //AutoAttackPrefabSpriteRenderer.enabled = true;
             //ApplyWindUp
-            ApplyEffect();
+            ///ApplyEffect();
             //ApplyCooldown
-            StartCoroutine(WaitForAbilityEnd());
+            ///StartCoroutine(WaitForAbilityEnd());
         }
 
 
