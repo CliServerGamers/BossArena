@@ -14,7 +14,10 @@ namespace BossArena.game
         [SerializeField]
         public Animator animator;
         [SerializeField]
-        public AudioSource skydiveSFX;
+        public AudioSource audioSrc;
+
+        [SerializeField]
+        public List<AudioClip> sounds;
 
         [SerializeField]
         private GameObject skydiveHitbox;
@@ -69,8 +72,8 @@ namespace BossArena.game
             //nodes.AddRange(GetSkyDiveSequence());
             //nodes.AddRange(GetPassiveJumpsSequence());
             //nodes.AddRange(GetProjectileSequence());
-            nodes.AddRange(GetSkyDiveSequence());
-            nodes.AddRange(GetSkyDiveSequence());
+            //nodes.AddRange(GetSkyDiveSequence());
+            //nodes.AddRange(GetSkyDiveSequence());
             nodes.AddRange(GetPassiveJumpsSequence());
             nodes.Add(new TeleportToRandomGoop(this.gameObject));
 
@@ -146,6 +149,20 @@ namespace BossArena.game
                 }
             }
             return;
+        }
+
+        public void PlaySound(string clipName, float volume, float pitch)
+        {
+            AudioClip clip = sounds.Find(sound => sound.name == clipName);
+            if (clip != null)
+            {
+                audioSrc.clip = clip;
+                audioSrc.Play();
+                audioSrc.volume = volume;
+                audioSrc.pitch = pitch;
+                return;
+            }
+            throw new KeyNotFoundException("Sound with the following name " + clipName + "Does not exist!");
         }
 
     }

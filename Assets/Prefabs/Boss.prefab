@@ -317,7 +317,9 @@ MonoBehaviour:
   DamageToPlayer: 10
   BOSSMAXHEALTH: 1500
   animator: {fileID: 3210797944243916253}
-  skydiveSFX: {fileID: 4987298959711946424}
+  audioSrc: {fileID: 4987298959711946424}
+  sounds:
+  - {fileID: 8300000, guid: 7ca3508aa8e548741bd5631c6c5c2130, type: 3}
   skydiveHitbox: {fileID: 2701250385777424224, guid: 2cad5f9f98615794db8ee76938b011c9, type: 3}
   <skydiveSmallHitBoxDamage>k__BackingField: 100
   <skydiveLargeHitBoxDamage>k__BackingField: 50
