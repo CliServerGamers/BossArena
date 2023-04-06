@@ -122,15 +122,35 @@ namespace BossArena.game
             TakeDamage(damage);
         }
 
-        public void IsDeath(float old, float newHealth)
+        public virtual void IsDeath(float old, float newHealth)
         {
             if (newHealth <= 0)
             {
-                Debug.Log($"dead");
                 State.Value = EntityState.DEAD;
-
+                Despawn();
                 //modalManager.DisplayModal("Game Over", "You Died!");
             }
+        }
+
+        protected void Despawn()
+        {
+            if (IsServer)
+            {
+                Debug.Log($"{OwnerClientId}: Despawn");
+                this.GetComponent<NetworkObject>().Despawn();
+            }
+            else
+            {
+                Debug.Log($"{OwnerClientId}: Despawn RPC");
+                DespawnServerRpc();
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void DespawnServerRpc()
+        {
+            this.GetComponent<NetworkObject>().Despawn();
+
         }
     }
 

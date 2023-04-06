@@ -41,27 +41,6 @@ namespace Assets.Scripts.Game.Boss
 
         }
 
-        void Despawn()
-        {
-            if (IsServer)
-            {
-                Debug.Log($"{OwnerClientId}: Despawn");
-                this.GetComponent<NetworkObject>().Despawn();
-            }
-            else
-            {
-                Debug.Log($"{OwnerClientId}: Despawn RPC");
-                DespawnServerRpc();
-            }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void DespawnServerRpc()
-        {
-            this.GetComponent<NetworkObject>().Despawn();
-
-        }
-
     protected override void Update()
         {
             timeToLive -= Time.deltaTime;
