@@ -39,12 +39,12 @@ namespace BossArena.game
                 return;
             onCoolDown.Value = true;
             timeStart = Time.time;
-            
+
             // Apply Effect
             ApplyEffect();
 
             // Start Coroutine for end of Ability.
-            
+
         }
 
         public override void ApplyEffect()
@@ -67,7 +67,7 @@ namespace BossArena.game
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
         {
-            if(onCoolDown.Value) return;
+            if (onCoolDown.Value) return;
 
             // Update MousePosition
             currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -82,8 +82,9 @@ namespace BossArena.game
                 withinTauntRange = false;
             }
 
-            TauntPrefab.transform.position = calculateBasicAbilityCursor();
-            
+            Vector3 newPos = calculateBasicAbilityCursor();
+            transform.position = newPos;
+
             TauntPrefabSpriteRenderer.enabled = true;
             //TauntPrefab.SetActive(true);
         }
@@ -198,10 +199,11 @@ namespace BossArena.game
 
         protected void HandleCollision(Collider2D collider)
         {
+            if (!IsOwner) return;
             // Grab all the components under the collided colliders parent, by calling dot operator on 'gameObject'.
             var componentArray = collider.gameObject.GetComponents<MonoBehaviour>();
 
-            foreach(var component in componentArray)
+            foreach (var component in componentArray)
             {
                 // Check if component extends IFriendly (Friendly)
                 if (component is IFriendly)
@@ -212,11 +214,11 @@ namespace BossArena.game
                 if (component is IHostile)
                 {
                     UnityEngine.Debug.Log("Taunt Bad Man");
-                    // Sends Server RPC to taunt the collided entity. Pass in SerializedField 'damage' from AbilityBase
-                    component.GetComponent<EntityBase>().getTauntedServerRPC(damage, 5);
 
                     // Set Player's Threat Level to highest.
                     parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value += TauntIncreaseAmount;
+                    // Sends Server RPC to taunt the collided entity. Pass in SerializedField 'damage' from AbilityBase
+                    component.GetComponent<Enemy>().getTauntedServerRPC(damage, 5);
 
 
 

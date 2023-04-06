@@ -122,6 +122,7 @@ namespace BossArena.game
             return sequence;
         }
 
+
         protected override void HandleCollision(Collision2D collision)
         {
             return;

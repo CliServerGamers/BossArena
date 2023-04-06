@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BossArena.game
@@ -33,12 +34,38 @@ namespace BossArena.game
 
         protected abstract Node SetupTree();
 
-        protected void getTarget() {
-            var colliders = Physics2D.OverlapCircleAll(transform.position, threatRadius);
-            foreach (var collider in colliders)
+        public void SelectTarget()
+        {
+            if (State.Value == EntityState.TAUNTED) return;
+            /// Create collision box with threatRadius
+            /// Get players overlapped with collision
+            Collider2D[] hitCol = Physics2D.OverlapCircleAll((Vector2)transform.position, threatRadius);
+            Debug.Log($"Found {hitCol.Length}");
+            foreach (Collider2D col in hitCol)
             {
-                Debug.Log($"{collider.gameObject.name} is threat");
+                if (col.gameObject.TryGetComponent(out Player player))
+                {
+                    if (CurrentTarget == null) CurrentTarget = player;
+
+                    if (CurrentTarget.ThreatLevel.Value < player.ThreatLevel.Value)
+                    {
+                        Debug.Log($"Current Target threat level {CurrentTarget.ThreatLevel.Value} : Detected Threat level {player.ThreatLevel.Value}");
+                        CurrentTarget = player;
+                    }
+                    Debug.Log($"Current Target {CurrentTarget}");
+                }
             }
+        }
+
+
+        [ServerRpc(RequireOwnership = false)]
+        public void getTauntedServerRPC(float damage, float effectDuration)
+        {
+            // Deal Damage
+            TakeDamage(damage);
+            SelectTarget();
+            // Apply Taunted State, pass in effectDuration to Coroutine, then Reset State to Default
+            StartCoroutine(setStateTaunt(effectDuration));
         }
 
     }

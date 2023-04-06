@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.Boss
+namespace BossArena.game
 {
      class EOD : EntityBase
     {
@@ -71,6 +71,8 @@ namespace Assets.Scripts.Game.Boss
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
+            Debug.Log("Getting collider");
+            if (!IsServer) return;
             // reduce player health upon collision
             GameObject gameObject = collision.gameObject;
             Component component = gameObject.GetComponent<EntityBase>();
@@ -78,7 +80,7 @@ namespace Assets.Scripts.Game.Boss
             {
                 Debug.Log("Player should be taking damange by EOD");
                 Player player = (Player)component;
-                player.TakeDamageServerRpc(currentDamage);
+                player.TakeDamageClientRpc(currentDamage);
                 //player.CurrentHealth.Value -= ;
             }
         }
