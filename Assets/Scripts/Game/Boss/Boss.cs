@@ -13,6 +13,8 @@ namespace BossArena.game
 
         [SerializeField]
         public Animator animator;
+        [SerializeField]
+        public AudioSource skydiveSFX;
 
         [SerializeField]
         private GameObject skydiveHitbox;
