@@ -39,6 +39,7 @@ namespace BossArena.game
         protected float baseMoveSpeed;
         protected float currentMoveSpeed;
 
+        protected EntityState state;
 
         protected virtual void Start()
         {
@@ -50,6 +51,11 @@ namespace BossArena.game
             rb = GetComponent<Rigidbody2D>();
 
             CurrentHealth.OnValueChanged += IsDeath;
+        }
+
+        public virtual void SetState(EntityState state)
+        {
+            this.state = state;
         }
 
         protected virtual void Update() { }

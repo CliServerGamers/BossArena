@@ -23,6 +23,7 @@ namespace BossArena.game
         [SerializeField]
         private float lengthOfAttackInSec;
 
+
         [SerializeField]
         private float TauntDuration;
 
@@ -225,6 +226,7 @@ namespace BossArena.game
 
                     StartCoroutine(ResetThreatAfterTaunt(TauntDuration));
 
+
                 }
 
             }
@@ -240,6 +242,7 @@ namespace BossArena.game
                 parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value = 0;
             }
         }
+
 
     }
 }

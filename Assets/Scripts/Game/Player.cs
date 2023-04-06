@@ -173,15 +173,14 @@ namespace BossArena.game
                 UltimateAbility.ActivateAbility(Input.mousePosition);
             }
 
-            //Make the player dash a short distance on spacebar press
+            /*
             if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
             {
                 var psemit = ps.emission;
                 psemit.enabled = true;
                 ps.Play();
             }
-
-
+            */
         }
 
         public void setPosition(Vector3 pos){

@@ -133,8 +133,8 @@ namespace BossArena
         {
 
             Debug.Log($"{this.GetType().Name}: {System.Reflection.MethodBase.GetCurrentMethod().Name}");
-            if (sceneEvent.SceneName == testScene || sceneEvent.SceneName == "BossTestScene")
-
+            if (sceneEvent.SceneName == testScene || sceneEvent.SceneName == "BossTestScene" || sceneEvent.SceneName == "DPS_DevelopmentScene")
+    
             {
                 if (IsServer)
                 //    NetworkedDataStore.Instance.GetPlayerData(sceneEvent.ClientId, spawnPlayer);

@@ -12,6 +12,6 @@ namespace BossArena.game
     }
     public interface IRemoveEffect
     {
-        public void IRemoveEffect();
+        public void RemoveEffect();
     }
 }
