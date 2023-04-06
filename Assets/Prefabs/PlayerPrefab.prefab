@@ -129,6 +129,7 @@ MonoBehaviour:
   _ToxicMaterial: {fileID: 2100000, guid: 27dd440432783b74caa8cba8a3c1ef12, type: 2}
   _DamageMaterial: {fileID: 2100000, guid: b2d974d8be6f2b741a6c539fb3f72a18, type: 2}
   _DefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  HIT_IMPULSE: 100
 --- !u!50 &3819106736952998504
 Rigidbody2D:
   serializedVersion: 4
