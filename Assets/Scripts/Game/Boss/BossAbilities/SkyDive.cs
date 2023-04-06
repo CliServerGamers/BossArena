@@ -107,7 +107,12 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= smallHitBoxDamage;
                     //RPC call
-                    player.GetComponent<Player>().TakeDamageClientRpc(boss.skydiveSmallHitBoxDamage);
+
+                    if (player.GetComponent<Collider2D>().enabled == true)
+                    {
+                        player.GetComponent<Player>().TakeDamageClientRpc(boss.skydiveSmallHitBoxDamage);
+                    }
+
                     Debug.Log("Blobbbed");
                 }
             }
@@ -123,7 +128,11 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= largeHitBoxDamage;
                     //RPC call
-                    player.GetComponent<Player>().TakeDamageClientRpc(boss.skydiveLargeHitBoxDamage);
+
+                    if (player.GetComponent<Collider2D>().enabled == true)
+                    {
+                        player.GetComponent<Player>().TakeDamageClientRpc(boss.skydiveLargeHitBoxDamage);
+                    }
                     Debug.Log("blorbsted");
                 }
             }
