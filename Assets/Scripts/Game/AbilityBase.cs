@@ -48,7 +48,7 @@ namespace BossArena.game
 
         public float GetCoolDown()
         {
-            return Time.time - timeStart;
+            return (Time.time - timeStart) / coolDownDelay;
         }
     }
 }

@@ -108,7 +108,7 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= smallHitBoxDamage;
                     //RPC call
-                    //player.GetComponent<Player>().TakeDamageClientRpc(smallHitBoxDamage);
+                    player.GetComponent<Player>().TakeDamageClientRpc(smallHitBoxDamage);
                     Debug.Log("Blobbbed");
                 }
             }
@@ -124,7 +124,7 @@ namespace BossArena.game
                 {
                     //player.GetComponent<Player>().CurrentHealth.Value -= largeHitBoxDamage;
                     //RPC call
-                    //player.GetComponent<Player>().TakeDamageClientRpc(lareHitBoxDamage);
+                    player.GetComponent<Player>().TakeDamageClientRpc(largeHitBoxDamage);
                     Debug.Log("blorbsted");
                 }
             }
