@@ -3,6 +3,7 @@ using BossArena.game;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Collections;
 
 namespace BossArena.game
 {
@@ -10,7 +11,7 @@ namespace BossArena.game
     {
 
         [SerializeField]
-        private const int MAX_HEALTH = 5;
+        private const int MAX_HEALTH = 12;
 
         [SerializeField]
         private float speed = 2.0f;
@@ -23,10 +24,17 @@ namespace BossArena.game
 
         private Player targetedPlayer = null;
 
+        [SerializeField]
+        private Material _DamageMaterial;
+        [SerializeField]
+        private Material _DefaultMaterial;
+        private SpriteRenderer slimeSpriteRenderer;
+
         protected override void Start()
         {
             base.Start();
             SetHealth(MAX_HEALTH);
+            slimeSpriteRenderer = transform.GetComponent<SpriteRenderer>();
             Debug.Log(targetedPlayer);
         }
 
@@ -85,6 +93,28 @@ namespace BossArena.game
             return _root;
             //throw new NotImplementedException();
         }
+
+        IEnumerator switchDefaultMaterial(int seconds)
+        {
+            // Wait _ seconds before switching back to default material.
+            yield return new WaitForSeconds(seconds);
+            slimeSpriteRenderer.material = _DefaultMaterial;
+        }
+
+        protected override void HandleTrigger(Collider2D collision) 
+        {
+
+            collision.transform.parent.gameObject.TryGetComponent<AbilityBase>(out AbilityBase a);
+            if (a != null)
+            {
+                UnityEngine.Debug.Log("FUCK");
+                // Already taken damage, show that we did, to the player.
+                slimeSpriteRenderer.material = _DamageMaterial;
+                StartCoroutine(switchDefaultMaterial(1));
+            }
+
+        }
+
 
     }
 }

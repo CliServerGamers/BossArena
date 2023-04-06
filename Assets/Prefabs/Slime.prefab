@@ -208,3 +208,5 @@ MonoBehaviour:
   <threatRadius>k__BackingField: 8.25
   DamageToPlayer: 2
   speed: 2
+  _DamageMaterial: {fileID: 2100000, guid: b2d974d8be6f2b741a6c539fb3f72a18, type: 2}
+  _DefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
