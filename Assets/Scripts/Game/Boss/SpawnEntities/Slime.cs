@@ -37,7 +37,6 @@ namespace BossArena.game
             //playerObjects[randomIndex].TryGetComponent<Player>(out targetedPlayer);
             if (CurrentTarget != null)
             {
-                Debug.Log("WALTUH");
                 Vector2 targetPosition = CurrentTarget.transform.position; // get the target object's position
                 Vector2 currentPosition = transform.position; // get the current object's position
 
@@ -70,13 +69,11 @@ namespace BossArena.game
                 //GetComponent<Rigidbody2D>().AddForce(-(targetRigidBody.position.normalized) * HIT_IMPULSE, ForceMode2D.Impulse);
 
                 p.TakeDamageClientRpc(DamageToPlayer);
+                // apply the impulse force in the direction away from the target
+                GetComponent<Rigidbody2D>().AddForce(-(targetRigidBody.position.normalized) * HIT_IMPULSE, ForceMode2D.Impulse);
 
-                Debug.Log("EPIC");
             }
-            else
-            {
-                Debug.Log("CRINGE");
-            }
+
         }
 
         protected override Node SetupTree()
