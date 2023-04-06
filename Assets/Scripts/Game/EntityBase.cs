@@ -118,6 +118,14 @@ namespace BossArena.game
             TakeDamage(damage);
         }
 
+        public void isDeath()
+        {
+            if (CurrentHealth.Value <= 0)
+            {
+                State.Value = EntityState.DEAD;
+            }
+        }
+
 
     }
 
