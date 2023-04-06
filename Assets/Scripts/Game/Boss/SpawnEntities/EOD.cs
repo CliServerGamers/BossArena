@@ -73,9 +73,9 @@ namespace BossArena.game
             renderer.color = spriteColor;
         }
 
-        protected void OnTriggerEnter2D(Collider2D collision)
+        protected override void HandleTrigger(Collider2D collision)
         {
-            Debug.Log("Getting collider");
+            Debug.Log("-----Getting trigger-----");
             if (!IsServer) return;
             // reduce player health upon collision
             GameObject gameObject = collision.gameObject;
