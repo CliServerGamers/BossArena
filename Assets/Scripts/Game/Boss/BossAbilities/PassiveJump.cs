@@ -64,7 +64,7 @@ namespace BossArena.game
         {
             initialCoords = boss.transform.position;
             finalCoords = boss.GetComponent<Enemy>().CurrentTarget.transform.position;
-            boss.GetComponent<BoxCollider2D>().enabled = false;
+            //boss.GetComponent<BoxCollider2D>().enabled = false;
             passiveJumpState = PassiveJumpState.JUMPING;
         }
 
@@ -76,7 +76,7 @@ namespace BossArena.game
             {
                 boss.transform.position = finalCoords;
                 passiveJumpState = PassiveJumpState.END;
-                boss.GetComponent<BoxCollider2D>().enabled = true;
+                //boss.GetComponent<BoxCollider2D>().enabled = true;
             }
         }
 

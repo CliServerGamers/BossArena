@@ -130,6 +130,7 @@ namespace BossArena.game
         private void OnTriggerStay2D(Collider2D other)
         {
             Debug.Log("Collision with " + other.gameObject.name);
+            if (!IsOwner) return;
             var tempMonoArray = other.GetComponents<MonoBehaviour>();
             Debug.Log(tempMonoArray.Length);
             foreach (var monoBehaviour in tempMonoArray)
