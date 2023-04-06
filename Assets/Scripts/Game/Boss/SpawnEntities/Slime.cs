@@ -70,7 +70,7 @@ namespace BossArena.game
 
                 p.TakeDamageClientRpc(DamageToPlayer);
                 // apply the impulse force in the direction away from the target
-                GetComponent<Rigidbody2D>().AddForce(-(targetRigidBody.position.normalized) * HIT_IMPULSE, ForceMode2D.Impulse);
+                //GetComponent<Rigidbody2D>().AddForce(-(targetRigidBody.position.normalized) * HIT_IMPULSE, ForceMode2D.Impulse);
 
             }
 

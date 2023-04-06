@@ -31,6 +31,9 @@ namespace BossArena.game
         [SerializeField]
         private float lengthOfAttackInSec;
 
+        [SerializeField]
+        private int AutoAttack_ThreatGen;
+
         Quaternion rot = new Quaternion();
 
         Vector3 currentMousePosition;
@@ -90,6 +93,7 @@ namespace BossArena.game
             anim.SetTrigger("onAttack");
 
             Debug.Log("Collider.enabled = " + AUTOATTACK_COLLIDER.enabled);
+
             //Delay for length of attack
             //StartCoroutine(WaitToDisableHitbox());
         }
@@ -169,6 +173,7 @@ namespace BossArena.game
                 {
                     //Debug.Log("Smack Bad man");
                     monoBehaviour.GetComponent<EntityBase>().TakeDamageServerRpc(damage);
+                    parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value += AutoAttack_ThreatGen;
                 }
             }
         }
