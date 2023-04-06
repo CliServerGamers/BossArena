@@ -78,10 +78,6 @@ namespace BossArena.game
         {
             UnityEngine.Debug.Log("DPS Ultimate Ability");
             player.SetState(EntityState.STUNNED);
-
-
-
-            //PlayerCollider = BlastPrefab.transform.parent.transform.GetComponent<BoxCollider2D>();
         }
 
         public void RemoveEffect()

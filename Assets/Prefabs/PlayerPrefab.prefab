@@ -117,7 +117,7 @@ MonoBehaviour:
     m_InternalValue: 0
   ThreatLevel:
     m_InternalValue: 0
-  baseMoveSpeed: 5
+  baseMoveSpeed: 3
   anim: {fileID: -1219645316650621072}
   dodgeCooldown: 0
   Archetype:

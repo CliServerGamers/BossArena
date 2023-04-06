@@ -157,6 +157,12 @@ namespace BossArena.game
             isAbiliting = Input.GetAxisRaw("Fire2") != 0;
             isUlting = Input.GetAxisRaw("Fire1") != 0;
 
+            CheckAbilites();
+
+        }
+
+        void CheckAbilites()
+        {
             if (BasicAttack is IDrawIndicator)
             {
                 ((IDrawIndicator) BasicAttack).DrawAbilityIndicator(Input.mousePosition);
@@ -190,15 +196,6 @@ namespace BossArena.game
                 UltimateAbility.ActivateAbility(Input.mousePosition);
                 PlaySound("player-attack", 1.0f, 1.0f);
             }
-
-            /*
-            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-            {
-                var psemit = ps.emission;
-                psemit.enabled = true;
-                ps.Play();
-            }
-            */
         }
 
         public void setPosition(Vector3 pos)
@@ -227,7 +224,8 @@ namespace BossArena.game
         protected override void FixedUpdate()
         {
             //Actually moving the player by changing their rigidbody velocity
-            rb.velocity = (new Vector2(horizVelocity * currentMoveSpeed, vertVelocity * currentMoveSpeed));
+            if (State.Value == EntityState.DEFUALT)
+                rb.velocity = (new Vector2(horizVelocity * currentMoveSpeed, vertVelocity * currentMoveSpeed));
             timerCheck();
 
             // Incremental decrease of player's threat level.
@@ -247,19 +245,19 @@ namespace BossArena.game
             if (!IsOwner)
                 return;
 
-            //Make the player dash a short distance on spacebar press
-            if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
-            {
-                dash();
-                dodgeCooldown = 90;
-            }
+            ////Make the player dash a short distance on spacebar press
+            //if (Input.GetKeyDown(KeyCode.Space) && dodgeCooldown < 1)
+            //{
+            //    dash();
+            //    dodgeCooldown = 90;
+            //}
 
         }
 
-        void dash()
-        {
-            playerObj.transform.position += new Vector3(horizVelocity * 3, vertVelocity * 3, 0);
-        }
+        //void dash()
+        //{
+        //    playerObj.transform.position += new Vector3(horizVelocity * 3, vertVelocity * 3, 0);
+        //}
 
         void timerCheck()
         {
