@@ -85,6 +85,7 @@ namespace BossArena.game
             }
 
             GameObject eod = Boss.Instantiate(eodPrefab, boss.transform.position, Quaternion.identity);
+            eod.transform.position = new Vector2(eod.transform.position.x, eod.transform.position.y - 0.5f);
             eod.GetComponent<NetworkObject>().Spawn();
         }
 

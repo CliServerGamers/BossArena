@@ -14,3 +14,4 @@ Jay Wang
     - CRT Shader
     - Implemented Damage Shader and Toxic Shader (Use Material Switching)
     - Created Boss Arena Sprite Legos
+    - Implemented Material Switching for Collisions with IHostile and IGoop.

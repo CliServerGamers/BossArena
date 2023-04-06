@@ -16,6 +16,9 @@ namespace BossArena.game
         [field: SerializeField]
         public float threatRadius { get; private set; }
 
+        [SerializeField]
+        public int DamageToPlayer;
+
         private Node _root = null;
 
         protected override void Start()

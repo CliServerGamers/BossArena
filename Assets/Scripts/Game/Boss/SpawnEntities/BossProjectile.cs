@@ -12,17 +12,18 @@ namespace Assets.Scripts.Game.Boss
 {
     class BossProjectile : EntityBase
     {
-        private float projectileSpeed = 7.0f;
-        private float timeToLive = 1.0f;
         [SerializeField]
-        private float HIT_DAMAGE = 10.0f;
+        private float projectileSpeed;
+        [SerializeField]
+        private float timeToLive;
+        [SerializeField]
+        private float HIT_DAMAGE;
 
         [SerializeField]
         private GameObject slimePrefab;
 
-        protected override void HandleCollision(Collision2D collision)
+        protected override void HandleTrigger(Collider2D collision)
         {
-            Debug.Log($"{OwnerClientId}: Hit");
             IsAlive = false;
             this.GetComponent<Collider2D>().enabled = false;
             var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
@@ -35,32 +36,10 @@ namespace Assets.Scripts.Game.Boss
                 }
                 if (monoBehaviour is Player)
                 {
-                    Debug.Log("Bullet hit player");
-                    //((Player)monoBehaviour).TakeDamageClientRPC(HIT_DAMAGE);
+                    ((Player)monoBehaviour).TakeDamageClientRpc(HIT_DAMAGE);
                 }
                 Despawn();
             }
-
-        }
-
-        void Despawn()
-        {
-            if (IsServer)
-            {
-                Debug.Log($"{OwnerClientId}: Despawn");
-                this.GetComponent<NetworkObject>().Despawn();
-            }
-            else
-            {
-                Debug.Log($"{OwnerClientId}: Despawn RPC");
-                DespawnServerRpc();
-            }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void DespawnServerRpc()
-        {
-            this.GetComponent<NetworkObject>().Despawn();
 
         }
 

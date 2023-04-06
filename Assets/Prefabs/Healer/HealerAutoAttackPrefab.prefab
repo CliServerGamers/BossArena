@@ -108,7 +108,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2991207186440939609}
-  m_LocalRotation: {x: -0, y: -0, z: -0.92387956, w: 0.38268343}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -174,7 +174,7 @@ Transform:
   m_GameObject: {fileID: 5899021118764256236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8320039247902882755}
@@ -197,9 +197,8 @@ MonoBehaviour:
   windUpDelay: 0
   coolDownDelay: 2
   range: 0.25
-  onCoolDown: 0
   timeStart: 0
-  damage: 0
+  damage: 5
   mainCamera: {fileID: 0}
   isSelfTarget: 0
   radius: 0
@@ -209,6 +208,7 @@ MonoBehaviour:
   AutoAttackPrefabSpriteRenderer: {fileID: 5453550907434573238}
   AUTOATTACK_COLLIDER: {fileID: 8907060087397363513}
   lengthOfAttackInSec: 2
+  AutoAttack_ThreatGen: 30
 --- !u!95 &7795083455613158231
 Animator:
   serializedVersion: 5
@@ -287,7 +287,7 @@ MonoBehaviour:
   - Layer: 0
     OriginatingState: 2081823275
     DestinationState: 1080829965
-    TransitionDuration: 0.97845435
+    TransitionDuration: 0.05007712
     TriggerNameHash: 1187959656
     TransitionIndex: 0
   m_Animator: {fileID: 7795083455613158231}

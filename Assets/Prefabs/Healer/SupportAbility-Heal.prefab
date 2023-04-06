@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 7986055475673144722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.347911, y: 0.5654243, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.18, y: 0.18, z: 0.72}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 6
+  coolDownDelay: 4
   range: 6
   timeStart: 0
   damage: 0
@@ -144,3 +144,4 @@ MonoBehaviour:
   HealAreaPrefab: {fileID: 7986055475673144722, guid: 99c9268ce5ebcbb48a78700d979cdf7d, type: 3}
   HealArea: {fileID: 0}
   HealAreaPrefabSpriteRenderer: {fileID: 185581507486990248, guid: 99c9268ce5ebcbb48a78700d979cdf7d, type: 3}
+  ThreatGen: 500

@@ -145,9 +145,9 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_IsActive
+    attribute: m_Enabled
     path: Collider
-    classID: 1
+    classID: 61
     script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -173,9 +173,9 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 860563329
-      attribute: 2086281974
+      attribute: 3305885265
       script: {fileID: 0}
-      typeID: 1
+      typeID: 61
       customType: 0
       isPPtrCurve: 0
     pptrCurveMapping: []
@@ -500,9 +500,9 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_IsActive
+    attribute: m_Enabled
     path: Collider
-    classID: 1
+    classID: 61
     script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:

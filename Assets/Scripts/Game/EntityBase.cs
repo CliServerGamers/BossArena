@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BossArena.game
@@ -48,6 +49,8 @@ namespace BossArena.game
             ThreatLevel.Value = 0;
             currentMoveSpeed = baseMoveSpeed;
             rb = GetComponent<Rigidbody2D>();
+
+            CurrentHealth.OnValueChanged += IsDeath;
         }
 
         public virtual void SetState(EntityState state)
@@ -125,7 +128,36 @@ namespace BossArena.game
             TakeDamage(damage);
         }
 
+        public virtual void IsDeath(float old, float newHealth)
+        {
+            if (newHealth <= 0)
+            {
+                State.Value = EntityState.DEAD;
+                Despawn();
+                //modalManager.DisplayModal("Game Over", "You Died!");
+            }
+        }
 
+        protected void Despawn()
+        {
+            if (IsServer)
+            {
+                Debug.Log($"{OwnerClientId}: Despawn");
+                this.GetComponent<NetworkObject>().Despawn();
+            }
+            else
+            {
+                Debug.Log($"{OwnerClientId}: Despawn RPC");
+                DespawnServerRpc();
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void DespawnServerRpc()
+        {
+            this.GetComponent<NetworkObject>().Despawn();
+
+        }
     }
 
 }

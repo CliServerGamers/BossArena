@@ -46,6 +46,9 @@ namespace BossArena.game
         private Material _DefaultMaterial;
         private SpriteRenderer playerSpriteRenderer;
 
+        [SerializeField]
+        private float HIT_IMPULSE;
+
         //public Player(Archetype archetype) : base()
         //{
         //    Archetype = archetype;
@@ -280,6 +283,14 @@ namespace BossArena.game
                     // Collide with something that hursts me
                     playerSpriteRenderer.material = _DamageMaterial;
                     StartCoroutine(switchDefaultMaterial(1));
+
+                    // Knockback effect
+                    //Rigidbody2D targetRigidBody = collision.gameObject.GetComponent<Rigidbody2D>();
+
+                    //Vector2 direction = (transform.position - targetRigidBody.transform.position).normalized;
+
+                    //// Apply the impulse force in the direction away from the target
+                    //targetRigidBody.GetComponent<Rigidbody2D>().AddForce(direction * HIT_IMPULSE, ForceMode2D.Impulse);
 
                     continue;
                 }

@@ -23,7 +23,9 @@ namespace BossArena.game
         [SerializeField]
         private GameObject eod;
 
-        public static float speed = 5f;
+        [field: SerializeField]
+        public float jumpSpeed { get; private set; }
+        //public static float speed = 5f;
 
         private Node _root = null;
 
@@ -123,8 +125,17 @@ namespace BossArena.game
         }
 
 
-        protected override void HandleCollision(Collision2D collision)
+        protected override void HandleTrigger(Collider2D collision)
         {
+            this.GetComponent<Collider2D>().enabled = false;
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                if (monoBehaviour is Player)
+                {
+                    ((Player)monoBehaviour).TakeDamageClientRpc(DamageToPlayer);
+                }
+            }
             return;
         }
 

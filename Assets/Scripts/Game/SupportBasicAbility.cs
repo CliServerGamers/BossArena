@@ -21,6 +21,9 @@ namespace BossArena.game
         private SpriteRenderer HealTargetPrefabSpriteRenderer;
         public SpriteRenderer HealAreaPrefabSpriteRenderer;
 
+        [SerializeField]
+        private int ThreatGen;
+
         private bool basicActivated = false;
         private bool withinHealRange = false;
 
@@ -33,6 +36,10 @@ namespace BossArena.game
                 return;
             onCoolDown.Value = true;
             timeStart = Time.time;
+
+            // Increase Threat each activation
+            parentPlayer.GetComponent<EntityBase>().ThreatLevel.Value += ThreatGen;
+
             ApplyEffect();
             HealAreaPrefabCollider.enabled = false;
         }
