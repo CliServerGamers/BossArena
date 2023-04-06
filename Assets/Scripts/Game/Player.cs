@@ -333,6 +333,36 @@ namespace BossArena.game
 
         }
 
+        protected override void HandleTrigger(Collider2D collision)
+        {
+            if (!IsOwner)
+                return;
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                if (monoBehaviour is IHostile)
+                {
+                    Debug.Log($"{OwnerClientId}: Owie bad man touch me.");
+
+                    // Collide with something that hursts me
+                    playerSpriteRenderer.material = _DamageMaterial;
+                    StartCoroutine(switchDefaultMaterial(1));
+
+                    // Knockback effect
+                    //Rigidbody2D targetRigidBody = collision.gameObject.GetComponent<Rigidbody2D>();
+
+                    //Vector2 direction = (transform.position - targetRigidBody.transform.position).normalized;
+
+                    //// Apply the impulse force in the direction away from the target
+                    //targetRigidBody.GetComponent<Rigidbody2D>().AddForce(direction * HIT_IMPULSE, ForceMode2D.Impulse);
+
+                    continue;
+                }
+
+                Debug.Log($"{OwnerClientId}: Huh? Must be the wind.");
+            }
+        }
+
         protected void OnTriggerExit2D(Collider2D collision)
         {
             if (!IsOwner)

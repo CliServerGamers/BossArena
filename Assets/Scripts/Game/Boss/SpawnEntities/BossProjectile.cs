@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.Boss
 {
-    class BossProjectile : EntityBase
+    class BossProjectile : EntityBase, IHostile
     {
         [SerializeField]
         private float projectileSpeed;
