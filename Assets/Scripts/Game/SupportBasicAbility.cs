@@ -31,10 +31,9 @@ namespace BossArena.game
             HealTargetPrefabSpriteRenderer.enabled = false;
             if (onCoolDown.Value)
                 return;
-            //onCoolDown = true;
+            onCoolDown.Value = true;
             timeStart = Time.time;
             ApplyEffect();
-            HealAreaPrefabCollider.enabled = true;
             HealAreaPrefabCollider.enabled = false;
         }
         
@@ -114,28 +113,7 @@ namespace BossArena.game
 
         protected override void Update()
         {
-
-            //UnityEngine.Debug.Log("HELLLLL");
-
-            // Every frame, check for cooldowns, set bool accordingly.
             checkCooldown();
-
-
-
-            // Every Frame, check for Key: Q, Key Up or Key Down.
-            //if (Input.GetKeyDown(KeyCode.Q) && basicActivated == false)
-            //{
-            //    DrawAbilityIndicator(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-            //}
-            //else if (Input.GetKeyUp(KeyCode.Q) && basicActivated == false)
-            //{
-            //    // Apply Effect first, then deactivate it
-            //    ActivateAbility();
-            //    //TauntPrefabCollider.enabled = false;
-            //    //TauntPrefabSpriteRenderer.enabled = false;
-            //    //TauntPrefab.SetActive(false);
-            //}
-
 
         }
 
@@ -166,8 +144,6 @@ namespace BossArena.game
 
             Vector3 cursorPosition = currentMousePosition;
             cursorPosition.z = 1f;
-
-            UnityEngine.Debug.Log("withinTauntRange: " + withinHealRange);
 
             // Mouse Cursor not in Ability Range
             if (!withinHealRange)
