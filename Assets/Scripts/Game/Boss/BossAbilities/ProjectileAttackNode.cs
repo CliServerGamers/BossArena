@@ -57,6 +57,7 @@ namespace BossArena.game
                 GameObject projectile = Boss.Instantiate(projectilePrefab, spawnPosition, rotation);
                 projectile.GetComponent<NetworkObject>().Spawn();
             }
+            boss.GetComponent<Boss>().PlaySound("boss-projectile", 1.0f, 1.0f);
         }
 
     }
