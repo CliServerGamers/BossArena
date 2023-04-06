@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 2
+  coolDownDelay: 3
   range: 3
   timeStart: 0
   damage: 1
@@ -144,7 +144,7 @@ MonoBehaviour:
   isSelfTarget: 0
   radius: 0
   parentPlayer: {fileID: 0}
-  TauntIncreaseAmount: 250
+  TauntIncreaseAmount: 300
   TauntPrefab: {fileID: 7986055475673144722}
   lengthOfAttackInSec: 0.25
   TauntDuration: 5

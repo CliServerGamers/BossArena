@@ -176,7 +176,7 @@ MonoBehaviour:
   AutoAttackPrefabSpriteRenderer: {fileID: 5453550907434573238}
   AUTOATTACK_COLLIDER: {fileID: 260230887104194064}
   lengthOfAttackInSec: 2
-  AutoAttack_ThreatGen: 25
+  AutoAttack_ThreatGen: 50
 --- !u!95 &7795083455613158231
 Animator:
   serializedVersion: 5
@@ -255,7 +255,7 @@ MonoBehaviour:
   - Layer: 0
     OriginatingState: 2081823275
     DestinationState: 1080829965
-    TransitionDuration: 0.03586507
+    TransitionDuration: 0.97845435
     TriggerNameHash: 1187959656
     TransitionIndex: 0
   m_Animator: {fileID: 7795083455613158231}

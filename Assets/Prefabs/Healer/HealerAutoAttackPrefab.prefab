@@ -208,7 +208,7 @@ MonoBehaviour:
   AutoAttackPrefabSpriteRenderer: {fileID: 5453550907434573238}
   AUTOATTACK_COLLIDER: {fileID: 8907060087397363513}
   lengthOfAttackInSec: 2
-  AutoAttack_ThreatGen: 0
+  AutoAttack_ThreatGen: 30
 --- !u!95 &7795083455613158231
 Animator:
   serializedVersion: 5
