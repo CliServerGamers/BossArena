@@ -11,7 +11,7 @@ namespace BossArena.game
     {
 
         [SerializeField]
-        private const int MAX_HEALTH = 12;
+        private const int MAX_HEALTH = 3;
 
         [SerializeField]
         private float speed = 2.0f;
