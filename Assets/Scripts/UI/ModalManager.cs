@@ -21,10 +21,10 @@ namespace BossArena.UI
 
         //[SerializeField]
         //private Button OKButton;
-        public void LeaveArena()
-        {
-            GameManager.Instance.UIChangeMenuState(GameState.JoinMenu);
-        }
+        //public void LeaveArena()
+        //{
+        //    GameManager.Instance.UIChangeMenuState(GameState.JoinMenu);
+        //}
 
         public void DisplayModal(string message1, string message2)
         {
