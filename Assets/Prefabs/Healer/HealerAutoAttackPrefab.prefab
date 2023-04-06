@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 2
+  coolDownDelay: 4
   range: 0.25
   timeStart: 0
   damage: 1
