@@ -13,6 +13,8 @@ namespace BossArena.game
         [SerializeField]
         private CircleCollider2D BlastPrefabCollider;
 
+        [SerializeField]
+        private int threatAdd;
         private BoxCollider2D PlayerCollider;
         //private bool blastActivated = false;
         // Use for checking elapsed time while ulted.
@@ -140,6 +142,7 @@ namespace BossArena.game
                 if (monoBehaviour is IHostile)
                 {
                     Debug.Log("Smack Bad man");
+                    parentPlayer.GetComponent<Player>().ThreatLevel.Value += threatAdd;
                     monoBehaviour.GetComponent<EntityBase>().TakeDamageServerRpc(damage);
                 }
             }

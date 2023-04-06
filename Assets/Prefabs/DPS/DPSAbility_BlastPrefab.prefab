@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windUpDelay: 0
-  coolDownDelay: 0
+  coolDownDelay: 10
   range: 0
   timeStart: 0
   damage: 0.1
@@ -61,6 +61,7 @@ MonoBehaviour:
   parentPlayer: {fileID: 0}
   BlastPrefab: {fileID: 3122235894270474046}
   BlastPrefabCollider: {fileID: -5659649267663850706}
+  threatAdd: 2
   playerObj: {fileID: 0}
 --- !u!114 &7084433405646226918
 MonoBehaviour:
