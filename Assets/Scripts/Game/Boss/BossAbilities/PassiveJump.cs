@@ -17,13 +17,13 @@ namespace BossArena.game
         private Vector3 finalCoords;
         
 
-        private Boss boss;
+        private GameObject boss;
         private GameObject shadow;
         private GameObject player;
 
         public PassiveJump(GameObject boss, GameObject shadow)
         {
-            this.boss = boss.GetComponent<Boss>();
+            this.boss = boss;
             this.shadow = shadow;
             this.player = GameObject.Find("PlayerPrefab(Clone)");
             passiveJumpState = PassiveJumpState.START;
@@ -47,7 +47,7 @@ namespace BossArena.game
             switch (passiveJumpState)
             {
                 case PassiveJumpState.START:
-                    boss.PlaySound("boss-passive-jump", 2.0f, 5.0f, true);
+                    boss.GetComponent<Boss>().PlaySound("boss-passive-jump", 2.0f, 5.0f, true);
                     InitializeTrajectory();
                     break;
                 case PassiveJumpState.JUMPING:
@@ -55,7 +55,7 @@ namespace BossArena.game
                     break;
                 case PassiveJumpState.END:
                     state = NodeState.SUCCESS;
-                    boss.StopClip();
+                    boss.GetComponent<Boss>().StopClip();
                     passiveJumpState = PassiveJumpState.START;
                     return state;
             }
@@ -65,14 +65,14 @@ namespace BossArena.game
         private void InitializeTrajectory()
         {
             initialCoords = boss.transform.position;
-            finalCoords = boss.GetComponent<Enemy>().CurrentTarget.transform.position;
+            finalCoords = boss.GetComponent<Boss>().CurrentTarget.transform.position;
             //boss.GetComponent<BoxCollider2D>().enabled = false;
             passiveJumpState = PassiveJumpState.JUMPING;
         }
 
         private void Jump()
         {
-            boss.transform.position = Vector3.MoveTowards(boss.transform.position, finalCoords, boss.jumpSpeed * Time.deltaTime);
+            boss.transform.position = Vector3.MoveTowards(boss.transform.position, finalCoords, boss.GetComponent<Boss>().jumpSpeed * Time.deltaTime);
             const float basicallyZero = 0.01f;
             if (Vector3.Distance(boss.transform.position, finalCoords) < basicallyZero)
             {

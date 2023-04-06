@@ -69,40 +69,56 @@ namespace BossArena.game
         protected override Node SetupTree()
         {
             List<Node> nodes = new List<Node>();
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new IdleNode(this.gameObject, 1.0f));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.Add(new IdleNode(this.gameObject, 0.5f));
-            nodes.Add(new PassiveJump(eod, shadow));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
+            nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.Add(new IdleNode(this.gameObject, 1.0f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.AddRange(GetSwirlProjectileSequence(2));
             nodes.Add(new IdleNode(this.gameObject, 1.0f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.AddRange(GetSkyDiveSequence());
             nodes.Add(new IdleNode(this.gameObject, 2.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.Add(new IdleNode(this.gameObject, 1.0f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
 
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.AddRange(GetSwirlProjectileSequence(1));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.AddRange(GetSwirlProjectileSequence(1));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.AddRange(GetSwirlProjectileSequence(1));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
 
             nodes.Add(new IdleNode(this.gameObject, 2.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.AddRange(GetSkyDiveSequence());
             nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.AddRange(GetSkyDiveSequence());
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new PassiveJump(this.gameObject, shadow));
             nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.Add(new TeleportToRandomGoop(this.gameObject));
             nodes.Add(new IdleNode(this.gameObject, 0.5f));
+            nodes.Add(new TargetSelectionNode(this.gameObject));
             nodes.AddRange(GetSwirlProjectileSequence(10));
             nodes.Add(new IdleNode(this.gameObject, 3.0f));
 
