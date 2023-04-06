@@ -10,6 +10,7 @@ namespace BossArena.game
         [SerializeField]
         private GameObject BlastPrefab;
 
+        [SerializeField]
         private CircleCollider2D BlastPrefabCollider;
 
         private BoxCollider2D PlayerCollider;
@@ -21,9 +22,12 @@ namespace BossArena.game
         private SpriteRenderer spriteRenderer;
 
         private bool abilityEndabled;
+        private bool isCooldownSet;
         private Player player;
         private Vector3? targetPos;
         private Vector3 currentMousePosition;
+
+        private List<EntityBase> entitiesInRange = new List<EntityBase>();
 
         public void DrawAbilityIndicator(Vector3 targetLocation)
         {
@@ -47,9 +51,11 @@ namespace BossArena.game
                 onCoolDown.Value = true;
                 timeStart = Time.time;
                 abilityEndabled = false;
+                isCooldownSet = true;
 
                 // Stop rendering the ability
                 spriteRenderer.enabled = false;
+                
 
                 RemoveEffect();
             } else
@@ -107,8 +113,36 @@ namespace BossArena.game
         // Update is called once per frame
         protected override void Update()
         {
-            checkCooldown();
+            if (abilityEndabled)
+            {
 
+            }
+
+            else if (isCooldownSet)
+            {
+                checkCooldown();
+                isCooldownSet = false;
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            Debug.Log("Collision with " + other.gameObject.name);
+            var tempMonoArray = other.GetComponents<MonoBehaviour>();
+            Debug.Log(tempMonoArray.Length);
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+                Debug.Log(monoBehaviour);
+                if (monoBehaviour is IFriendly)
+                {
+                    ((IFriendly)monoBehaviour).HitFriendlyServerRpc(OwnerClientId);
+                }
+                if (monoBehaviour is IHostile)
+                {
+                    Debug.Log("Smack Bad man");
+                    monoBehaviour.GetComponent<EntityBase>().TakeDamageServerRpc(damage);
+                }
+            }
         }
 
         public float calcElapsedTime()
