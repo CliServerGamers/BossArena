@@ -49,6 +49,12 @@ namespace BossArena.game
         [SerializeField]
         private float HIT_IMPULSE;
 
+        [SerializeField]
+        private List<AudioClip> audioClips;
+
+        [SerializeField]
+        private AudioSource audioSrc;
+
         //public Player(Archetype archetype) : base()
         //{
         //    Archetype = archetype;
@@ -160,6 +166,7 @@ namespace BossArena.game
             if (Input.GetButtonDown("Fire1"))
             {
                 BasicAttack.ActivateAbility();
+                PlaySound("player-attack", 1.0f, 1.0f);
             }
 
             if (BasicAbility is IDrawIndicator && Input.GetButton("Fire2"))
@@ -170,6 +177,7 @@ namespace BossArena.game
             if (Input.GetButtonUp("Fire2"))
             {
                 BasicAbility.ActivateAbility(Input.mousePosition);
+                PlaySound("player-attack", 1.0f, 1.0f);
             }
 
             if (UltimateAbility is IDrawIndicator && Input.GetButton("Fire3"))
@@ -180,6 +188,7 @@ namespace BossArena.game
             if (Input.GetButtonUp("Fire3"))
             {
                 UltimateAbility.ActivateAbility(Input.mousePosition);
+                PlaySound("player-attack", 1.0f, 1.0f);
             }
 
             /*
@@ -399,6 +408,20 @@ namespace BossArena.game
         public static explicit operator Player(GameObject v)
         {
             throw new NotImplementedException();
+        }
+
+        public void PlaySound(string clipName, float volume, float pitch)
+        {
+            AudioClip clip = audioClips.Find(sound => sound.name == clipName);
+            if (clip != null)
+            {
+                audioSrc.clip = clip;
+                audioSrc.Play();
+                audioSrc.volume = volume;
+                audioSrc.pitch = pitch;
+                return;
+            }
+            throw new KeyNotFoundException("Sound with the following name " + clipName + "Does not exist!");
         }
     }
 
