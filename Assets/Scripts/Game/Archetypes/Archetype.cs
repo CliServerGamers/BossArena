@@ -11,7 +11,8 @@ namespace BossArena.game
     {
         Tank = 0,
         Support,
-        Test
+        Test,
+        DPS
     }
 
     [CreateAssetMenu]

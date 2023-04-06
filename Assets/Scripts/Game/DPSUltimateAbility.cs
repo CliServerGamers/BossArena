@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BossArena.game
 {
-    class DPSUltimateAbility : TargetedAbilityBase, IRemoveEffect
+    class DPSUltimateAbility : TargetedAbilityBase, IRemoveEffect, IDrawIndicator
     {
         [SerializeField]
         private GameObject BlastPrefab;
@@ -23,12 +23,24 @@ namespace BossArena.game
         private bool abilityEndabled;
         private Player player;
         private Vector3? targetPos;
+        private Vector3 currentMousePosition;
+
+        public void DrawAbilityIndicator(Vector3 targetLocation)
+        {
+            currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+            currentMousePosition.z = 1f;
+            transform.position = currentMousePosition;
+            
+
+            spriteRenderer.enabled = true;
+        }
 
         public override void ActivateAbility(Vector3? mosPos = null)
         {
             if (onCoolDown.Value) return;
 
-            targetPos = mosPos;
+            targetPos = currentMousePosition;
 
             if (abilityEndabled)
             {
@@ -48,7 +60,8 @@ namespace BossArena.game
                 spriteRenderer.enabled = true;
 
                 Transform blastPrefabColliderTransform = BlastPrefabCollider.transform;
-                blastPrefabColliderTransform.position = mosPos.Value;
+
+                blastPrefabColliderTransform.position = currentMousePosition;
                 ApplyEffect();
             }
         }
@@ -71,6 +84,7 @@ namespace BossArena.game
         // Start is called before the first frame update
         protected override void Start()
         {
+            base.Start();
             timeStart = Time.time;
             PlayerCollider = parentPlayer.transform.GetComponent<BoxCollider2D>();
             spriteRenderer = BlastPrefab.transform.GetComponent<SpriteRenderer>();

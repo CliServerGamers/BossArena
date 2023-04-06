@@ -963,4 +963,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8a4c032443357984c83e5944a7a6b6cf, type: 2}
   - {fileID: 11400000, guid: bd87c74ac27359a47990373f222a7ff6, type: 2}
   - {fileID: 11400000, guid: 1ad52b70ac0b6e544a389338170f1d2f, type: 2}
+  - {fileID: 11400000, guid: 5894d194eeb9ca745b6e23e710689920, type: 2}
   classSelection: {fileID: 7210355042864994878}
