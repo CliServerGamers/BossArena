@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BossArena.game
@@ -38,6 +39,7 @@ namespace BossArena.game
         protected float baseMoveSpeed;
         protected float currentMoveSpeed;
 
+
         protected virtual void Start()
         {
             SetHealth(100);
@@ -46,6 +48,8 @@ namespace BossArena.game
             ThreatLevel.Value = 0;
             currentMoveSpeed = baseMoveSpeed;
             rb = GetComponent<Rigidbody2D>();
+
+            CurrentHealth.OnValueChanged += IsDeath;
         }
 
         protected virtual void Update() { }
@@ -118,7 +122,16 @@ namespace BossArena.game
             TakeDamage(damage);
         }
 
+        public void IsDeath(float old, float newHealth)
+        {
+            if (newHealth <= 0)
+            {
+                Debug.Log($"dead");
+                State.Value = EntityState.DEAD;
 
+                //modalManager.DisplayModal("Game Over", "You Died!");
+            }
+        }
     }
 
 }
