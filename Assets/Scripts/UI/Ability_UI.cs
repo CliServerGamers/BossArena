@@ -5,29 +5,54 @@ using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 
-namespace BossArena.game
+namespace BossArena.UI
 {
-    public class Ability_UI : MonoBehaviour
+    public class Ability_UI : UIPanelBase
     {
 
-        private GameObject playerPrefab;
+
+        public Image AutoIcon;
+        public Image AbilityIcon;
+        public Image UltIcon;
+
+        private Player player;
         public AbilityBase BasicAttack;
         public AbilityBase BasicAbility;
         public AbilityBase UltimateAbility;
 
         // Start is called before the first frame update
-        void Start()
+        public override void Start()
         {
-            playerPrefab = GameObject.FindWithTag("Player");
-            BasicAbility = playerPrefab.GetComponent<Player>().BasicAbility;
+            base.Start();
+            StartCoroutine(InitAbilityBar());
+        }
 
+        IEnumerator InitAbilityBar()
+        {
+            if (player is null)
+            {
+                yield return StartCoroutine(WaitForLocalPlayer());
+            }
 
+            BasicAttack = player.GetComponent<Player>().BasicAttack;
+            BasicAbility = player.GetComponent<Player>().BasicAbility;
+            UltimateAbility = player.GetComponent<Player>().UltimateAbility;
+        }
+        IEnumerator WaitForLocalPlayer()
+        {
+            while (InGameRunner.Instance.LocalPlayer == null)
+            {
+                yield return null;
+            }
+             player = InGameRunner.Instance.LocalPlayer.GetComponent<Player>();
         }
 
         // Update is called once per frame
         void Update()
-        { 
-            transform.parent.GetComponent<Button>().interactable = BasicAbility.onCoolDown.Value;
+        {
+            AutoIcon.fillAmount = (BasicAttack.onCoolDown.Value) ? BasicAttack.GetCoolDown() : 1;
+            AbilityIcon.fillAmount = (BasicAbility.onCoolDown.Value) ? BasicAbility.GetCoolDown() : 1;
+            UltIcon.fillAmount = (UltimateAbility.onCoolDown.Value) ? UltimateAbility.GetCoolDown() : 1;
         }
     }
 }

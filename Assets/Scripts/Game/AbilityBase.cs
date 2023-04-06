@@ -45,5 +45,10 @@ namespace BossArena.game
                 onCoolDown.Value = false;
             }
         }
+
+        public float GetCoolDown()
+        {
+            return Time.time - timeStart;
+        }
     }
 }
