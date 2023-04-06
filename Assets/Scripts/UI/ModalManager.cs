@@ -26,6 +26,13 @@ namespace BossArena.UI
         //    GameManager.Instance.UIChangeMenuState(GameState.JoinMenu);
         //}
 
+        [SerializeField]
+        private List<AudioClip> audioClips;
+
+        [SerializeField]
+        private AudioSource audioSrc;
+
+
         public void DisplayModal(string message1, string message2)
         {
             Debug.Log("something happened");
@@ -40,8 +47,25 @@ namespace BossArena.UI
             if (newhealth <= 0)
             {
                 Debug.Log("Player died");
+                PlaySound("shortplayerdeath", 20.0f, 1.0f);
                 DisplayModal("Game Over", "You Died!");
+               
             }
+        }
+
+
+        public void PlaySound(string clipName, float volume, float pitch)
+        {
+            AudioClip clip = audioClips.Find(sound => sound.name == clipName);
+            if (clip != null)
+            {
+                audioSrc.clip = clip;
+                audioSrc.Play();
+                audioSrc.volume = volume;
+                audioSrc.pitch = pitch;
+                return;
+            }
+            throw new KeyNotFoundException("Sound with the following name " + clipName + "Does not exist!");
         }
 
 
