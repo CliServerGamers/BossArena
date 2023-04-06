@@ -39,6 +39,8 @@ namespace BossArena.game
         public GameObject playerObj;
 
         [SerializeField]
+        private Material _ToxicMaterial;
+        [SerializeField]
         private Material _DamageMaterial;
         [SerializeField]
         private Material _DefaultMaterial;
@@ -278,10 +280,53 @@ namespace BossArena.game
 
                     // Collide with something that hursts me
                     playerSpriteRenderer.material = _DamageMaterial;
-                    StartCoroutine(switchDefaultMaterial());
+                    StartCoroutine(switchDefaultMaterial(1));
 
                     continue;
                 }
+
+                Debug.Log($"{OwnerClientId}: Huh? Must be the wind.");
+            }
+        }
+
+        // Collider and Trigger overlap, Calls this function (Trigger Event).
+        protected void OnTriggerStay2D(Collider2D collision)
+        {
+
+            if (!IsOwner)
+                return;
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+
+                if (monoBehaviour is IGoop)
+                {
+                    UnityEngine.Debug.Log("Collide with IGoop");
+                    playerSpriteRenderer.material = _ToxicMaterial;
+                    //StartCoroutine(switchDefaultMaterial());
+                    continue;
+                }
+
+                Debug.Log($"{OwnerClientId}: Huh? Must be the wind.");
+            }
+
+        }
+
+        protected void OnTriggerExit2D(Collider2D collision)
+        {
+            if (!IsOwner)
+                return;
+            var tempMonoArray = collision.gameObject.GetComponents<MonoBehaviour>();
+            foreach (var monoBehaviour in tempMonoArray)
+            {
+
+                if (monoBehaviour is IGoop)
+                {
+                    UnityEngine.Debug.Log("Exit IGoop");
+                    StartCoroutine(switchDefaultMaterial(1));
+                    continue;
+                }
+
                 Debug.Log($"{OwnerClientId}: Huh? Must be the wind.");
             }
         }
@@ -292,10 +337,10 @@ namespace BossArena.game
             Debug.Log($"{hitter}: Hiting friendly player {OwnerClientId}");
         }
 
-        IEnumerator switchDefaultMaterial()
+        IEnumerator switchDefaultMaterial(int seconds)
         {
             // Wait _ seconds before switching back to default material.
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(seconds);
             playerSpriteRenderer.material = _DefaultMaterial;
             rend.material.color = m_Archetype.classColor;
         }

@@ -1553,8 +1553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2151713a612d7bb45be4f22ce1e4ae3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curvature: 20
-  vignette: 1
+  curvature: 4.07
+  vignette: 111.66
   mat: {fileID: 2100000, guid: 9b0567865d197104fb6faab34b8240ba, type: 2}
 --- !u!1001 &1525738785
 PrefabInstance:
